@@ -1,6 +1,6 @@
 {
   "name": "@wallavi/very-geofencing-library",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -52,13 +52,13 @@
     "postcss": "^8.4.38",
     "storybook": "^8.1.4",
     "tailwindcss": "^3.4.4",
+    "@tabler/icons-react": "^3.5.0",
     "tsup": "^8.1.0",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
   },
   "peerDependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "@tabler/icons-react": "^3.5.0"
+    "react-dom": "^18.2.0"
   }
 }
