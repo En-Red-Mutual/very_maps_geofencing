@@ -1,7 +1,6 @@
 {
   "name": "@wallavi/very-geofencing-library",
-  "private": true,
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
   "scripts": {
     "dev": "vite",
