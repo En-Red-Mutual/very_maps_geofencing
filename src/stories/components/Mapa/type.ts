@@ -1,6 +1,4 @@
-import React from 'react';
-
-type GeofenceProps = {
+export type GeofenceProps = {
     id: number | string;
     geofenceName: string;
     geofenceColor: string;
@@ -22,15 +20,13 @@ type GeofenceProps = {
         endMinute: number;
         endPeriod: 'AM' | 'PM';
     };
-};
-type MapProps = {
+}
+
+
+export type MapProps  = {
     geofences?: GeofenceProps[];
     mode?: 'view' | 'edit' | 'new';
     height?: string;
     zoom?: number;
     onGeofenceCreate?: (geofence: GeofenceProps) => void;
-};
-
-declare const Map: ({ geofences, zoom, mode, height, onGeofenceCreate }: MapProps) => React.JSX.Element;
-
-export { type GeofenceProps, Map, type MapProps };
+}

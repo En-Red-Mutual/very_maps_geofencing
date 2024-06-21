@@ -2,44 +2,16 @@ import { GoogleMap, LoadScript, Polygon, Marker } from '@react-google-maps/api';
 import React, { useState, useEffect } from 'react';
 import Switch from '../Switch';
 import { IconEdit, IconMapPinFilled, IconX } from '@tabler/icons-react';
+import { GeofenceProps, MapProps } from './type';
 
 
-export interface Geofence {
-    id: number | string;
-    geofenceName: string;
-    geofenceColor: string;
-    geofenceLocation?: string;
-    dynamicRateEnabled?: boolean;
-    rateForHour?: number;
-    onDemandEnabled?: boolean;
-    priorityZone?: number;
-    initialRate?: number;
-    dynamicRateMinPrice?: number;
-    dynamicRateMaxDistance?: number;
-    on?: boolean;
-    polygons: google.maps.LatLngLiteral[];
-    schedule?: {
-        startHour: number;
-        startMinute: number;
-        startPeriod: 'AM' | 'PM';
-        endHour: number;
-        endMinute: number;
-        endPeriod: 'AM' | 'PM';
-    };
-}
 
 
-interface MapProps {
-    geofences?: Geofence[];
-    mode?: 'view' | 'edit' | 'new';
-    height?: string;
-    zoom?: number;
-    onGeofenceCreate?: (geofence: Geofence) => void;
-}
+
 
 const Map = ({ geofences = [], zoom = 15, mode = 'view', height = '60vh', onGeofenceCreate }: MapProps) => {
     const [currentPolygon, setCurrentPolygon] = useState<google.maps.LatLngLiteral[]>([]);
-    const [selectedGeofence, setSelectedGeofence] = useState<Geofence | null>(null);
+    const [selectedGeofence, setSelectedGeofence] = useState<GeofenceProps | null>(null);
     const defaultCenter = {
         lat: 21.490499199707944,
         lng: -104.8843527463358
@@ -78,7 +50,7 @@ const Map = ({ geofences = [], zoom = 15, mode = 'view', height = '60vh', onGeof
 
     const handlePolygonComplete = () => {
         if (currentPolygon.length > 2 && onGeofenceCreate) {
-            const newGeofence: Geofence = {
+            const newGeofence: GeofenceProps = {
                 id: `geofence-${Date.now()}`,
                 geofenceName: 'New Geofence',
                 geofenceColor: '#FF0000',
@@ -101,7 +73,7 @@ const Map = ({ geofences = [], zoom = 15, mode = 'view', height = '60vh', onGeof
         };
     };
 
-    const handleMarkerClick = (geofence: Geofence) => {
+    const handleMarkerClick = (geofence: GeofenceProps) => {
         setSelectedGeofence(geofence);
     };
 
