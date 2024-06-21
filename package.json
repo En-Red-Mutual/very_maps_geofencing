@@ -9,16 +9,22 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "build-tsup": "tsup"
   },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "@react-google-maps/api": "^2.19.3",
-    "@tabler/icons-react": "^3.5.0",
     "axios": "^1.7.2",
     "leaflet": "^1.9.4",
     "leaflet-draw": "^1.0.4",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "react-leaflet": "^4.2.1",
     "react-leaflet-draw": "^0.20.4",
     "react-modal": "^3.16.1",
@@ -50,5 +56,10 @@
     "tsup": "^8.1.0",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@tabler/icons-react": "^3.5.0"
   }
 }

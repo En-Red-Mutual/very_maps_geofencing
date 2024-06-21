@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Switch from '../Switch';
 import { IconEdit, IconMapPinFilled, IconX } from '@tabler/icons-react';
 
+
 export interface Geofence {
     id: number | string;
     geofenceName: string;
