@@ -1,6 +1,6 @@
 {
   "name": "@wallavi/very-geofencing-library",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -11,8 +11,8 @@
     "build-storybook": "storybook build",
     "build-tsup": "tsup"
   },
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/index.cjs",
+  "types": "dist/index.d.cts",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
@@ -20,7 +20,6 @@
     "dist"
   ],
   "dependencies": {
-    "@react-google-maps/api": "^2.19.3",
     "axios": "^1.7.2",
     "leaflet": "^1.9.4",
     "leaflet-draw": "^1.0.4",
@@ -30,6 +29,7 @@
     "react-router-dom": "^6.23.1"
   },
   "devDependencies": {
+    "@react-google-maps/api": "^2.19.3",
     "@chromatic-com/storybook": "^1.5.0",
     "@storybook/addon-essentials": "^8.1.4",
     "@storybook/addon-interactions": "^8.1.4",
