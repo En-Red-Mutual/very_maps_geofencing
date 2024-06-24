@@ -1,6 +1,5 @@
 import { GoogleMap, LoadScript, Polygon, Marker } from '@react-google-maps/api';
 import React, { useState, useEffect } from 'react';
-import Switch from '../Switch';
 import { IconEdit, IconMapPinFilled, IconX } from '@tabler/icons-react';
 import { GeofenceProps, MapProps } from './type';
 
@@ -168,7 +167,7 @@ const Map = ({ geofences = [], zoom = 15, mode = 'view', height = '90vh', onGeof
                     </div>
                     <div className='flex gap-1 justify-between h-[40px]'>
                         <div className='bg-black flex items-center p-1 rounded-[60%]'>
-                            <Switch initialOn={selectedGeofence.on || false} />
+                            {/*<Switch initialOn={selectedGeofence.on || false} />*/}
                         </div>
                         <div className='bg-black p-1 rounded-[50%] flex items-center'>
                             <div style={{ backgroundColor: selectedGeofence.geofenceColor }} className={` w-[30px] h-[30px] rounded-[50%]`} />
