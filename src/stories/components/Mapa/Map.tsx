@@ -9,7 +9,7 @@ import { GeofenceProps, MapProps } from './type';
 
 
 
-const Map = ({ geofences = [], zoom = 15, mode = 'view', height = '60vh', onGeofenceCreate }: MapProps) => {
+const Map = ({ geofences = [], zoom = 15, mode = 'view', height = '90vh', onGeofenceCreate }: MapProps) => {
     const [currentPolygon, setCurrentPolygon] = useState<google.maps.LatLngLiteral[]>([]);
     const [selectedGeofence, setSelectedGeofence] = useState<GeofenceProps | null>(null);
     const defaultCenter = {
@@ -110,7 +110,7 @@ const Map = ({ geofences = [], zoom = 15, mode = 'view', height = '60vh', onGeof
                                 }}
                             />
                             {
-                                mode === 'view' && geofences.length > 1 && (
+                                mode === 'view' && (
                                     <Marker
                                         position={calculatePolygonCenter(geofence.polygons)}
                                         

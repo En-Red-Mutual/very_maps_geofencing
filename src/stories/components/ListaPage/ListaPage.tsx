@@ -2,15 +2,16 @@ import  { useEffect, useState } from 'react';
 import { IconCirclePlusFilled, IconList, IconMapPins, IconTrash } from '@tabler/icons-react';
 import axios from 'axios';
 import Switch from '../Switch';
-import Map, { Geofence } from '../Mapa/Map'; // Asegúrate de ajustar la importación según la ubicación real de tu componente Map
+import Map from '../Mapa/Map'; // Asegúrate de ajustar la importación según la ubicación real de tu componente Map
+import { GeofenceProps } from '../Mapa/type'; // Asegúrate de ajustar la importación según la ubicación real de tu tipo GeofenceProps
 
 const ListaPage = () => {
     const [mode, setMode] = useState<'list' | 'map'>('list');
-    const [geofences, setGeofences] = useState<Geofence[]>([]); // Usar un estado para almacenar las geocercas
+    const [geofences, setGeofences] = useState<GeofenceProps[]>([]); // Usar un estado para almacenar las geocercas
 
     const fetchData = async () => {
         try {
-            const response = await axios.get<Geofence[]>('http://localhost:3000/geofences');
+            const response = await axios.get<GeofenceProps[]>('http://localhost:3000/geofences');
             console.log(response.data);
             setGeofences(response.data); // Actualizar el estado con los datos obtenidos
         } catch (error) {

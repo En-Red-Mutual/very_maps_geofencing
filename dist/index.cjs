@@ -8001,7 +8001,7 @@ var IconX = createReactComponent("outline", "x", "IconX", [["path", { "d": "M18 
 var IconMapPinFilled = createReactComponent("filled", "map-pin-filled", "IconMapPinFilled", [["path", { "d": "M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z", "key": "svg-0" }]]);
 
 // src/stories/components/Mapa/Map.tsx
-var Map = ({ geofences = [], zoom = 15, mode = "view", height = "60vh", onGeofenceCreate }) => {
+var Map = ({ geofences = [], zoom = 15, mode = "view", height = "90vh", onGeofenceCreate }) => {
   const [currentPolygon, setCurrentPolygon] = React2.useState([]);
   const [selectedGeofence, setSelectedGeofence] = React2.useState(null);
   const defaultCenter = {
@@ -8090,7 +8090,7 @@ var Map = ({ geofences = [], zoom = 15, mode = "view", height = "60vh", onGeofen
           editable: mode === "edit"
         }
       }
-    ), mode === "view" && geofences.length > 1 && /* @__PURE__ */ React2__default.default.createElement(
+    ), mode === "view" && /* @__PURE__ */ React2__default.default.createElement(
       Marker,
       {
         position: calculatePolygonCenter(geofence.polygons),

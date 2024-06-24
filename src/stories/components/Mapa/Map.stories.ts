@@ -69,6 +69,7 @@ export const MultiPolygon = {
                 { lat:21.49489149940861, lng:-104.88565152638665 }
             ]
         }],
+
         mode:"view",
     }
 };
