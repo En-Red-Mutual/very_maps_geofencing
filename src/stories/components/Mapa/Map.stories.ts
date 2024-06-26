@@ -1,7 +1,7 @@
 import Map from "./Map";
 import {Meta} from '@storybook/react';
 const meta = {
-    title: "Components/Mapa/Map",
+    title: "Molecules/Map",
     component:Map,
     args:{
     },
@@ -15,6 +15,7 @@ export const Default = {
             id:'1',
             geofenceName:'CD DEL VALLE',
             geofenceColor:"#e600fa",
+            on: true,
             polygons:[
                 { lat: 21.49819581004538, lng: -104.88596400671796 },
                 { lat: 21.496912570601754, lng: -104.88756887641208 },
@@ -27,7 +28,11 @@ export const Default = {
                 { lat: 21.498195810033664, lng: -104.88588877838556 }
             ]
         }],
-        mode:"view"
+
+        mode:"view",
+        searchQuery: "Agua marina 44",
+        height: "80vh",
+        width:'100vh'
     }
 };
 
@@ -46,6 +51,7 @@ export const MultiPolygon = {
                 id:'1',
                 geofenceName:'CD DEL VALLE',
                 geofenceColor:"red",
+                on: true,
                 polygons:[
                     { lat: 21.49819581004538, lng: -104.88596400671796 },
                     { lat: 21.496912570601754, lng: -104.88756887641208 },
@@ -71,5 +77,7 @@ export const MultiPolygon = {
         }],
 
         mode:"view",
+        height: "100%",
+        width: "100%"
     }
 };

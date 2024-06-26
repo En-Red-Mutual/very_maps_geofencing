@@ -1,7 +1,7 @@
 import  { useEffect, useState } from 'react';
 import { IconCirclePlusFilled, IconList, IconMapPins, IconTrash } from '@tabler/icons-react';
 import axios from 'axios';
-import Switch from '../Switch';
+import Switch from '../Switch/Switch';
 import Map from '../Mapa/Map'; // Asegúrate de ajustar la importación según la ubicación real de tu componente Map
 import { GeofenceProps } from '../Mapa/type'; // Asegúrate de ajustar la importación según la ubicación real de tu tipo GeofenceProps
 

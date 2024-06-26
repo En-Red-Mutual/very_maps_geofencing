@@ -3,7 +3,7 @@ import {
   } from '@tabler/icons-react';
   import { useEffect, useState } from 'react';
   import Map, { Geofence } from '../Mapa/Map';
-  import Switch from '../Switch';
+  import Switch from '../Switch/Switch';
 import axios from 'axios';
   
   interface PageEditProps {

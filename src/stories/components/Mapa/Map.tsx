@@ -1,14 +1,15 @@
 import { GoogleMap, LoadScript, Polygon, Marker } from '@react-google-maps/api';
 import React, { useState, useEffect } from 'react';
-import { IconEdit, IconMapPinFilled, IconX } from '@tabler/icons-react';
 import { GeofenceProps, MapProps } from './type';
+import GeofenceModal from '../GeofenceModal/GeofenceModal';
 
 
 
 
 
 
-const Map = ({ geofences = [], zoom = 15, mode = 'view', height = '90vh', onGeofenceCreate }: MapProps) => {
+const Map = ({ geofences = [], zoom = 15,height='50vh',width='50vh', mode = 'view',searchQuery, onGeofenceCreate }: MapProps) => {
+    const [searchLocation, setSearchedLocation] = useState<google.maps.LatLngLiteral | null>(null);
     const [currentPolygon, setCurrentPolygon] = useState<google.maps.LatLngLiteral[]>([]);
     const [selectedGeofence, setSelectedGeofence] = useState<GeofenceProps | null>(null);
     const defaultCenter = {
@@ -18,10 +19,20 @@ const Map = ({ geofences = [], zoom = 15, mode = 'view', height = '90vh', onGeof
 
     const mapStyles = {
         height: height,
-        width: '100%',
+        width: width,
     }
 
     useEffect(() => {
+
+        if (searchQuery && searchQuery.geometry && searchQuery.geometry.location) {
+            // Convertir la ubicación buscada a LatLngLiteral si es necesario
+            const locationLatLng: google.maps.LatLngLiteral = {
+                lat: searchQuery.geometry.location.lat(),
+                lng: searchQuery.geometry.location.lng(),
+            };
+            setSearchedLocation(locationLatLng);
+        }
+
         const styleSheet = document.createElement("style");
         styleSheet.type = "text/css";
         geofences.forEach(geofence => {
@@ -38,7 +49,7 @@ const Map = ({ geofences = [], zoom = 15, mode = 'view', height = '90vh', onGeof
         return () => {
             document.head.removeChild(styleSheet);
         };
-    }, [geofences]);
+    }, [geofences, searchQuery]);
 
     const handleMapClick = (event: google.maps.MapMouseEvent) => {
         const noExistingGeofence = geofences.every(geofence => !geofence.polygons || geofence.polygons.length === 0);
@@ -81,9 +92,9 @@ const Map = ({ geofences = [], zoom = 15, mode = 'view', height = '90vh', onGeof
     };
 
     return (
-        <LoadScript googleMapsApiKey='AIzaSyDFuE_-2cXmeOlWIW3AvirBif1UqvMyn-U'>
+        <LoadScript googleMapsApiKey='AIzaSyDFuE_-2cXmeOlWIW3AvirBif1UqvMyn-U' libraries={['places']}>
             <GoogleMap
-                center={defaultCenter}
+                center={searchLocation || defaultCenter}
                 zoom={zoom}
                 mapContainerClassName='rounded-b-lg focus:outline-none'
                 mapContainerStyle={mapStyles}
@@ -119,7 +130,7 @@ const Map = ({ geofences = [], zoom = 15, mode = 'view', height = '90vh', onGeof
                                             color: '#000000',
                                             fontWeight: 'bold',
                                             fontSize: '14px',
-                                            className: `geofence-label geofence-label-${geofence.id} p-2 rounded-lg text-center h-[30px] `,
+                                            className: `geofence-label geofence-label-${geofence.id} p-2 rounded-lg text-center h-[35px] mt-2 `,
                                             
                                         }}
                                         onClick={() => handleMarkerClick(geofence)}
@@ -147,38 +158,10 @@ const Map = ({ geofences = [], zoom = 15, mode = 'view', height = '90vh', onGeof
                 }
             </GoogleMap>
             {selectedGeofence && (
-                <div className='absolute top-1/4 right-[200px] w-[200px] flex flex-col gap-2'>
-                    <div className='bg-black text-white rounded-2xl text-center'>
-                        <h2 className='font-bold'>Nombre</h2>
-                        <p className='text-[13px]'>{selectedGeofence.geofenceName}</p>
-                    </div>
-                    <div className='flex gap-1 justify-center bg-black text-white text-[13px] rounded-2xl text-center items-center h-[30px]'>
-                        <IconMapPinFilled size={22} />
-                        <p>{selectedGeofence.geofenceLocation}</p>
-                    </div>
-                    <div className='bg-black rounded-2xl text-white text-center'>
-                        <h2 className='font-bold'>Tarifa inicial</h2>
-                        <p className='text-[13px]'>${selectedGeofence.initialRate}.00</p>
-                    </div>
-                    <div className='bg-black text-white rounded-2xl text-center'>
-                        <h2 className='font-bold'>Tarifa dinamica</h2>
-                        <p className='text-[13px]'>${selectedGeofence.dynamicRateMinPrice} <span>{'->'}</span> {selectedGeofence.dynamicRateMaxDistance} km</p>
-                        <p className='text-[13px]'>$50 MXN - 9PM a 5AM</p>
-                    </div>
-                    <div className='flex gap-1 justify-between h-[40px]'>
-                        <div className='bg-black flex items-center p-1 rounded-[60%]'>
-                            {/*<Switch initialOn={selectedGeofence.on || false} />*/}
-                        </div>
-                        <div className='bg-black p-1 rounded-[50%] flex items-center'>
-                            <div style={{ backgroundColor: selectedGeofence.geofenceColor }} className={` w-[30px] h-[30px] rounded-[50%]`} />
-                        </div>
-                        <button className='bg-black w-[40px] text-white flex items-center justify-center rounded-[50%]'>
-                            <IconEdit size={24} />
-                        </button>
-                        <button className='bg-gray-400/10 w-[40px] rounded-[50%] flex items-center justify-center' onClick={closeModal}><IconX/></button>
-
-                    </div>
-                </div>
+                <GeofenceModal
+                    geofence={selectedGeofence}
+                    onClose={closeModal}
+                />
             )}
         </LoadScript>
     );

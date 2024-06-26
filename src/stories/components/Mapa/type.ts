@@ -27,6 +27,8 @@ export type MapProps  = {
     geofences?: GeofenceProps[];
     mode?: 'view' | 'edit' | 'new';
     height?: string;
+    width?: string;
     zoom?: number;
+    searchQuery?: google.maps.places.PlaceResult | null;
     onGeofenceCreate?: (geofence: GeofenceProps) => void;
 }

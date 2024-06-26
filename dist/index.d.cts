@@ -1,4 +1,5 @@
-import React from 'react';
+import * as React from 'react';
+import React__default from 'react';
 
 type GeofenceProps = {
     id: number | string;
@@ -27,10 +28,30 @@ type MapProps = {
     geofences?: GeofenceProps[];
     mode?: 'view' | 'edit' | 'new';
     height?: string;
+    width?: string;
     zoom?: number;
+    searchQuery?: google.maps.places.PlaceResult | null;
     onGeofenceCreate?: (geofence: GeofenceProps) => void;
 };
 
-declare const Map: ({ geofences, zoom, mode, height, onGeofenceCreate }: MapProps) => React.JSX.Element;
+declare const Map: ({ geofences, zoom, height, width, mode, searchQuery, onGeofenceCreate }: MapProps) => React__default.JSX.Element;
 
-export { type GeofenceProps, Map, type MapProps };
+type GeofenceModalProps = {
+    geofence: GeofenceProps;
+    onClose: () => void;
+};
+
+declare const GeofenceModal: ({ geofence, onClose }: GeofenceModalProps) => React__default.JSX.Element;
+
+type LocationSearchProps = {
+    onPlaceSelect: (place: google.maps.places.PlaceResult | null) => void;
+};
+
+declare const LocationSearch: ({ onPlaceSelect }: LocationSearchProps) => React__default.JSX.Element;
+
+declare const Switch: ({ initialOn, onToggle }: {
+    initialOn: boolean;
+    onToggle?: (isOn: boolean) => void;
+}) => React.JSX.Element;
+
+export { GeofenceModal, type GeofenceModalProps, type GeofenceProps, LocationSearch, type LocationSearchProps, Map, type MapProps, Switch };
