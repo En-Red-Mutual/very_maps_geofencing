@@ -1,5 +1,4 @@
-import * as React from 'react';
-import React__default from 'react';
+import React from 'react';
 
 type GeofenceProps = {
     id: number | string;
@@ -34,20 +33,20 @@ type MapProps = {
     onGeofenceCreate?: (geofence: GeofenceProps) => void;
 };
 
-declare const Map: ({ geofences, zoom, height, width, mode, searchQuery, onGeofenceCreate }: MapProps) => React__default.JSX.Element;
+declare const Map: ({ geofences, zoom, height, width, mode, searchQuery, onGeofenceCreate }: MapProps) => React.JSX.Element;
 
 type GeofenceModalProps = {
     geofence: GeofenceProps;
     onClose: () => void;
 };
 
-declare const GeofenceModal: ({ geofence, onClose }: GeofenceModalProps) => React__default.JSX.Element;
+declare const GeofenceModal: ({ geofence, onClose }: GeofenceModalProps) => React.JSX.Element;
 
 type LocationSearchProps = {
     onPlaceSelect: (place: google.maps.places.PlaceResult | null) => void;
 };
 
-declare const LocationSearch: ({ onPlaceSelect }: LocationSearchProps) => React__default.JSX.Element;
+declare const LocationSearch: ({ onPlaceSelect }: LocationSearchProps) => React.JSX.Element;
 
 declare const Switch: ({ initialOn, onToggle }: {
     initialOn: boolean;

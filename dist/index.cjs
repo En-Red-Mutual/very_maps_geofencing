@@ -20,7 +20,7 @@ var Switch = ({ initialOn, onToggle }) => {
       onToggle(newValue);
     }
   };
-  return /* @__PURE__ */ React.createElement("div", { className: "flex items-center justify-center" }, /* @__PURE__ */ React.createElement("label", { htmlFor: "toggle", className: "flex items-center cursor-pointer" }, /* @__PURE__ */ React.createElement("div", { className: "relative" }, /* @__PURE__ */ React.createElement(
+  return /* @__PURE__ */ React2__default.default.createElement("div", { className: "flex items-center justify-center" }, /* @__PURE__ */ React2__default.default.createElement("label", { htmlFor: "toggle", className: "flex items-center cursor-pointer" }, /* @__PURE__ */ React2__default.default.createElement("div", { className: "relative" }, /* @__PURE__ */ React2__default.default.createElement(
     "input",
     {
       id: "toggle",
@@ -29,7 +29,7 @@ var Switch = ({ initialOn, onToggle }) => {
       checked: isChecked,
       onChange: toggleSwitch
     }
-  ), /* @__PURE__ */ React.createElement("div", { className: `toggle-line w-10 h-5 ${isChecked ? "bg-orange-400" : "bg-gray-400"} rounded-full shadow-inner` }), /* @__PURE__ */ React.createElement("div", { className: `toggle-dot absolute w-4 h-4 bg-white rounded-full shadow inset-y-0 left-1 top-[2px] transition-transform duration-300 ${isChecked ? "translate-x-full" : ""}` }))));
+  ), /* @__PURE__ */ React2__default.default.createElement("div", { className: `toggle-line w-10 h-5 ${isChecked ? "bg-orange-400" : "bg-gray-400"} rounded-full shadow-inner` }), /* @__PURE__ */ React2__default.default.createElement("div", { className: `toggle-dot absolute w-4 h-4 bg-white rounded-full shadow inset-y-0 left-1 top-[2px] transition-transform duration-300 ${isChecked ? "translate-x-full" : ""}` }))));
 };
 var Switch_default = Switch;
 

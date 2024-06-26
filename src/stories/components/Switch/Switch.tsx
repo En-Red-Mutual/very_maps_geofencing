@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React,{ useEffect, useState } from 'react';
 
 const Switch = ({ initialOn, onToggle }: { initialOn: boolean, onToggle?: (isOn: boolean) => void }) => {
   const [isChecked, setIsChecked] = useState(initialOn);
