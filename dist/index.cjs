@@ -35,12 +35,12 @@ var Switch_default = Switch;
 
 // src/stories/components/GeofenceModal/GeofenceModal.tsx
 var GeofenceModal = ({ geofence, onClose }) => {
-  return /* @__PURE__ */ React2__default.default.createElement("div", { className: "absolute top-1/4 right-[200px] w-[200px] flex flex-col gap-2" }, /* @__PURE__ */ React2__default.default.createElement("div", { className: "bg-black text-white rounded-2xl text-center" }, /* @__PURE__ */ React2__default.default.createElement("h2", { className: "font-bold" }, "Nombre"), /* @__PURE__ */ React2__default.default.createElement("p", { className: "text-[13px]" }, geofence.geofenceName)), /* @__PURE__ */ React2__default.default.createElement("div", { className: "flex gap-1 justify-center bg-black text-white text-[13px] rounded-2xl text-center items-center h-[30px]" }, /* @__PURE__ */ React2__default.default.createElement(iconsReact.IconMapPinFilled, { size: 22 }), /* @__PURE__ */ React2__default.default.createElement("p", null, geofence.geofenceLocation)), /* @__PURE__ */ React2__default.default.createElement("div", { className: "bg-black rounded-2xl text-white text-center" }, /* @__PURE__ */ React2__default.default.createElement("h2", { className: "font-bold" }, "Tarifa inicial"), /* @__PURE__ */ React2__default.default.createElement("p", { className: "text-[13px]" }, "$", geofence.initialRate, ".00")), /* @__PURE__ */ React2__default.default.createElement("div", { className: "bg-black text-white rounded-2xl text-center" }, /* @__PURE__ */ React2__default.default.createElement("h2", { className: "font-bold" }, "Tarifa dinamica"), /* @__PURE__ */ React2__default.default.createElement("p", { className: "text-[13px]" }, "$", geofence.dynamicRateMinPrice, " ", /* @__PURE__ */ React2__default.default.createElement("span", null, "->"), " ", geofence.dynamicRateMaxDistance, " km"), /* @__PURE__ */ React2__default.default.createElement("p", { className: "text-[13px]" }, "$50 MXN - 9PM a 5AM")), /* @__PURE__ */ React2__default.default.createElement("div", { className: "flex gap-1 justify-between h-[40px]" }, /* @__PURE__ */ React2__default.default.createElement("div", { className: "bg-black flex items-center p-1 rounded-[60%]" }, /* @__PURE__ */ React2__default.default.createElement(Switch_default, { initialOn: geofence.on || false })), /* @__PURE__ */ React2__default.default.createElement("div", { className: "bg-black p-1 rounded-[50%] flex items-center" }, /* @__PURE__ */ React2__default.default.createElement("div", { style: { backgroundColor: geofence.geofenceColor }, className: `w-[30px] h-[30px] rounded-[50%]` })), /* @__PURE__ */ React2__default.default.createElement("button", { className: "bg-black w-[40px] text-white flex items-center justify-center rounded-[50%]" }, /* @__PURE__ */ React2__default.default.createElement(iconsReact.IconEdit, { size: 24 })), /* @__PURE__ */ React2__default.default.createElement("button", { className: "bg-gray-400/70 w-[40px] rounded-[50%] flex items-center justify-center", onClick: onClose }, /* @__PURE__ */ React2__default.default.createElement(iconsReact.IconX, null))));
+  return /* @__PURE__ */ React2__default.default.createElement("div", { className: "w-[200px] flex flex-col gap-2" }, /* @__PURE__ */ React2__default.default.createElement("div", { className: "bg-black text-white rounded-[5rem] text-center py-2" }, /* @__PURE__ */ React2__default.default.createElement("h2", { className: "font-bold text-[13px]" }, "Nombre"), /* @__PURE__ */ React2__default.default.createElement("p", { className: "text-[12px]" }, geofence.geofenceName)), /* @__PURE__ */ React2__default.default.createElement("div", { className: "flex gap-4 py-1 justify-center bg-black text-white text-[13px] rounded-2xl text-center items-center" }, /* @__PURE__ */ React2__default.default.createElement(iconsReact.IconMapPinFilled, { size: 22 }), /* @__PURE__ */ React2__default.default.createElement("p", { className: "text-[14px]" }, geofence.geofenceLocation)), /* @__PURE__ */ React2__default.default.createElement("div", { className: "bg-black rounded-2xl py-2 text-white text-center" }, /* @__PURE__ */ React2__default.default.createElement("h2", { className: "font-bold text-[13px]" }, "Tarifa inicial"), /* @__PURE__ */ React2__default.default.createElement("p", { className: "text-[12px]" }, "$", geofence.initialRate, " MXN km")), /* @__PURE__ */ React2__default.default.createElement("div", { className: "bg-black py-2 text-white rounded-[1.5rem] text-center flex flex-col gap-1 " }, /* @__PURE__ */ React2__default.default.createElement("h2", { className: "font-bold text-[13px]" }, "Tarifa dinamica"), /* @__PURE__ */ React2__default.default.createElement("p", { className: "text-[12px]" }, "$", geofence.dynamicRateMinPrice, " MXN ", /* @__PURE__ */ React2__default.default.createElement("span", null, "->"), " ", geofence.dynamicRateMaxDistance, " km"), /* @__PURE__ */ React2__default.default.createElement("p", { className: "text-[12px]" }, "$50 MXN - 9PM a 5AM")), /* @__PURE__ */ React2__default.default.createElement("div", { className: "flex gap-1 justify-between h-[40px] w-full" }, /* @__PURE__ */ React2__default.default.createElement("div", { className: "bg-black flex items-center justify-center w-[60px] rounded-[50px]" }, /* @__PURE__ */ React2__default.default.createElement(Switch_default, { initialOn: geofence.on || false })), /* @__PURE__ */ React2__default.default.createElement("div", { className: "bg-black p-1 rounded-[50%] flex items-center" }, /* @__PURE__ */ React2__default.default.createElement("div", { style: { backgroundColor: geofence.geofenceColor }, className: `w-[30px] h-[30px] rounded-[50%]` })), /* @__PURE__ */ React2__default.default.createElement("button", { className: "bg-black w-[40px] text-white flex items-center justify-center rounded-[50%]" }, /* @__PURE__ */ React2__default.default.createElement(iconsReact.IconEdit, { size: 24 })), /* @__PURE__ */ React2__default.default.createElement("button", { className: "bg-gray-900/60 w-[40px] rounded-[50%] flex items-center justify-center text-white", onClick: onClose }, /* @__PURE__ */ React2__default.default.createElement(iconsReact.IconX, null))));
 };
 var GeofenceModal_default = GeofenceModal;
 
 // src/stories/components/Mapa/Map.tsx
-var Map = ({ geofences = [], zoom = 15, height = "50vh", width = "50vh", mode = "view", searchQuery, onGeofenceCreate }) => {
+var Map = ({ geofences = [], zoom = 15, height = "50vh", width = "50vh", mode = "view", searchQuery, onPolygonComplete }) => {
   const [searchLocation, setSearchedLocation] = React2.useState(null);
   const [currentPolygon, setCurrentPolygon] = React2.useState([]);
   const [selectedGeofence, setSelectedGeofence] = React2.useState(null);
@@ -83,14 +83,8 @@ var Map = ({ geofences = [], zoom = 15, height = "50vh", width = "50vh", mode = 
     }
   };
   const handlePolygonComplete = () => {
-    if (currentPolygon.length > 2 && onGeofenceCreate) {
-      const newGeofence = {
-        id: `geofence-${Date.now()}`,
-        geofenceName: "New Geofence",
-        geofenceColor: "#FF0000",
-        polygons: currentPolygon
-      };
-      onGeofenceCreate(newGeofence);
+    if (currentPolygon.length > 2 && onPolygonComplete) {
+      onPolygonComplete(currentPolygon);
       setCurrentPolygon([]);
     }
   };
@@ -116,7 +110,7 @@ var Map = ({ geofences = [], zoom = 15, height = "50vh", width = "50vh", mode = 
     {
       center: searchLocation || defaultCenter,
       zoom,
-      mapContainerClassName: "rounded-b-lg focus:outline-none",
+      mapContainerClassName: "rounded-b-lg focus:outline-none relative",
       mapContainerStyle: mapStyles,
       onClick: handleMapClick,
       options: {
@@ -146,19 +140,19 @@ var Map = ({ geofences = [], zoom = 15, height = "50vh", width = "50vh", mode = 
           color: "#000000",
           fontWeight: "bold",
           fontSize: "14px",
-          className: `geofence-label geofence-label-${geofence.id} p-2 rounded-lg text-center h-[35px] mt-2 `
+          className: `geofence-label geofence-label-${geofence.id} p-2 rounded-lg text-center h-[35px] mt-2`
         },
         onClick: () => handleMarkerClick(geofence)
       }
-    ))),
-    mode === "new" && currentPolygon.length > 0 && /* @__PURE__ */ React2__default.default.createElement(
+    ), selectedGeofence && selectedGeofence.id === geofence.id && /* @__PURE__ */ React2__default.default.createElement("div", { className: "absolute right-8 top-1/4" }, /* @__PURE__ */ React2__default.default.createElement(GeofenceModal_default, { geofence: selectedGeofence, onClose: closeModal })))),
+    mode === "new" && /* @__PURE__ */ React2__default.default.createElement(
       api.Polygon,
       {
         path: currentPolygon,
         options: {
-          fillColor: "#FF0000",
+          fillColor: "#F39C12",
           fillOpacity: 0.5,
-          strokeColor: "#FF0000",
+          strokeColor: "#F39C12",
           strokeOpacity: 1,
           strokeWeight: 4,
           editable: true
@@ -166,12 +160,6 @@ var Map = ({ geofences = [], zoom = 15, height = "50vh", width = "50vh", mode = 
         onDblClick: handlePolygonComplete
       }
     )
-  ), selectedGeofence && /* @__PURE__ */ React2__default.default.createElement(
-    GeofenceModal_default,
-    {
-      geofence: selectedGeofence,
-      onClose: closeModal
-    }
   ));
 };
 var Map_default = Map;

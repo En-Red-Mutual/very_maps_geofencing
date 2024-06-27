@@ -2,30 +2,24 @@ import { GoogleMap, LoadScript, Polygon, Marker } from '@react-google-maps/api';
 import React, { useState, useEffect } from 'react';
 import { GeofenceProps, MapProps } from './type';
 import GeofenceModal from '../GeofenceModal/GeofenceModal';
+import './Map.css';
 
-
-
-
-
-
-const Map = ({ geofences = [], zoom = 15,height='50vh',width='50vh', mode = 'view',searchQuery, onGeofenceCreate }: MapProps) => {
+const Map = ({ geofences = [], zoom = 15, height = '50vh', width = '50vh', mode = 'view', searchQuery, onPolygonComplete }: MapProps) => {
     const [searchLocation, setSearchedLocation] = useState<google.maps.LatLngLiteral | null>(null);
     const [currentPolygon, setCurrentPolygon] = useState<google.maps.LatLngLiteral[]>([]);
     const [selectedGeofence, setSelectedGeofence] = useState<GeofenceProps | null>(null);
     const defaultCenter = {
         lat: 21.490499199707944,
         lng: -104.8843527463358
-    }
+    };
 
     const mapStyles = {
         height: height,
         width: width,
-    }
+    };
 
     useEffect(() => {
-
         if (searchQuery && searchQuery.geometry && searchQuery.geometry.location) {
-            // Convertir la ubicación buscada a LatLngLiteral si es necesario
             const locationLatLng: google.maps.LatLngLiteral = {
                 lat: searchQuery.geometry.location.lat(),
                 lng: searchQuery.geometry.location.lng(),
@@ -59,14 +53,8 @@ const Map = ({ geofences = [], zoom = 15,height='50vh',width='50vh', mode = 'vie
     };
 
     const handlePolygonComplete = () => {
-        if (currentPolygon.length > 2 && onGeofenceCreate) {
-            const newGeofence: GeofenceProps = {
-                id: `geofence-${Date.now()}`,
-                geofenceName: 'New Geofence',
-                geofenceColor: '#FF0000',
-                polygons: currentPolygon
-            };
-            onGeofenceCreate(newGeofence);
+        if (currentPolygon.length > 2 && onPolygonComplete) {
+            onPolygonComplete(currentPolygon);
             setCurrentPolygon([]);
         }
     };
@@ -96,9 +84,8 @@ const Map = ({ geofences = [], zoom = 15,height='50vh',width='50vh', mode = 'vie
             <GoogleMap
                 center={searchLocation || defaultCenter}
                 zoom={zoom}
-                mapContainerClassName='rounded-b-lg focus:outline-none'
+                mapContainerClassName='rounded-b-lg focus:outline-none relative'
                 mapContainerStyle={mapStyles}
-                
                 onClick={handleMapClick}
                 options={{
                     zoomControl: true,
@@ -119,50 +106,42 @@ const Map = ({ geofences = [], zoom = 15,height='50vh',width='50vh', mode = 'vie
                                     editable: mode === 'edit',
                                 }}
                             />
-                            {
-                                mode === 'view' && (
-                                    <Marker
-                                        position={calculatePolygonCenter(geofence.polygons)}
-                                        
-                                        
-                                        label={{
-                                            text: geofence.geofenceName,
-                                            color: '#000000',
-                                            fontWeight: 'bold',
-                                            fontSize: '14px',
-                                            className: `geofence-label geofence-label-${geofence.id} p-2 rounded-lg text-center h-[35px] mt-2 `,
-                                            
-                                        }}
-                                        onClick={() => handleMarkerClick(geofence)}
-                                    />
-                                )
-                            }
+                            {mode === 'view' && (
+                                <Marker
+                                    position={calculatePolygonCenter(geofence.polygons)}
+                                    label={{
+                                        text: geofence.geofenceName,
+                                        color: '#000000',
+                                        fontWeight: 'bold',
+                                        fontSize: '14px',
+                                        className: `geofence-label geofence-label-${geofence.id} p-2 rounded-lg text-center h-[35px] mt-2`,
+                                    }}
+                                    onClick={() => handleMarkerClick(geofence)}
+                                />
+                            )}
+                            {selectedGeofence && selectedGeofence.id === geofence.id && (
+                                <div className='absolute right-8 top-1/4'>
+                                    <GeofenceModal geofence={selectedGeofence} onClose={closeModal} />
+                                </div>
+                            )}
                         </React.Fragment>
                     )
                 ))}
-                {
-                    mode === 'new' && currentPolygon.length > 0 && (
-                        <Polygon
-                            path={currentPolygon}
-                            options={{
-                                fillColor: '#FF0000',
-                                fillOpacity: 0.5,
-                                strokeColor: '#FF0000',
-                                strokeOpacity: 1,
-                                strokeWeight: 4,
-                                editable: true,
-                            }}
-                            onDblClick={handlePolygonComplete}
-                        />
-                    )
-                }
+                {mode === 'new' && (
+                    <Polygon
+                        path={currentPolygon}
+                        options={{
+                            fillColor: '#F39C12',
+                            fillOpacity: 0.5,
+                            strokeColor: '#F39C12',
+                            strokeOpacity: 1,
+                            strokeWeight: 4,
+                            editable: true,
+                        }}
+                        onDblClick={handlePolygonComplete}
+                    />
+                )}
             </GoogleMap>
-            {selectedGeofence && (
-                <GeofenceModal
-                    geofence={selectedGeofence}
-                    onClose={closeModal}
-                />
-            )}
         </LoadScript>
     );
 };

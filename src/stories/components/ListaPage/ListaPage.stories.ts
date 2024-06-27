@@ -16,14 +16,14 @@ const meta: Meta<typeof ListaPage> = {
             {
                 id: 1,
                 geofenceName: "Ciudad del Valle",
-                geofenceLocation: "Location 1",
+                geofenceLocation: "Ciudad del valle",
                 initialRate: 10,
                 dynamicRateEnabled: true,
                 dynamicRateMinPrice: 5,
                 dynamicRateMaxDistance: 10,
                 rateForHour: 15,
                 onDemandEnabled: false,
-                geofenceColor: "#FF0000",
+                geofenceColor: "#FF7456",
                 priorityZone: 1,
                 on: false,
                 polygons: [
@@ -56,7 +56,7 @@ const meta: Meta<typeof ListaPage> = {
                 dynamicRateMaxDistance: 0,
                 rateForHour: 12,
                 onDemandEnabled: true,
-                geofenceColor: "#00FF00",
+                geofenceColor: "#06FFFB",
                 priorityZone: 2,
                 on: true,
                 polygons: [
@@ -84,7 +84,7 @@ const meta: Meta<typeof ListaPage> = {
                 dynamicRateMaxDistance: 15,
                 rateForHour: 18,
                 onDemandEnabled: false,
-                geofenceColor: "#0000FF",
+                geofenceColor: "#EA75FF",
                 priorityZone: 3,
                 on: false,
                 polygons: [
@@ -112,7 +112,7 @@ const meta: Meta<typeof ListaPage> = {
                 dynamicRateMaxDistance: 20,
                 rateForHour: 20,
                 onDemandEnabled: true,
-                geofenceColor: "#FFFF00",
+                geofenceColor: "#75FFD1",
                 priorityZone: 4,
                 on: false,
                 polygons: [
@@ -144,14 +144,14 @@ export const Default: Story = {
             {
                 id: 1,
                 geofenceName: "Ciudad del Valle",
-                geofenceLocation: "Location 1",
+                geofenceLocation: "Ciudad del valle",
                 initialRate: 10,
                 dynamicRateEnabled: true,
                 dynamicRateMinPrice: 5,
                 dynamicRateMaxDistance: 10,
                 rateForHour: 15,
                 onDemandEnabled: false,
-                geofenceColor: "#FF0000",
+                geofenceColor: "#FF7456",
                 priorityZone: 1,
                 on: false,
                 polygons: [
@@ -184,7 +184,7 @@ export const Default: Story = {
                 dynamicRateMaxDistance: 0,
                 rateForHour: 12,
                 onDemandEnabled: true,
-                geofenceColor: "#00FF00",
+                geofenceColor: "#06FFFB",
                 priorityZone: 2,
                 on: true,
                 polygons: [
@@ -212,7 +212,7 @@ export const Default: Story = {
                 dynamicRateMaxDistance: 15,
                 rateForHour: 18,
                 onDemandEnabled: false,
-                geofenceColor: "#0000FF",
+                geofenceColor: "#EA75FF",
                 priorityZone: 3,
                 on: false,
                 polygons: [
@@ -240,7 +240,7 @@ export const Default: Story = {
                 dynamicRateMaxDistance: 20,
                 rateForHour: 20,
                 onDemandEnabled: true,
-                geofenceColor: "#FFFF00",
+                geofenceColor: "#75FFD1",
                 priorityZone: 4,
                 on: false,
                 polygons: [

@@ -30,10 +30,10 @@ type MapProps = {
     width?: string;
     zoom?: number;
     searchQuery?: google.maps.places.PlaceResult | null;
-    onGeofenceCreate?: (geofence: GeofenceProps) => void;
+    onPolygonComplete?: (polygons: google.maps.LatLngLiteral[]) => void;
 };
 
-declare const Map: ({ geofences, zoom, height, width, mode, searchQuery, onGeofenceCreate }: MapProps) => React.JSX.Element;
+declare const Map: ({ geofences, zoom, height, width, mode, searchQuery, onPolygonComplete }: MapProps) => React.JSX.Element;
 
 type GeofenceModalProps = {
     geofence: GeofenceProps;
