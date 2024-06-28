@@ -48,4 +48,11 @@ declare const Switch: ({ initialOn, onToggle }: {
     onToggle?: (isOn: boolean) => void;
 }) => React.JSX.Element;
 
-export { type GeofenceProps, LocationSearch, type LocationSearchProps, Map, type MapProps, Switch };
+type GeofenceModalProps = {
+    geofence: GeofenceProps;
+    onClose: () => void;
+};
+
+declare const GeofenceModal: ({ geofence, onClose }: GeofenceModalProps) => React.JSX.Element;
+
+export { GeofenceModal, type GeofenceModalProps, type GeofenceProps, LocationSearch, type LocationSearchProps, Map, type MapProps, Switch };
