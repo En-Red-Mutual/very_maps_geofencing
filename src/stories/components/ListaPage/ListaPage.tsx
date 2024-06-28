@@ -70,7 +70,7 @@ const ListaPage = ({geofences}:ListaPageProps) => {
                             </table>
                         ) : (
                             <div>
-                                <Map geofences={geofences} zoom={15} height='90vh' width='full' mode='view' />
+                                <Map geofences={geofences} zoom={15} height='80vh' width='full' mode='view' />
                             </div>
                         )
                     }

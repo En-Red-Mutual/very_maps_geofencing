@@ -111,7 +111,7 @@ const Map = ({ geofences = [], zoom = 15, height = '50vh', width = '50vh', mode 
                                     position={calculatePolygonCenter(geofence.polygons)}
                                     label={{
                                         text: geofence.geofenceName,
-                                        color: '#000000',
+                                        color: '#ffffff',
                                         fontWeight: 'bold',
                                         fontSize: '14px',
                                         className: `geofence-label geofence-label-${geofence.id} p-2 rounded-lg text-center h-[35px] mt-2`,
@@ -120,7 +120,7 @@ const Map = ({ geofences = [], zoom = 15, height = '50vh', width = '50vh', mode 
                                 />
                             )}
                             {selectedGeofence && selectedGeofence.id === geofence.id && (
-                                <div className='absolute right-8 top-1/4'>
+                                <div className='absolute right-8 top-[20px]'>
                                     <GeofenceModal geofence={selectedGeofence} onClose={closeModal} />
                                 </div>
                             )}

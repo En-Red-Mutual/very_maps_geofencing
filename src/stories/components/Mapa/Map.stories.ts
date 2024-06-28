@@ -39,7 +39,9 @@ export const Default = {
 export const Empty = {
     args:{
         geofences:[],
-        mode:"new"
+        mode:"new",
+        height: "80vh",
+        width:'100vh'
     }
 };
 

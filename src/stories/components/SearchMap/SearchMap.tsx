@@ -17,9 +17,9 @@ const SearchMap = () => {
 
   return (
     <div className='flex flex-col gap-1'>
-        <LocationSearch onPlaceSelect={handlePlaceSelect}/>
+        <LocationSearch onPlaceSelect={handlePlaceSelect} otherStyles='border border-gray-300'/>
         <p>{searchQuery?.rating}</p>
-        <Map searchQuery={searchQuery} />
+        <Map searchQuery={searchQuery} height='60vh' width='100vh' />
         <p>Current value is {currentValue ? 'ON' :'OFF'}</p>
         <Switch initialOn={true} onToggle={handleToggle} />
     </div>

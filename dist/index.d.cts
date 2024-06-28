@@ -43,10 +43,12 @@ type GeofenceModalProps = {
 declare const GeofenceModal: ({ geofence, onClose }: GeofenceModalProps) => React.JSX.Element;
 
 type LocationSearchProps = {
+    otherStyles?: string;
+    value?: string;
     onPlaceSelect: (place: google.maps.places.PlaceResult | null) => void;
 };
 
-declare const LocationSearch: ({ onPlaceSelect }: LocationSearchProps) => React.JSX.Element;
+declare const LocationSearch: ({ onPlaceSelect, otherStyles, value }: LocationSearchProps) => React.JSX.Element;
 
 declare const Switch: ({ initialOn, onToggle }: {
     initialOn: boolean;

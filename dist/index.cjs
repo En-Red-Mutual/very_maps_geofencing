@@ -137,14 +137,14 @@ var Map = ({ geofences = [], zoom = 15, height = "50vh", width = "50vh", mode = 
         position: calculatePolygonCenter(geofence.polygons),
         label: {
           text: geofence.geofenceName,
-          color: "#000000",
+          color: "#ffffff",
           fontWeight: "bold",
           fontSize: "14px",
           className: `geofence-label geofence-label-${geofence.id} p-2 rounded-lg text-center h-[35px] mt-2`
         },
         onClick: () => handleMarkerClick(geofence)
       }
-    ), selectedGeofence && selectedGeofence.id === geofence.id && /* @__PURE__ */ React2__default.default.createElement("div", { className: "absolute right-8 top-1/4" }, /* @__PURE__ */ React2__default.default.createElement(GeofenceModal_default, { geofence: selectedGeofence, onClose: closeModal })))),
+    ), selectedGeofence && selectedGeofence.id === geofence.id && /* @__PURE__ */ React2__default.default.createElement("div", { className: "absolute right-8 top-[20px]" }, /* @__PURE__ */ React2__default.default.createElement(GeofenceModal_default, { geofence: selectedGeofence, onClose: closeModal })))),
     mode === "new" && /* @__PURE__ */ React2__default.default.createElement(
       api.Polygon,
       {
@@ -163,9 +163,12 @@ var Map = ({ geofences = [], zoom = 15, height = "50vh", width = "50vh", mode = 
   ));
 };
 var Map_default = Map;
-var LocationSearch = ({ onPlaceSelect }) => {
-  const [searchInput, setSearchInput] = React2.useState("");
+var LocationSearch = ({ onPlaceSelect, otherStyles, value }) => {
+  const [searchInput, setSearchInput] = React2.useState(value || "");
   const autocompleteRef = React2.useRef(null);
+  React2.useEffect(() => {
+    setSearchInput(value || "");
+  }, [value]);
   const handlePlaceSelect = (place) => {
     onPlaceSelect(place);
   };
@@ -189,7 +192,7 @@ var LocationSearch = ({ onPlaceSelect }) => {
         type: "text",
         placeholder: "Search for a place",
         value: searchInput,
-        className: "border border-gray-300 rounded-md p-2 focus:outline-none",
+        className: `rounded-md p-2 focus:outline-none ${otherStyles}`,
         onChange: (e) => setSearchInput(e.target.value)
       }
     )

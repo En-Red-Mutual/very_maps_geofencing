@@ -15,7 +15,7 @@ export const Default = {
         geofences: [{
             "id": "1",
             "geofenceName": "Ciudad de Wallavi",
-            "geofenceLocation": "Guadalajara",
+            "geofenceLocation": "Ciudad del Valle",
             "initialRate": 48,
             "dynamicRateEnabled": true,
             "dynamicRateMinPrice": 10,

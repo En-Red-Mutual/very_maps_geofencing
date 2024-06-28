@@ -5,6 +5,7 @@ import {
   import Map, { Geofence } from '../Mapa/Map';
   import Switch from '../Switch/Switch';
 import axios from 'axios';
+import LocationSearch from '../InputSearch/LocationSearch';
   
   interface PageEditProps {
     geofences?: Geofence[];
@@ -27,8 +28,8 @@ import axios from 'axios';
     const [isOnDemandChecked, setIsOnDemandChecked] = useState(false);
     const [mode, setMode] = useState<'view' | 'edit' | 'new'>('view');
 
-    console.log('geofences:', geofences);
-    console.log('selectedGeofence:', selectedGeofence);
+    //Estado del lugar place nuevo
+    const [place, setPlace] = useState<google.maps.places.PlaceResult | null>(null);
   
     useEffect(() => {
       if (selectedGeofence) {
@@ -96,24 +97,10 @@ import axios from 'axios';
         });
       };
 
-      const Guardar = async (selectedGeofence:Geofence) => {
-        // Preparar los datos a enviar
-        console.log('Datos a guardar:', selectedGeofence);
-        
-        const id = 1;
-        console.log('id:', id);
-        try {
-            // Realizar la petición POST usando axios
-            const response = await axios.put(`http://localhost:3000/geofences/${id}`, selectedGeofence);
-    
-            // Manejar la respuesta del servidor
-            console.log('Datos guardados:', response.data);
-            // Aquí puedes realizar otras acciones después de guardar, como actualizar estado o notificar al usuario
-    
-        } catch (error) {
-            console.error('Error al guardar:', error);
-            // Aquí puedes manejar el error de alguna manera, como mostrar un mensaje al usuario
-        }
+      
+
+    const handlePlaceSelect = (place: google.maps.places.PlaceResult) => {
+        setPlace(place);
     }
     
     
@@ -151,7 +138,8 @@ import axios from 'axios';
                 <hr className='mx-1' />
                 <div className='relative'>
                   <IconMapPinFilled size={20} className='absolute top-1 left-1' />
-                  <input type="text" onChange={e => updateGeofenceField('geofenceLocation',e.target.value)} value={selectedGeofence?.geofenceLocation || ''} className='bg-gray-100 rounded-lg h-[30px] text-[13px] text-center focus:outline-none' />
+                  <LocationSearch value={selectedGeofence?.geofenceLocation || ''} onPlaceSelect={handlePlaceSelect} otherStyles='h-[30px] text-black bg-gray-100 text-center' />
+                  {/*<input type="text" onChange={e => updateGeofenceField('geofenceLocation',e.target.value)} value={selectedGeofence?.geofenceLocation || ''} className='bg-gray-100 rounded-lg h-[30px] text-[13px] text-center focus:outline-none' />*/}
                 </div>
               </article>
               <article className='bg-white rounded-lg p-2 flex flex-col gap-2'>
@@ -172,14 +160,14 @@ import axios from 'axios';
                   <IconCurrentLocation size={20} color={mode === 'view' ? 'orange' : 'black'} onClick={() => setMode('view')} />
                 </div>
               </div>
-              <Map geofences={[selectedGeofence!]} mode={mode} onGeofenceCreate={handleGeofenceCreate} />
+              <Map geofences={[selectedGeofence!]} mode={mode} height='70vh' width='full' searchQuery={place} />
             </div>
           </div>
           <div className='flex flex-col gap-2 px-3 w-auto'>
-            <button className='bg-black text-white p-1 rounded-2xl text-[12px] h-[30px]' onClick={Guardar}>Guardar</button>
+            <button className='bg-black text-white p-1 rounded-2xl text-[12px] h-[30px]'>Guardar</button>
             <article className='bg-white p-2 rounded-lg flex flex-col gap-2'>
               <div className="flex items-center">
-                <Switch initialOn={isDynamicRateChecked} />
+                <Switch initialOn={isDynamicRateChecked} onToggle={handleToggleDynamicRate} />
                 <div className="ml-3 text-gray-700 font-medium flex items-center">
                   <p className='text-[13px]'>Tarifa Dinámica</p>
                   <IconInfoCircle size={15} />
@@ -221,7 +209,7 @@ import axios from 'axios';
               </div>
               <hr />
               <div className="flex items-center">
-                <Switch initialOn={isOnDemandChecked} />
+                <Switch initialOn={isOnDemandChecked} onToggle={handleToggleOnDemand} />
                 <div className="ml-3 text-gray-700 font-medium flex items-center">
                   <p className='text-[13px]'>Sobre demanda</p>
                   <IconInfoCircle size={15} />

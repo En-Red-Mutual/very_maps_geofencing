@@ -1,10 +1,14 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Autocomplete, LoadScript } from '@react-google-maps/api';
 import { LocationSearchProps } from './type';
 
-const LocationSearch = ({ onPlaceSelect }: LocationSearchProps) => {
-    const [searchInput, setSearchInput] = useState<string>('');
+const LocationSearch = ({ onPlaceSelect, otherStyles, value }: LocationSearchProps) => {
+    const [searchInput, setSearchInput] = useState<string>(value || '');
     const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+
+    useEffect(() => {
+        setSearchInput(value || '');
+    }, [value]);
 
     const handlePlaceSelect = (place: google.maps.places.PlaceResult | null) => {
         onPlaceSelect(place);
@@ -28,7 +32,7 @@ const LocationSearch = ({ onPlaceSelect }: LocationSearchProps) => {
                     type="text"
                     placeholder="Search for a place"
                     value={searchInput}
-                    className='border border-gray-300 rounded-md p-2 focus:outline-none'
+                    className={`rounded-md p-2 focus:outline-none ${otherStyles}`}
                     onChange={(e) => setSearchInput(e.target.value)}
                 />
             </Autocomplete>
