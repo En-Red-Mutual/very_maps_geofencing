@@ -32,3 +32,8 @@ export type MapProps  = {
     searchQuery?: google.maps.places.PlaceResult | null;
     onPolygonComplete?: (polygons: google.maps.LatLngLiteral[]) => void;
 }
+
+export type GeofenceModalProps = {
+    geofence: GeofenceProps;
+    onClose: () => void;
+}

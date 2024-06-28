@@ -6,7 +6,7 @@ import { GeofenceModalProps } from './type';
 
 const GeofenceModal = ({ geofence, onClose }:GeofenceModalProps) => {
     return (
-        <div className='w-[200px] flex flex-col gap-2'>
+        <article className='w-[200px] flex flex-col gap-2'>
             <div className='bg-black text-white rounded-[5rem] text-center py-2'>
                 <h2 className='font-bold text-[13px]'>Nombre</h2>
                 <p className='text-[12px]'>{geofence.geofenceName}</p>
@@ -36,7 +36,7 @@ const GeofenceModal = ({ geofence, onClose }:GeofenceModalProps) => {
                 </button>
                 <button className='bg-gray-900/60 w-[40px] rounded-[50%] flex items-center justify-center text-white' onClick={onClose}><IconX /></button>
             </div>
-        </div>
+        </article>
     );
 };
 

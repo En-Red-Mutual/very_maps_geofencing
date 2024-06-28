@@ -35,13 +35,6 @@ type MapProps = {
 
 declare const Map: ({ geofences, zoom, height, width, mode, searchQuery, onPolygonComplete }: MapProps) => React.JSX.Element;
 
-type GeofenceModalProps = {
-    geofence: GeofenceProps;
-    onClose: () => void;
-};
-
-declare const GeofenceModal: ({ geofence, onClose }: GeofenceModalProps) => React.JSX.Element;
-
 type LocationSearchProps = {
     otherStyles?: string;
     value?: string;
@@ -55,4 +48,4 @@ declare const Switch: ({ initialOn, onToggle }: {
     onToggle?: (isOn: boolean) => void;
 }) => React.JSX.Element;
 
-export { GeofenceModal, type GeofenceModalProps, type GeofenceProps, LocationSearch, type LocationSearchProps, Map, type MapProps, Switch };
+export { type GeofenceProps, LocationSearch, type LocationSearchProps, Map, type MapProps, Switch };
