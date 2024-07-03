@@ -2,7 +2,7 @@ import { Meta} from '@storybook/react';
 import SearchMap from './SearchMap';
 
 const meta ={
-    title: 'Atomes/SearchMap',
+    title: 'Atoms/SearchMap',
     component: SearchMap,
     argTypes: {
         onSearch: { action: 'search' },

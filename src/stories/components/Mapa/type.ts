@@ -31,4 +31,5 @@ export type MapProps  = {
     zoom?: number;
     searchQuery?: google.maps.places.PlaceResult | null;
     onPolygonComplete?: (polygons: google.maps.LatLngLiteral[]) => void;
+    createdPolygon?: google.maps.LatLngLiteral[];
 }

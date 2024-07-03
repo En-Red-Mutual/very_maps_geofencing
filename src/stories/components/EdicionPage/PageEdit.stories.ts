@@ -14,7 +14,7 @@ export const Default = {
     args:{
         geofences: [{
             "id": "1",
-            "geofenceName": "Ciudad de Wallavi",
+            "geofenceName": "Ciudad del Valle 1",
             "geofenceLocation": "Ciudad del Valle",
             "initialRate": 48,
             "dynamicRateEnabled": true,

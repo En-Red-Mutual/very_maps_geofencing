@@ -31,9 +31,10 @@ type MapProps = {
     zoom?: number;
     searchQuery?: google.maps.places.PlaceResult | null;
     onPolygonComplete?: (polygons: google.maps.LatLngLiteral[]) => void;
+    createdPolygon?: google.maps.LatLngLiteral[];
 };
 
-declare const Map: ({ geofences, zoom, height, width, mode, searchQuery, onPolygonComplete }: MapProps) => React.JSX.Element;
+declare const Map: ({ geofences, zoom, height, width, mode, searchQuery, onPolygonComplete, createdPolygon }: MapProps) => React.JSX.Element;
 
 type LocationSearchProps = {
     otherStyles?: string;

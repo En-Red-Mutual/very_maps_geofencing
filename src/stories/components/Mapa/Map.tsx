@@ -2,8 +2,9 @@ import { GoogleMap, LoadScript, Polygon, Marker } from '@react-google-maps/api';
 import React, { useState, useEffect } from 'react';
 import { GeofenceProps, MapProps } from './type';
 import GeofenceModal from '../GeofenceModal/GeofenceModal';
+import { IconPolygon } from '@tabler/icons-react';
 
-const Map = ({ geofences = [], zoom = 15, height = '50vh', width = '50vh', mode = 'view', searchQuery, onPolygonComplete }: MapProps) => {
+const Map = ({ geofences = [], zoom = 15, height = '50vh', width = '50vh', mode = 'view', searchQuery, onPolygonComplete, createdPolygon = [] }: MapProps) => {
     const [searchLocation, setSearchedLocation] = useState<google.maps.LatLngLiteral | null>(null);
     const [currentPolygon, setCurrentPolygon] = useState<google.maps.LatLngLiteral[]>([]);
     const [selectedGeofence, setSelectedGeofence] = useState<GeofenceProps | null>(null);
@@ -53,8 +54,9 @@ const Map = ({ geofences = [], zoom = 15, height = '50vh', width = '50vh', mode 
 
     const handlePolygonComplete = () => {
         if (currentPolygon.length > 2 && onPolygonComplete) {
+            console.log("Completando polígono con:", currentPolygon);
             onPolygonComplete(currentPolygon);
-            setCurrentPolygon([]);
+            // No limpiar currentPolygon para mantener el polígono en el mapa
         }
     };
 
@@ -79,7 +81,10 @@ const Map = ({ geofences = [], zoom = 15, height = '50vh', width = '50vh', mode 
     };
 
     return (
-        <LoadScript googleMapsApiKey='AIzaSyDFuE_-2cXmeOlWIW3AvirBif1UqvMyn-U' libraries={['places']}>
+        <LoadScript googleMapsApiKey='AIzaSyDFuE_-2cXmeOlWIW3AvirBif1UqvMyn-U'
+        libraries={['places']}
+        >
+            
             <GoogleMap
                 center={searchLocation || defaultCenter}
                 zoom={zoom}
@@ -113,7 +118,7 @@ const Map = ({ geofences = [], zoom = 15, height = '50vh', width = '50vh', mode 
                                         color: '#ffffff',
                                         fontWeight: 'bold',
                                         fontSize: '14px',
-                                        className: `geofence-label geofence-label-${geofence.id} p-2 rounded-lg text-center h-[35px] mt-2`,
+                                        className: `geofence-label geofence-label-${geofence.id} p-2 rounded-lg text-center h-[36px] mt-2`,
                                     }}
                                     onClick={() => handleMarkerClick(geofence)}
                                 />
@@ -127,17 +132,41 @@ const Map = ({ geofences = [], zoom = 15, height = '50vh', width = '50vh', mode 
                     )
                 ))}
                 {mode === 'new' && (
+                    <>
+                        <Polygon
+                            path={currentPolygon}
+                            options={{
+                                fillColor: '#F39C12',
+                                fillOpacity: 0.5,
+                                strokeColor: '#F39C12',
+                                strokeOpacity: 1,
+                                strokeWeight: 4,
+                                editable: true,
+                            }}
+                        />
+                        {
+                            currentPolygon.length > 0 && (
+                                <button
+                                    className='absolute right-2 top-8 bg-white text-black p-1 rounded-lg flex  items-center shadow-md z-10'
+                                    onClick={handlePolygonComplete}
+                                >
+                                   <IconPolygon size={20} />
+                                   <p className='text-[12px] font-bold'>Completar</p>
+                                </button>
+                            )
+                        }
+                    </>
+                )}
+                {createdPolygon && createdPolygon.length > 0 && (
                     <Polygon
-                        path={currentPolygon}
+                        path={createdPolygon}
                         options={{
                             fillColor: '#F39C12',
                             fillOpacity: 0.5,
                             strokeColor: '#F39C12',
                             strokeOpacity: 1,
                             strokeWeight: 4,
-                            editable: true,
                         }}
-                        onDblClick={handlePolygonComplete}
                     />
                 )}
             </GoogleMap>

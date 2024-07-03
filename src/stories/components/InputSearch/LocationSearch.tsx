@@ -11,6 +11,9 @@ const LocationSearch = ({ onPlaceSelect, otherStyles, value }: LocationSearchPro
     }, [value]);
 
     const handlePlaceSelect = (place: google.maps.places.PlaceResult | null) => {
+        if (place && place.formatted_address) {
+            setSearchInput(place.name || place.formatted_address);
+        }
         onPlaceSelect(place);
     };
 
