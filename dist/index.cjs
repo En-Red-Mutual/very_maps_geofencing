@@ -2,7 +2,6 @@
 
 var React3 = require('react');
 var api = require('@react-google-maps/api');
-var iconsReact = require('@tabler/icons-react');
 var clsx = require('clsx');
 
 function _interopDefault (e) { return e && e.__esModule ? e : { default: e }; }
@@ -10,6 +9,99 @@ function _interopDefault (e) { return e && e.__esModule ? e : { default: e }; }
 var React3__default = /*#__PURE__*/_interopDefault(React3);
 var clsx__default = /*#__PURE__*/_interopDefault(clsx);
 
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __esm = (fn, res) => function __init() {
+  return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+};
+
+// node_modules/@tabler/icons-react/dist/esm/defaultAttributes.mjs
+var defaultAttributes;
+var init_defaultAttributes = __esm({
+  "node_modules/@tabler/icons-react/dist/esm/defaultAttributes.mjs"() {
+    defaultAttributes = {
+      outline: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: 24,
+        height: 24,
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        strokeWidth: 2,
+        strokeLinecap: "round",
+        strokeLinejoin: "round"
+      },
+      filled: {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: 24,
+        height: 24,
+        viewBox: "0 0 24 24",
+        fill: "currentColor",
+        stroke: "none"
+      }
+    };
+  }
+});
+var createReactComponent;
+var init_createReactComponent = __esm({
+  "node_modules/@tabler/icons-react/dist/esm/createReactComponent.mjs"() {
+    init_defaultAttributes();
+    createReactComponent = (type, iconName, iconNamePascal, iconNode) => {
+      const Component = React3.forwardRef(
+        ({ color = "currentColor", size = 24, stroke = 2, title, className, children, ...rest }, ref) => React3.createElement(
+          "svg",
+          {
+            ref,
+            ...defaultAttributes[type],
+            width: size,
+            height: size,
+            className: [`tabler-icon`, `tabler-icon-${iconName}`, className].join(" "),
+            ...type === "filled" ? {
+              fill: color
+            } : {
+              strokeWidth: stroke,
+              stroke: color
+            },
+            ...rest
+          },
+          [
+            title && React3.createElement("title", { key: "svg-title" }, title),
+            ...iconNode.map(([tag, attrs]) => React3.createElement(tag, attrs)),
+            ...Array.isArray(children) ? children : [children]
+          ]
+        )
+      );
+      Component.displayName = `${iconNamePascal}`;
+      return Component;
+    };
+  }
+});
+
+// node_modules/@tabler/icons-react/dist/esm/icons/IconEdit.mjs
+var IconEdit;
+var init_IconEdit = __esm({
+  "node_modules/@tabler/icons-react/dist/esm/icons/IconEdit.mjs"() {
+    init_createReactComponent();
+    IconEdit = createReactComponent("outline", "edit", "IconEdit", [["path", { "d": "M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1", "key": "svg-0" }], ["path", { "d": "M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z", "key": "svg-1" }], ["path", { "d": "M16 5l3 3", "key": "svg-2" }]]);
+  }
+});
+
+// node_modules/@tabler/icons-react/dist/esm/icons/IconX.mjs
+var IconX;
+var init_IconX = __esm({
+  "node_modules/@tabler/icons-react/dist/esm/icons/IconX.mjs"() {
+    init_createReactComponent();
+    IconX = createReactComponent("outline", "x", "IconX", [["path", { "d": "M18 6l-12 12", "key": "svg-0" }], ["path", { "d": "M6 6l12 12", "key": "svg-1" }]]);
+  }
+});
+
+// node_modules/@tabler/icons-react/dist/esm/icons/IconMapPinFilled.mjs
+var IconMapPinFilled;
+var init_IconMapPinFilled = __esm({
+  "node_modules/@tabler/icons-react/dist/esm/icons/IconMapPinFilled.mjs"() {
+    init_createReactComponent();
+    IconMapPinFilled = createReactComponent("filled", "map-pin-filled", "IconMapPinFilled", [["path", { "d": "M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z", "key": "svg-0" }]]);
+  }
+});
 var LocationSearch = ({
   onPlaceSelect,
   otherStyles,
@@ -84,14 +176,19 @@ var Switch = ({ initialOn, onToggle }) => {
   ), /* @__PURE__ */ React3__default.default.createElement("div", { className: `toggle-line w-10 h-5 ${isChecked ? "bg-orange-400" : "bg-gray-400"} rounded-full shadow-inner` }), /* @__PURE__ */ React3__default.default.createElement("div", { className: `toggle-dot absolute w-4 h-4 bg-white rounded-full shadow inset-y-0 left-1 top-[2px] transition-transform duration-300 ${isChecked ? "translate-x-full" : ""}` }))));
 };
 var Switch_default = Switch;
+
+// node_modules/@tabler/icons-react/dist/esm/tabler-icons-react.mjs
+init_IconEdit();
+init_IconX();
+init_IconMapPinFilled();
 var GeofenceModal = ({ dynamicRate, onClose }) => {
-  return /* @__PURE__ */ React3__default.default.createElement("article", { className: clsx__default.default("w-[200px]", "flex", "flex-col", "gap-2") }, /* @__PURE__ */ React3__default.default.createElement("div", { className: clsx__default.default("bg-black", "text-white", "rounded-[84px]", "text-center", "py-2") }, /* @__PURE__ */ React3__default.default.createElement("h2", { className: clsx__default.default("font-bold", "text-[13px]") }, "Nombre"), /* @__PURE__ */ React3__default.default.createElement("p", { className: clsx__default.default("text-[12px]") }, dynamicRate.name)), /* @__PURE__ */ React3__default.default.createElement("div", { className: clsx__default.default("flex", "gap-4", "py-1", "justify-center", "bg-black", "text-white", "text-[13px]", "rounded-2xl", "text-center", "items-center") }, /* @__PURE__ */ React3__default.default.createElement(iconsReact.IconMapPinFilled, { size: 22 }), /* @__PURE__ */ React3__default.default.createElement("p", { className: clsx__default.default("text-[14px]") }, dynamicRate.ubicationName)), /* @__PURE__ */ React3__default.default.createElement("div", { className: clsx__default.default("bg-black", "rounded-2xl", "py-2", "text-white", "text-center") }, /* @__PURE__ */ React3__default.default.createElement("h2", { className: clsx__default.default("font-bold", "text-[13px]") }, "Tarifa inicial"), /* @__PURE__ */ React3__default.default.createElement("p", { className: clsx__default.default("text-[12px]") }, "$", dynamicRate.initialRate, " MXN km")), /* @__PURE__ */ React3__default.default.createElement("div", { className: clsx__default.default("bg-black", "py-2", "text-white", "rounded-[1.5rem]", "text-center", "flex", "flex-col", "gap-1") }, /* @__PURE__ */ React3__default.default.createElement("h2", { className: clsx__default.default("font-bold", "text-[13px]") }, "Tarifa din\xE1mica"), /* @__PURE__ */ React3__default.default.createElement("p", { className: clsx__default.default("text-[12px]") }, "$", dynamicRate.pricePerKilometer, " MXN ", /* @__PURE__ */ React3__default.default.createElement("span", null, "->"), " ", dynamicRate.kilometers, " km"), /* @__PURE__ */ React3__default.default.createElement("p", { className: clsx__default.default("text-[12px]") }, "$50 MXN - 9PM a 5AM")), /* @__PURE__ */ React3__default.default.createElement("div", { className: clsx__default.default("flex", "gap-1", "justify-between", "h-[40px]", "w-full") }, /* @__PURE__ */ React3__default.default.createElement("div", { className: clsx__default.default("bg-black", "flex", "items-center", "justify-center", "w-[60px]", "rounded-[50px]") }, /* @__PURE__ */ React3__default.default.createElement(Switch_default, { initialOn: dynamicRate.isActivate || false })), /* @__PURE__ */ React3__default.default.createElement("div", { className: clsx__default.default("bg-black", "p-1", "rounded-full", "flex", "items-center") }, /* @__PURE__ */ React3__default.default.createElement(
+  return /* @__PURE__ */ React3__default.default.createElement("article", { className: clsx__default.default("w-[200px]", "flex", "flex-col", "gap-2") }, /* @__PURE__ */ React3__default.default.createElement("div", { className: clsx__default.default("bg-black", "text-white", "rounded-[84px]", "text-center", "py-2") }, /* @__PURE__ */ React3__default.default.createElement("h2", { className: clsx__default.default("font-bold", "text-[13px]") }, "Nombre"), /* @__PURE__ */ React3__default.default.createElement("p", { className: clsx__default.default("text-[12px]") }, dynamicRate.name)), /* @__PURE__ */ React3__default.default.createElement("div", { className: clsx__default.default("flex", "gap-4", "py-1", "justify-center", "bg-black", "text-white", "text-[13px]", "rounded-2xl", "text-center", "items-center") }, /* @__PURE__ */ React3__default.default.createElement(IconMapPinFilled, { size: 22 }), /* @__PURE__ */ React3__default.default.createElement("p", { className: clsx__default.default("text-[14px]") }, dynamicRate.ubicationName)), /* @__PURE__ */ React3__default.default.createElement("div", { className: clsx__default.default("bg-black", "rounded-2xl", "py-2", "text-white", "text-center") }, /* @__PURE__ */ React3__default.default.createElement("h2", { className: clsx__default.default("font-bold", "text-[13px]") }, "Tarifa inicial"), /* @__PURE__ */ React3__default.default.createElement("p", { className: clsx__default.default("text-[12px]") }, "$", dynamicRate.initialRate, " MXN km")), /* @__PURE__ */ React3__default.default.createElement("div", { className: clsx__default.default("bg-black", "py-2", "text-white", "rounded-[1.5rem]", "text-center", "flex", "flex-col", "gap-1") }, /* @__PURE__ */ React3__default.default.createElement("h2", { className: clsx__default.default("font-bold", "text-[13px]") }, "Tarifa din\xE1mica"), /* @__PURE__ */ React3__default.default.createElement("p", { className: clsx__default.default("text-[12px]") }, "$", dynamicRate.pricePerKilometer, " MXN ", /* @__PURE__ */ React3__default.default.createElement("span", null, "->"), " ", dynamicRate.kilometers, " km"), /* @__PURE__ */ React3__default.default.createElement("p", { className: clsx__default.default("text-[12px]") }, "$50 MXN - 9PM a 5AM")), /* @__PURE__ */ React3__default.default.createElement("div", { className: clsx__default.default("flex", "gap-1", "justify-between", "h-[40px]", "w-full") }, /* @__PURE__ */ React3__default.default.createElement("div", { className: clsx__default.default("bg-black", "flex", "items-center", "justify-center", "w-[60px]", "rounded-[50px]") }, /* @__PURE__ */ React3__default.default.createElement(Switch_default, { initialOn: dynamicRate.isActivate || false })), /* @__PURE__ */ React3__default.default.createElement("div", { className: clsx__default.default("bg-black", "p-1", "rounded-full", "flex", "items-center") }, /* @__PURE__ */ React3__default.default.createElement(
     "div",
     {
       className: clsx__default.default("w-[30px]", "h-[30px]", "rounded-full"),
       style: { backgroundColor: dynamicRate.color }
     }
-  )), /* @__PURE__ */ React3__default.default.createElement("button", { className: clsx__default.default("bg-black", "w-[40px]", "text-white", "flex", "items-center", "justify-center", "rounded-full") }, /* @__PURE__ */ React3__default.default.createElement(iconsReact.IconEdit, { size: 24 })), /* @__PURE__ */ React3__default.default.createElement("button", { className: clsx__default.default("bg-gray-900/60", "w-[40px]", "rounded-full", "flex", "items-center", "justify-center", "text-white"), onClick: onClose }, /* @__PURE__ */ React3__default.default.createElement(iconsReact.IconX, null))));
+  )), /* @__PURE__ */ React3__default.default.createElement("button", { className: clsx__default.default("bg-black", "w-[40px]", "text-white", "flex", "items-center", "justify-center", "rounded-full") }, /* @__PURE__ */ React3__default.default.createElement(IconEdit, { size: 24 })), /* @__PURE__ */ React3__default.default.createElement("button", { className: clsx__default.default("bg-gray-900/60", "w-[40px]", "rounded-full", "flex", "items-center", "justify-center", "text-white"), onClick: onClose }, /* @__PURE__ */ React3__default.default.createElement(IconX, null))));
 };
 var GeofenceModal_default = GeofenceModal;
 var libraries = ["drawing", "places"];
@@ -327,6 +424,56 @@ function GeofenceMap({
     )
   ));
 }
+/*! Bundled license information:
+
+@tabler/icons-react/dist/esm/defaultAttributes.mjs:
+  (**
+   * @license @tabler/icons-react v3.30.0 - MIT
+   *
+   * This source code is licensed under the MIT license.
+   * See the LICENSE file in the root directory of this source tree.
+   *)
+
+@tabler/icons-react/dist/esm/createReactComponent.mjs:
+  (**
+   * @license @tabler/icons-react v3.30.0 - MIT
+   *
+   * This source code is licensed under the MIT license.
+   * See the LICENSE file in the root directory of this source tree.
+   *)
+
+@tabler/icons-react/dist/esm/icons/IconEdit.mjs:
+  (**
+   * @license @tabler/icons-react v3.30.0 - MIT
+   *
+   * This source code is licensed under the MIT license.
+   * See the LICENSE file in the root directory of this source tree.
+   *)
+
+@tabler/icons-react/dist/esm/icons/IconX.mjs:
+  (**
+   * @license @tabler/icons-react v3.30.0 - MIT
+   *
+   * This source code is licensed under the MIT license.
+   * See the LICENSE file in the root directory of this source tree.
+   *)
+
+@tabler/icons-react/dist/esm/icons/IconMapPinFilled.mjs:
+  (**
+   * @license @tabler/icons-react v3.30.0 - MIT
+   *
+   * This source code is licensed under the MIT license.
+   * See the LICENSE file in the root directory of this source tree.
+   *)
+
+@tabler/icons-react/dist/esm/tabler-icons-react.mjs:
+  (**
+   * @license @tabler/icons-react v3.30.0 - MIT
+   *
+   * This source code is licensed under the MIT license.
+   * See the LICENSE file in the root directory of this source tree.
+   *)
+*/
 
 exports.GeofenceMap = GeofenceMap;
 exports.GeofenceModal = GeofenceModal_default;
