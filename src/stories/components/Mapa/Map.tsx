@@ -22,7 +22,6 @@ export default function GeofenceMap({
   height,
   width,
   zoom,
-  linkEdit,
 }: MapProps) {
   const [selectedGeofence, setSelectedGeofence] =
     useState<DynamicRateProps | null>(null);

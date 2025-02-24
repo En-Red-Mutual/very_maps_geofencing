@@ -1,7 +1,5 @@
-import React from "react";
 import GeofenceMap from "../Mapa/Map";
-import Switch from "../Switch/Switch";
-
+import React from "react";
 interface CreatePolygonProps {
   center: google.maps.LatLngLiteral;
 }

@@ -13,6 +13,7 @@ import Switch from "../Switch/Switch";
 import LocationSearch from "../InputSearch/LocationSearch";
 import { DynamicRateProps } from "../Mapa/type";
 import GeofenceMap from "../Mapa/Map";
+import React from "react";
 
 interface PageEditProps {
   dynamicRate?: DynamicRateProps;
@@ -55,6 +56,9 @@ const PageEdit: React.FC<PageEditProps> = ({
       loadGeofence(selectedDynamicRate);
     }
   }, [selectedColor]);
+
+  console.log(newPaths);
+  console.log(place);
 
   const loadGeofence = (dynamicRate: DynamicRateProps) => {
     const loadedGeofence: DynamicRateProps = {
@@ -103,7 +107,17 @@ const PageEdit: React.FC<PageEditProps> = ({
         color: "",
         ubicationName: "",
         polygons: [], // Asegúrate de proporcionar un valor por defecto para todas las propiedades requeridas
-        // ... otros campos de Geofence
+        ubicationCoordinates: { lat: 0, lng: 0 },
+        initialRate: 0,
+        isDynamic: false,
+        pricePerKilometer: 0,
+        kilometers: 0,
+        startHour: "",
+        endHour: "",
+        priceOnDemand: 0,
+        isDemand: false,
+        priority: "Principal",
+        isActivate: false,
       };
 
       return {
