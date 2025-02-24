@@ -1,177 +1,265 @@
-import { GoogleMap, LoadScript, Polygon, Marker } from '@react-google-maps/api';
-import React, { useState, useEffect } from 'react';
-import { GeofenceProps, MapProps } from './type';
-import GeofenceModal from '../GeofenceModal/GeofenceModal';
-import { IconPolygon } from '@tabler/icons-react';
+import React, { useRef, useState } from "react";
+import {
+  GoogleMap,
+  Polygon,
+  DrawingManager,
+  useLoadScript,
+  OverlayView,
+} from "@react-google-maps/api";
+import { DynamicRateProps, MapProps } from "./type";
+import GeofenceModal from "../GeofenceModal/GeofenceModal";
 
-const Map = ({ geofences = [], zoom = 15, height = '50vh', width = '50vh', mode = 'view', searchQuery, onPolygonComplete, createdPolygon = [] }: MapProps) => {
-    const [searchLocation, setSearchedLocation] = useState<google.maps.LatLngLiteral | null>(null);
-    const [currentPolygon, setCurrentPolygon] = useState<google.maps.LatLngLiteral[]>([]);
-    const [selectedGeofence, setSelectedGeofence] = useState<GeofenceProps | null>(null);
-    const defaultCenter = {
-        lat: 21.490499199707944,
-        lng: -104.8843527463358
+export const libraries = ["drawing", "places"] as ["drawing", "places"];
+
+export default function GeofenceMap({
+  dynamicRates,
+  mode,
+  singlePolygon,
+  center,
+  onPolygonUpdate,
+  onPolygonComplete,
+  createdPolygon,
+  height,
+  width,
+  zoom,
+  linkEdit,
+}: MapProps) {
+  const [selectedGeofence, setSelectedGeofence] =
+    useState<DynamicRateProps | null>(null);
+
+  const [newPaths, setNewPaths] = useState<google.maps.LatLngLiteral[]>([]);
+
+  const polygonRef = useRef<google.maps.Polygon | null>(null);
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: "AIzaSyDZ2gn0lNxRo4x6fsg6ne9oNoMT9mDMDAo",
+    libraries: libraries,
+  });
+  if (!isLoaded) return <div>Loading Map...</div>;
+
+  const getPolygonPaths = (polygon: google.maps.Polygon) => {
+    const paths = polygon
+      .getPath()
+      .getArray()
+      .map((point) => ({ lat: point.lat(), lng: point.lng() }));
+
+    setNewPaths(paths);
+    onPolygonComplete && onPolygonComplete(paths);
+  };
+
+  const handleOverlayComplete = (
+    e: google.maps.drawing.OverlayCompleteEvent
+  ) => {
+    if (e.type === "polygon") {
+      const polygon = e.overlay as google.maps.Polygon;
+
+      // Guarda la referencia del polígono
+      polygonRef.current = polygon;
+      getPolygonPaths(polygon);
+
+      // Escucha los cambios en el polígono editable
+      google.maps.event.addListener(polygon.getPath(), "set_at", () =>
+        getPolygonPaths(polygon)
+      );
+      google.maps.event.addListener(polygon.getPath(), "insert_at", () =>
+        getPolygonPaths(polygon)
+      );
+      google.maps.event.addListener(polygon.getPath(), "remove_at", () =>
+        getPolygonPaths(polygon)
+      );
+    }
+  };
+
+  const getPolygonCenter = (paths: google.maps.LatLngLiteral[]) => {
+    let lat = 0;
+    let lng = 0;
+    paths.forEach((point) => {
+      lat += point.lat;
+      lng += point.lng;
+    });
+    return {
+      lat: lat / paths.length,
+      lng: lng / paths.length - 0.002,
     };
+  };
 
-    const mapStyles = {
-        height: height,
-        width: width,
+  const getModalCenter = (paths: google.maps.LatLngLiteral[]) => {
+    let lat = 0;
+    let lng = 0;
+    paths.forEach((point) => {
+      lat += point.lat;
+      lng += point.lng;
+    });
+    return {
+      lat: lat / paths.length + 0.004,
+      lng: lng / paths.length + 0.004,
     };
+  };
 
-    useEffect(() => {
-        if (searchQuery && searchQuery.geometry && searchQuery.geometry.location) {
-            const locationLatLng: google.maps.LatLngLiteral = {
-                lat: searchQuery.geometry.location.lat(),
-                lng: searchQuery.geometry.location.lng(),
-            };
-            setSearchedLocation(locationLatLng);
-        }
+  console.log("newPaths", newPaths);
 
-        const styleSheet = document.createElement("style");
-        styleSheet.type = "text/css";
-        geofences.forEach(geofence => {
-            const className = `geofence-label-${geofence.id}`;
-            const styles = `
-                .${className} {
-                    background-color: ${geofence.geofenceColor};
-                }
-            `;
-            styleSheet.innerText += styles;
-        });
-        document.head.appendChild(styleSheet);
-
-        return () => {
-            document.head.removeChild(styleSheet);
-        };
-    }, [geofences, searchQuery]);
-
-    const handleMapClick = (event: google.maps.MapMouseEvent) => {
-        const noExistingGeofence = geofences.every(geofence => !geofence.polygons || geofence.polygons.length === 0);
-        if (mode === 'new' && noExistingGeofence && event.latLng) {
-            setCurrentPolygon([...currentPolygon, { lat: event.latLng.lat(), lng: event.latLng.lng() }]);
-        }
-    };
-
-    const handlePolygonComplete = () => {
-        if (currentPolygon.length > 2 && onPolygonComplete) {
-            console.log("Completando polígono con:", currentPolygon);
-            onPolygonComplete(currentPolygon);
-            // No limpiar currentPolygon para mantener el polígono en el mapa
-        }
-    };
-
-    const calculatePolygonCenter = (polygons: google.maps.LatLngLiteral[]): google.maps.LatLngLiteral => {
-        let lat = 0, lng = 0;
-        polygons.forEach(point => {
-            lat += point.lat;
-            lng += point.lng;
-        });
-        return {
-            lat: lat / polygons.length,
-            lng: lng / polygons.length
-        };
-    };
-
-    const handleMarkerClick = (geofence: GeofenceProps) => {
-        setSelectedGeofence(geofence);
-    };
-
-    const closeModal = () => {
-        setSelectedGeofence(null);
-    };
-
-    return (
-        <LoadScript googleMapsApiKey='AIzaSyDFuE_-2cXmeOlWIW3AvirBif1UqvMyn-U'
-        libraries={['places']}
-        >
-            
-            <GoogleMap
-                center={searchLocation || defaultCenter}
-                zoom={zoom}
-                mapContainerClassName='rounded-b-lg focus:outline-none relative'
-                mapContainerStyle={mapStyles}
-                onClick={handleMapClick}
+  return (
+    <div>
+      <GoogleMap
+        center={center || { lat: 21.4905, lng: -104.88508 }}
+        zoom={zoom || 14}
+        mapContainerStyle={{ height: height, width: width }}
+        options={{
+          fullscreenControl: false,
+          disableDefaultUI: true,
+          zoomControl: true,
+          disableDoubleClickZoom: true,
+          mapTypeControl: true,
+          mapTypeControlOptions: {
+            style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+          },
+        }}
+      >
+        {mode === "view" && singlePolygon && (
+          <Polygon
+            path={singlePolygon.polygons}
+            options={{
+              fillColor: singlePolygon.color,
+              fillOpacity: 0.35,
+              strokeColor: singlePolygon.color,
+              strokeOpacity: 0.8,
+              strokeWeight: 2,
+            }}
+          />
+        )}
+        {mode === "view" &&
+          dynamicRates &&
+          dynamicRates!.map((rate, index) => (
+            <>
+              <Polygon
+                key={index}
+                path={rate.polygons}
                 options={{
-                    zoomControl: true,
-                    controlSize: 20,
+                  fillColor: rate.color,
+                  fillOpacity: 0.35,
+                  strokeColor: rate.color,
+                  strokeOpacity: 0.8,
+                  strokeWeight: 2,
                 }}
-            >
-                {geofences.map((geofence) => (
-                    geofence.polygons && geofence.polygons.length > 0 && (
-                        <React.Fragment key={geofence.id}>
-                            <Polygon
-                                path={geofence.polygons}
-                                options={{
-                                    fillColor: geofence.geofenceColor,
-                                    fillOpacity: mode === 'view' ? 0.2 : 0.5,
-                                    strokeColor: geofence.geofenceColor,
-                                    strokeOpacity: 1,
-                                    strokeWeight: 4,
-                                    editable: mode === 'edit',
-                                }}
-                            />
-                            {mode === 'view' && (
-                                <Marker
-                                    position={calculatePolygonCenter(geofence.polygons)}
-                                    label={{
-                                        text: geofence.geofenceName,
-                                        color: '#ffffff',
-                                        fontWeight: 'bold',
-                                        fontSize: '14px',
-                                        className: `geofence-label geofence-label-${geofence.id} p-2 rounded-lg text-center h-[36px] mt-2`,
-                                    }}
-                                    onClick={() => handleMarkerClick(geofence)}
-                                />
-                            )}
-                            {selectedGeofence && selectedGeofence.id === geofence.id && (
-                                <div className='absolute right-8 top-[20px]'>
-                                    <GeofenceModal geofence={selectedGeofence} onClose={closeModal} />
-                                </div>
-                            )}
-                        </React.Fragment>
-                    )
-                ))}
-                {mode === 'new' && (
-                    <>
-                        <Polygon
-                            path={currentPolygon}
-                            options={{
-                                fillColor: '#F39C12',
-                                fillOpacity: 0.5,
-                                strokeColor: '#F39C12',
-                                strokeOpacity: 1,
-                                strokeWeight: 4,
-                                editable: true,
-                            }}
-                        />
-                        {
-                            currentPolygon.length > 0 && (
-                                <button
-                                    className='absolute right-2 top-8 bg-white text-black p-1 rounded-lg flex  items-center shadow-md z-10'
-                                    onClick={handlePolygonComplete}
-                                >
-                                   <IconPolygon size={20} />
-                                   <p className='text-[12px] font-bold'>Completar</p>
-                                </button>
-                            )
-                        }
-                    </>
-                )}
-                {createdPolygon && createdPolygon.length > 0 && (
-                    <Polygon
-                        path={createdPolygon}
-                        options={{
-                            fillColor: '#F39C12',
-                            fillOpacity: 0.5,
-                            strokeColor: '#F39C12',
-                            strokeOpacity: 1,
-                            strokeWeight: 4,
-                        }}
-                    />
-                )}
-            </GoogleMap>
-        </LoadScript>
-    );
-};
+              />
+              <OverlayView
+                position={getPolygonCenter(rate.polygons!)}
+                mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+              >
+                <>
+                  <div
+                    onClick={() => setSelectedGeofence(rate)}
+                    className="truncate"
+                    style={{
+                      backgroundColor: rate.color,
+                      color: "white",
+                      padding: "5px 10px",
+                      borderRadius: "5px",
+                      fontSize: "14px",
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      whiteSpace: "nowrap",
+                      display: "inline-block",
+                    }}
+                  >
+                    <span>{rate.name}</span>
+                  </div>
+                </>
+              </OverlayView>
+              {selectedGeofence && (
+                <OverlayView
+                  position={getModalCenter(selectedGeofence.polygons!)}
+                  mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+                >
+                  <GeofenceModal
+                    dynamicRate={selectedGeofence}
+                    onClose={() => setSelectedGeofence(null)}
+                  />
+                </OverlayView>
+              )}
+            </>
+          ))}
+        {mode === "new" && (
+          <DrawingManager
+            options={{
+              drawingControl: true,
+              drawingControlOptions: {
+                drawingModes: [google.maps.drawing.OverlayType.POLYGON],
+              },
+              polygonOptions: {
+                fillColor: "orange",
+                fillOpacity: 0.35,
+                strokeWeight: 2,
+                strokeColor: "orange",
+                clickable: true,
+                editable: true,
+                zIndex: 1,
+              },
+            }}
+            onOverlayComplete={handleOverlayComplete}
+          />
+        )}
+        {mode === "preview" && createdPolygon && (
+          <Polygon
+            path={createdPolygon}
+            options={{
+              fillColor: "orange",
+              fillOpacity: 0.35,
+              strokeWeight: 2,
+              strokeColor: "orange",
+              zIndex: 1,
+            }}
+          />
+        )}
 
-export default Map;
+        {mode === "edit" && singlePolygon && (
+          <Polygon
+            path={singlePolygon.polygons}
+            options={{
+              fillColor: singlePolygon.color,
+              fillOpacity: 0.35,
+              strokeColor: singlePolygon.color,
+              strokeOpacity: 0.8,
+              strokeWeight: 2,
+              clickable: true,
+              editable: true, // Permitir edición
+              zIndex: 1,
+            }}
+            onLoad={(polygon) => {
+              polygonRef.current = polygon; // Guardamos la referencia del polígono
+            }}
+            // Evento cuando se modifica el polígono (añadir, quitar o mover puntos)
+            onMouseUp={() => {
+              if (polygonRef.current) {
+                const updatedPaths = polygonRef.current
+                  .getPath()
+                  .getArray()
+                  .map((point) => ({
+                    lat: point.lat(),
+                    lng: point.lng(),
+                  }));
+                setNewPaths(updatedPaths);
+                onPolygonUpdate && onPolygonUpdate(updatedPaths);
+                console.log("Updated Polygon Paths (onMouseUp):", updatedPaths);
+              }
+            }}
+            onDragEnd={() => {
+              if (polygonRef.current) {
+                const updatedPaths = polygonRef.current
+                  .getPath()
+                  .getArray()
+                  .map((point) => ({
+                    lat: point.lat(),
+                    lng: point.lng(),
+                  }));
+                setNewPaths(updatedPaths);
+                onPolygonUpdate && onPolygonUpdate(updatedPaths);
+                console.log("Updated Polygon Paths (onDragEnd):", updatedPaths);
+              }
+            }}
+          />
+        )}
+      </GoogleMap>
+    </div>
+  );
+}

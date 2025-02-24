@@ -1,9 +1,9 @@
 {
-  "geofences": [
+  "dynamicRates": [
     {
-      "id":1,
-      "geofenceName": "Ciudad del Valle",
-      "geofenceLocation": "Location 1",
+      "id": 1,
+      "name": "Ciudad del Valle",
+      "ubicationName": "Location 1",
       "initialRate": 10,
       "dynamicRateEnabled": true,
       "dynamicRateMinPrice": 5,
@@ -58,7 +58,7 @@
         "endHour": 11,
         "endMinute": 59,
         "endPeriod": "PM"
-    }
+      }
     },
     {
       "geofenceId": "2",
@@ -98,7 +98,7 @@
         "endHour": 11,
         "endMinute": 59,
         "endPeriod": "PM"
-    }
+      }
     },
     {
       "geofenceId": "3",
@@ -138,7 +138,7 @@
         "endHour": 11,
         "endMinute": 59,
         "endPeriod": "PM"
-    }
+      }
     },
     {
       "geofenceId": "4",
@@ -178,7 +178,7 @@
         "endHour": 11,
         "endMinute": 59,
         "endPeriod": "PM"
-    }
+      }
     }
   ]
 }

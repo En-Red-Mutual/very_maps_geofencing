@@ -12,18 +12,22 @@ export default meta;
 
 export const Default = {
     args:{
-        geofences: [{
+        center:{ lat: 21.4905, lng: -104.88508 },
+        width: "100%",
+        height: "100%",
+        zoom: 14,
+        dynamicRate: {
             "id": "1",
-            "geofenceName": "Ciudad del Valle 1",
-            "geofenceLocation": "Ciudad del Valle",
+            "name": "Ciudad del Valle 1",
+            "ubicationName": "Ciudad del Valle",
             "initialRate": 48,
-            "dynamicRateEnabled": true,
-            "dynamicRateMinPrice": 10,
-            "dynamicRateMaxDistance": 60,
-            "rateForHour": 10,
-            "onDemandEnabled": true,
-            "geofenceColor": "#e600fa",
-            "priorityZone": 1,
+            "isDynamic": true,
+            "pricePerKilometer": 10,
+            "kilometers": 60,
+            "priceOnDemand": 10,
+            "isDemand": true,
+            "color": "#e600fa",
+            "priority": 'Principal',
             "polygons": [{
                 "lat": 21.49819581004538,
                 "lng": -104.88596400671796
@@ -52,14 +56,8 @@ export const Default = {
                 "lat": 21.498195810033664,
                 "lng": -104.88588877838556
             }],
-            "schedule": {
-                "startHour": 11,
-                "startMinute": 0,
-                "startPeriod": "AM",
-                "endHour": 11,
-                "endMinute": 59,
-                "endPeriod": "PM"
-            }
-        }],
+            "startHour": "9:00 PM",
+            "endHour": "5:00 AM",
+        },
     }
 };

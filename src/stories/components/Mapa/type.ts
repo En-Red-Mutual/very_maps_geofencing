@@ -1,35 +1,36 @@
-export type GeofenceProps = {
+export type DynamicRateProps = {
     id: number | string;
-    geofenceName: string;
-    geofenceColor: string;
-    geofenceLocation?: string;
-    dynamicRateEnabled?: boolean;
-    rateForHour?: number;
-    onDemandEnabled?: boolean;
-    priorityZone?: number;
-    initialRate?: number;
-    dynamicRateMinPrice?: number;
-    dynamicRateMaxDistance?: number;
-    on?: boolean;
+    name: string;
+    ubicationName: string;
+    ubicationCoordinates: google.maps.LatLngLiteral;
+    initialRate: number;
+    isDynamic: boolean;
+    pricePerKilometer: number;
+    kilometers: number;
+    startHour: string;
+    endHour: string;
+    priceOnDemand: number;
+    isDemand:boolean;
+    color:string;
+    priority: 'Principal' | 'Secundario' | 'Terciario';
+    polygons?: google.maps.LatLngLiteral[];
+    isActivate?: boolean;
+}
+export type PolygonSingle = {
+    color: string;
     polygons: google.maps.LatLngLiteral[];
-    schedule?: {
-        startHour: number;
-        startMinute: number;
-        startPeriod: 'AM' | 'PM';
-        endHour: number;
-        endMinute: number;
-        endPeriod: 'AM' | 'PM';
-    };
 }
 
-
 export type MapProps  = {
-    geofences?: GeofenceProps[];
-    mode?: 'view' | 'edit' | 'new';
+    dynamicRates?: DynamicRateProps[];
+    singlePolygon?: PolygonSingle;
+    mode?: 'view' | 'edit' | 'new' | 'preview';
     height?: string;
     width?: string;
     zoom?: number;
-    searchQuery?: google.maps.places.PlaceResult | null;
+    center?: google.maps.LatLngLiteral;
     onPolygonComplete?: (polygons: google.maps.LatLngLiteral[]) => void;
+    onPolygonUpdate?: (polygons: google.maps.LatLngLiteral[]) => void;
     createdPolygon?: google.maps.LatLngLiteral[];
+    linkEdit?:string;
 }

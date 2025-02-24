@@ -1,6 +1,6 @@
-import { GeofenceProps } from "../Mapa/type";
+import { DynamicRateProps } from "../Mapa/type";
 
 export type GeofenceModalProps = {
-    geofence: GeofenceProps;
+    dynamicRate: DynamicRateProps;
     onClose: () => void;
 }
