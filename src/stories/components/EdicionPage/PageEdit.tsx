@@ -11,8 +11,8 @@ import {
 import { useEffect, useState } from "react";
 import Switch from "../Switch/Switch";
 import LocationSearch from "../InputSearch/LocationSearch";
-import { DynamicRateProps } from "../Mapa/type";
-import GeofenceMap from "../Mapa/Map";
+import { DynamicRateProps } from "../GeofenceMap/type";
+import GeofenceMap from "../GeofenceMap/GeofenceMap";
 import React from "react";
 
 interface PageEditProps {

@@ -6,8 +6,8 @@ import {
   IconTrash,
 } from "@tabler/icons-react";
 import Switch from "../Switch/Switch";
-import Map from "../Mapa/Map"; // Asegúrate de ajustar la importación según la ubicación real de tu componente Map
-import { DynamicRateProps } from "../Mapa/type";
+import Map from "../GeofenceMap/GeofenceMap"; // Asegúrate de ajustar la importación según la ubicación real de tu componente Map
+import { DynamicRateProps } from "../GeofenceMap/type";
 
 interface ListaPageProps {
   dynamicRates: DynamicRateProps[];

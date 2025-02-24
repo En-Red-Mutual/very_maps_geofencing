@@ -1,4 +1,4 @@
-import GeofenceMap from "../Mapa/Map";
+import GeofenceMap from "../GeofenceMap/GeofenceMap";
 import React from "react";
 interface CreatePolygonProps {
   center: google.maps.LatLngLiteral;

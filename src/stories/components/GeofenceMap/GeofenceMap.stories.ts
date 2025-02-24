@@ -1,5 +1,5 @@
 import {Meta} from '@storybook/react';
-import GeofenceMap from './Map';
+import GeofenceMap from './GeofenceMap';
 const meta = {
     title: "Molecules/Map",
     component:GeofenceMap,
