@@ -4,7 +4,7 @@ const pkgJson = JSON.parse(fs.readFileSync("./package.json", "utf-8"));
 const peerDependencies = Object.keys(pkgJson?.peerDependencies || {});
 export default defineConfig({
   entry: ["src/index.ts"],
-  format: ["cjs"],
+  format: ["cjs","esm"],
   clean: true,
   sourcemap: true,
   splitting: false,
@@ -18,4 +18,10 @@ export default defineConfig({
   cjsInterop: true,
   target: "esnext",
   external: peerDependencies,
+  esbuildOptions(options){
+    options.platform ="browser";
+    options.banner = {
+      js: `"use client";`,
+    }
+  }
 });

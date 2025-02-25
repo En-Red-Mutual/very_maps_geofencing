@@ -5,7 +5,7 @@ const meta = {
     component:GeofenceMap,
     args:{
     },
-} as Meta<typeof Map>;
+} as Meta<typeof GeofenceMap>;
 
 export default meta;
 

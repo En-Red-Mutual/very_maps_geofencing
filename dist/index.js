@@ -1,13 +1,6 @@
-'use strict';
-
-var React = require('react');
-var clsx = require('clsx');
-var api = require('@react-google-maps/api');
-
-function _interopDefault (e) { return e && e.__esModule ? e : { default: e }; }
-
-var React__default = /*#__PURE__*/_interopDefault(React);
-var clsx__default = /*#__PURE__*/_interopDefault(clsx);
+import React, { forwardRef, createElement, useState, useRef } from 'react';
+import clsx from 'clsx';
+import { useLoadScript, GoogleMap, Polygon, OverlayView, DrawingManager } from '@react-google-maps/api';
 
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __esm = (fn, res) => function __init() {
@@ -46,8 +39,8 @@ var init_createReactComponent = __esm({
   "node_modules/@tabler/icons-react/dist/esm/createReactComponent.mjs"() {
     init_defaultAttributes();
     createReactComponent = (type, iconName, iconNamePascal, iconNode) => {
-      const Component = React.forwardRef(
-        ({ color = "currentColor", size = 24, stroke = 2, title, className, children, ...rest }, ref) => React.createElement(
+      const Component = forwardRef(
+        ({ color = "currentColor", size = 24, stroke = 2, title, className, children, ...rest }, ref) => createElement(
           "svg",
           {
             ref,
@@ -64,8 +57,8 @@ var init_createReactComponent = __esm({
             ...rest
           },
           [
-            title && React.createElement("title", { key: "svg-title" }, title),
-            ...iconNode.map(([tag, attrs]) => React.createElement(tag, attrs)),
+            title && createElement("title", { key: "svg-title" }, title),
+            ...iconNode.map(([tag, attrs]) => createElement(tag, attrs)),
             ...Array.isArray(children) ? children : [children]
           ]
         )
@@ -108,10 +101,10 @@ init_IconEdit();
 init_IconX();
 init_IconMapPinFilled();
 var GeofenceModal = ({ dynamicRate, onClose }) => {
-  return /* @__PURE__ */ React__default.default.createElement("article", { className: clsx__default.default("w-[200px]", "flex", "flex-col", "gap-2") }, /* @__PURE__ */ React__default.default.createElement(
+  return /* @__PURE__ */ React.createElement("article", { className: clsx("w-[200px]", "flex", "flex-col", "gap-2") }, /* @__PURE__ */ React.createElement(
     "div",
     {
-      className: clsx__default.default(
+      className: clsx(
         "bg-black",
         "text-white",
         "rounded-[84px]",
@@ -119,12 +112,12 @@ var GeofenceModal = ({ dynamicRate, onClose }) => {
         "py-2"
       )
     },
-    /* @__PURE__ */ React__default.default.createElement("h2", { className: clsx__default.default("font-bold", "text-[13px]") }, "Nombre"),
-    /* @__PURE__ */ React__default.default.createElement("p", { className: clsx__default.default("text-[12px]") }, dynamicRate.name)
-  ), /* @__PURE__ */ React__default.default.createElement(
+    /* @__PURE__ */ React.createElement("h2", { className: clsx("font-bold", "text-[13px]") }, "Nombre"),
+    /* @__PURE__ */ React.createElement("p", { className: clsx("text-[12px]") }, dynamicRate.name)
+  ), /* @__PURE__ */ React.createElement(
     "div",
     {
-      className: clsx__default.default(
+      className: clsx(
         "flex",
         "gap-4",
         "py-1",
@@ -137,12 +130,12 @@ var GeofenceModal = ({ dynamicRate, onClose }) => {
         "items-center"
       )
     },
-    /* @__PURE__ */ React__default.default.createElement(IconMapPinFilled, { size: 22 }),
-    /* @__PURE__ */ React__default.default.createElement("p", { className: clsx__default.default("text-[14px]") }, dynamicRate.ubicationName)
-  ), /* @__PURE__ */ React__default.default.createElement(
+    /* @__PURE__ */ React.createElement(IconMapPinFilled, { size: 22 }),
+    /* @__PURE__ */ React.createElement("p", { className: clsx("text-[14px]") }, dynamicRate.ubicationName)
+  ), /* @__PURE__ */ React.createElement(
     "div",
     {
-      className: clsx__default.default(
+      className: clsx(
         "bg-black",
         "rounded-2xl",
         "py-2",
@@ -150,12 +143,12 @@ var GeofenceModal = ({ dynamicRate, onClose }) => {
         "text-center"
       )
     },
-    /* @__PURE__ */ React__default.default.createElement("h2", { className: clsx__default.default("font-bold", "text-[13px]") }, "Tarifa inicial"),
-    /* @__PURE__ */ React__default.default.createElement("p", { className: clsx__default.default("text-[12px]") }, "$", dynamicRate.initialRate, " MXN km")
-  ), /* @__PURE__ */ React__default.default.createElement(
+    /* @__PURE__ */ React.createElement("h2", { className: clsx("font-bold", "text-[13px]") }, "Tarifa inicial"),
+    /* @__PURE__ */ React.createElement("p", { className: clsx("text-[12px]") }, "$", dynamicRate.initialRate, " MXN km")
+  ), /* @__PURE__ */ React.createElement(
     "div",
     {
-      className: clsx__default.default(
+      className: clsx(
         "bg-black",
         "py-2",
         "text-white",
@@ -166,13 +159,13 @@ var GeofenceModal = ({ dynamicRate, onClose }) => {
         "gap-1"
       )
     },
-    /* @__PURE__ */ React__default.default.createElement("h2", { className: clsx__default.default("font-bold", "text-[13px]") }, "Tarifa din\xE1mica"),
-    /* @__PURE__ */ React__default.default.createElement("p", { className: clsx__default.default("text-[12px]") }, "$", dynamicRate.pricePerKilometer, " MXN ", /* @__PURE__ */ React__default.default.createElement("span", null, "->"), " ", dynamicRate.kilometers, " km"),
-    /* @__PURE__ */ React__default.default.createElement("p", { className: clsx__default.default("text-[12px]") }, "$50 MXN - 9PM a 5AM")
-  ), /* @__PURE__ */ React__default.default.createElement(
+    /* @__PURE__ */ React.createElement("h2", { className: clsx("font-bold", "text-[13px]") }, "Tarifa din\xE1mica"),
+    /* @__PURE__ */ React.createElement("p", { className: clsx("text-[12px]") }, "$", dynamicRate.pricePerKilometer, " MXN ", /* @__PURE__ */ React.createElement("span", null, "->"), " ", dynamicRate.kilometers, " km"),
+    /* @__PURE__ */ React.createElement("p", { className: clsx("text-[12px]") }, "$50 MXN - 9PM a 5AM")
+  ), /* @__PURE__ */ React.createElement(
     "div",
     {
-      className: clsx__default.default(
+      className: clsx(
         "flex",
         "gap-1",
         "justify-between",
@@ -180,10 +173,10 @@ var GeofenceModal = ({ dynamicRate, onClose }) => {
         "w-full"
       )
     },
-    /* @__PURE__ */ React__default.default.createElement(
+    /* @__PURE__ */ React.createElement(
       "div",
       {
-        className: clsx__default.default(
+        className: clsx(
           "bg-black",
           "flex",
           "items-center",
@@ -193,10 +186,10 @@ var GeofenceModal = ({ dynamicRate, onClose }) => {
         )
       }
     ),
-    /* @__PURE__ */ React__default.default.createElement(
+    /* @__PURE__ */ React.createElement(
       "div",
       {
-        className: clsx__default.default(
+        className: clsx(
           "bg-black",
           "p-1",
           "rounded-full",
@@ -204,18 +197,18 @@ var GeofenceModal = ({ dynamicRate, onClose }) => {
           "items-center"
         )
       },
-      /* @__PURE__ */ React__default.default.createElement(
+      /* @__PURE__ */ React.createElement(
         "div",
         {
-          className: clsx__default.default("w-[30px]", "h-[30px]", "rounded-full"),
+          className: clsx("w-[30px]", "h-[30px]", "rounded-full"),
           style: { backgroundColor: dynamicRate.color }
         }
       )
     ),
-    /* @__PURE__ */ React__default.default.createElement(
+    /* @__PURE__ */ React.createElement(
       "button",
       {
-        className: clsx__default.default(
+        className: clsx(
           "bg-black",
           "w-[40px]",
           "text-white",
@@ -225,12 +218,12 @@ var GeofenceModal = ({ dynamicRate, onClose }) => {
           "rounded-full"
         )
       },
-      /* @__PURE__ */ React__default.default.createElement(IconEdit, { size: 24 })
+      /* @__PURE__ */ React.createElement(IconEdit, { size: 24 })
     ),
-    /* @__PURE__ */ React__default.default.createElement(
+    /* @__PURE__ */ React.createElement(
       "button",
       {
-        className: clsx__default.default(
+        className: clsx(
           "bg-gray-900/60",
           "w-[40px]",
           "rounded-full",
@@ -241,7 +234,7 @@ var GeofenceModal = ({ dynamicRate, onClose }) => {
         ),
         onClick: onClose
       },
-      /* @__PURE__ */ React__default.default.createElement(IconX, null)
+      /* @__PURE__ */ React.createElement(IconX, null)
     )
   ));
 };
@@ -259,14 +252,14 @@ function GeofenceMap({
   width,
   zoom
 }) {
-  const [selectedGeofence, setSelectedGeofence] = React.useState(null);
-  const [newPaths, setNewPaths] = React.useState([]);
-  const polygonRef = React.useRef(null);
-  const { isLoaded } = api.useLoadScript({
+  const [selectedGeofence, setSelectedGeofence] = useState(null);
+  const [newPaths, setNewPaths] = useState([]);
+  const polygonRef = useRef(null);
+  const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyDZ2gn0lNxRo4x6fsg6ne9oNoMT9mDMDAo",
     libraries
   });
-  if (!isLoaded) return /* @__PURE__ */ React__default.default.createElement("div", null, "Loading Map...");
+  if (!isLoaded) return /* @__PURE__ */ React.createElement("div", null, "Loading Map...");
   const getPolygonPaths = (polygon) => {
     const paths = polygon.getPath().getArray().map((point) => ({ lat: point.lat(), lng: point.lng() }));
     setNewPaths(paths);
@@ -319,8 +312,8 @@ function GeofenceMap({
     };
   };
   console.log("newPaths", newPaths);
-  return /* @__PURE__ */ React__default.default.createElement("div", null, /* @__PURE__ */ React__default.default.createElement(
-    api.GoogleMap,
+  return /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement(
+    GoogleMap,
     {
       center: center || { lat: 21.4905, lng: -104.88508 },
       zoom: zoom || 14,
@@ -336,8 +329,8 @@ function GeofenceMap({
         }
       }
     },
-    mode === "view" && singlePolygon && /* @__PURE__ */ React__default.default.createElement(
-      api.Polygon,
+    mode === "view" && singlePolygon && /* @__PURE__ */ React.createElement(
+      Polygon,
       {
         path: singlePolygon.polygons,
         options: {
@@ -349,8 +342,8 @@ function GeofenceMap({
         }
       }
     ),
-    mode === "view" && dynamicRates && dynamicRates.map((rate, index) => /* @__PURE__ */ React__default.default.createElement(React__default.default.Fragment, null, /* @__PURE__ */ React__default.default.createElement(
-      api.Polygon,
+    mode === "view" && dynamicRates && dynamicRates.map((rate, index) => /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(
+      Polygon,
       {
         key: index,
         path: rate.polygons,
@@ -362,13 +355,13 @@ function GeofenceMap({
           strokeWeight: 2
         }
       }
-    ), /* @__PURE__ */ React__default.default.createElement(
-      api.OverlayView,
+    ), /* @__PURE__ */ React.createElement(
+      OverlayView,
       {
         position: getPolygonCenter(rate.polygons),
-        mapPaneName: api.OverlayView.OVERLAY_MOUSE_TARGET
+        mapPaneName: OverlayView.OVERLAY_MOUSE_TARGET
       },
-      /* @__PURE__ */ React__default.default.createElement(React__default.default.Fragment, null, /* @__PURE__ */ React__default.default.createElement(
+      /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(
         "div",
         {
           onClick: () => setSelectedGeofence(rate),
@@ -385,15 +378,15 @@ function GeofenceMap({
             display: "inline-block"
           }
         },
-        /* @__PURE__ */ React__default.default.createElement("span", null, rate.name)
+        /* @__PURE__ */ React.createElement("span", null, rate.name)
       ))
-    ), selectedGeofence && /* @__PURE__ */ React__default.default.createElement(
-      api.OverlayView,
+    ), selectedGeofence && /* @__PURE__ */ React.createElement(
+      OverlayView,
       {
         position: getModalCenter(selectedGeofence.polygons),
-        mapPaneName: api.OverlayView.OVERLAY_MOUSE_TARGET
+        mapPaneName: OverlayView.OVERLAY_MOUSE_TARGET
       },
-      /* @__PURE__ */ React__default.default.createElement(
+      /* @__PURE__ */ React.createElement(
         GeofenceModal_default,
         {
           dynamicRate: selectedGeofence,
@@ -401,8 +394,8 @@ function GeofenceMap({
         }
       )
     ))),
-    mode === "new" && /* @__PURE__ */ React__default.default.createElement(
-      api.DrawingManager,
+    mode === "new" && /* @__PURE__ */ React.createElement(
+      DrawingManager,
       {
         options: {
           drawingControl: true,
@@ -422,8 +415,8 @@ function GeofenceMap({
         onOverlayComplete: handleOverlayComplete
       }
     ),
-    mode === "preview" && createdPolygon && /* @__PURE__ */ React__default.default.createElement(
-      api.Polygon,
+    mode === "preview" && createdPolygon && /* @__PURE__ */ React.createElement(
+      Polygon,
       {
         path: createdPolygon,
         options: {
@@ -435,8 +428,8 @@ function GeofenceMap({
         }
       }
     ),
-    mode === "edit" && singlePolygon && /* @__PURE__ */ React__default.default.createElement(
-      api.Polygon,
+    mode === "edit" && singlePolygon && /* @__PURE__ */ React.createElement(
+      Polygon,
       {
         path: singlePolygon.polygons,
         options: {
@@ -530,7 +523,6 @@ function GeofenceMap({
    *)
 */
 
-exports.GeofenceMap = GeofenceMap;
-exports.GeofenceModal = GeofenceModal_default;
-//# sourceMappingURL=index.cjs.map
-//# sourceMappingURL=index.cjs.map
+export { GeofenceMap, GeofenceModal_default as GeofenceModal };
+//# sourceMappingURL=index.js.map
+//# sourceMappingURL=index.js.map
