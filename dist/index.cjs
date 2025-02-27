@@ -1,13 +1,11 @@
 'use strict';
 
 var React = require('react');
-var clsx = require('clsx');
 var api = require('@react-google-maps/api');
 
 function _interopDefault (e) { return e && e.__esModule ? e : { default: e }; }
 
 var React__default = /*#__PURE__*/_interopDefault(React);
-var clsx__default = /*#__PURE__*/_interopDefault(clsx);
 
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __esm = (fn, res) => function __init() {
@@ -107,143 +105,164 @@ var init_IconMapPinFilled = __esm({
 init_IconEdit();
 init_IconX();
 init_IconMapPinFilled();
+
+// src/stories/components/GeofenceModal/GeofenceModal.tsx
 var GeofenceModal = ({ dynamicRate, onClose }) => {
-  return /* @__PURE__ */ React__default.default.createElement("article", { className: clsx__default.default("w-[200px]", "flex", "flex-col", "gap-2") }, /* @__PURE__ */ React__default.default.createElement(
-    "div",
+  return /* @__PURE__ */ React__default.default.createElement(
+    "article",
     {
-      className: clsx__default.default(
-        "bg-black",
-        "text-white",
-        "rounded-[84px]",
-        "text-center",
-        "py-2"
-      )
-    },
-    /* @__PURE__ */ React__default.default.createElement("h2", { className: clsx__default.default("font-bold", "text-[13px]") }, "Nombre"),
-    /* @__PURE__ */ React__default.default.createElement("p", { className: clsx__default.default("text-[12px]") }, dynamicRate.name)
-  ), /* @__PURE__ */ React__default.default.createElement(
-    "div",
-    {
-      className: clsx__default.default(
-        "flex",
-        "gap-4",
-        "py-1",
-        "justify-center",
-        "bg-black",
-        "text-white",
-        "text-[13px]",
-        "rounded-2xl",
-        "text-center",
-        "items-center"
-      )
-    },
-    /* @__PURE__ */ React__default.default.createElement(IconMapPinFilled, { size: 22 }),
-    /* @__PURE__ */ React__default.default.createElement("p", { className: clsx__default.default("text-[14px]") }, dynamicRate.ubicationName)
-  ), /* @__PURE__ */ React__default.default.createElement(
-    "div",
-    {
-      className: clsx__default.default(
-        "bg-black",
-        "rounded-2xl",
-        "py-2",
-        "text-white",
-        "text-center"
-      )
-    },
-    /* @__PURE__ */ React__default.default.createElement("h2", { className: clsx__default.default("font-bold", "text-[13px]") }, "Tarifa inicial"),
-    /* @__PURE__ */ React__default.default.createElement("p", { className: clsx__default.default("text-[12px]") }, "$", dynamicRate.initialRate, " MXN km")
-  ), /* @__PURE__ */ React__default.default.createElement(
-    "div",
-    {
-      className: clsx__default.default(
-        "bg-black",
-        "py-2",
-        "text-white",
-        "rounded-[1.5rem]",
-        "text-center",
-        "flex",
-        "flex-col",
-        "gap-1"
-      )
-    },
-    /* @__PURE__ */ React__default.default.createElement("h2", { className: clsx__default.default("font-bold", "text-[13px]") }, "Tarifa din\xE1mica"),
-    /* @__PURE__ */ React__default.default.createElement("p", { className: clsx__default.default("text-[12px]") }, "$", dynamicRate.pricePerKilometer, " MXN ", /* @__PURE__ */ React__default.default.createElement("span", null, "->"), " ", dynamicRate.kilometers, " km"),
-    /* @__PURE__ */ React__default.default.createElement("p", { className: clsx__default.default("text-[12px]") }, "$50 MXN - 9PM a 5AM")
-  ), /* @__PURE__ */ React__default.default.createElement(
-    "div",
-    {
-      className: clsx__default.default(
-        "flex",
-        "gap-1",
-        "justify-between",
-        "h-[40px]",
-        "w-full"
-      )
+      style: {
+        width: "200px",
+        display: "flex",
+        flexDirection: "column",
+        gap: "4px"
+      }
     },
     /* @__PURE__ */ React__default.default.createElement(
       "div",
       {
-        className: clsx__default.default(
-          "bg-black",
-          "flex",
-          "items-center",
-          "justify-center",
-          "w-[60px]",
-          "rounded-[50px]"
-        )
-      }
+        style: {
+          backgroundColor: "black",
+          color: "white",
+          borderRadius: "84px",
+          textAlign: "center",
+          padding: "2px"
+        }
+      },
+      /* @__PURE__ */ React__default.default.createElement("h2", { style: { fontWeight: "bold", fontSize: "13px" } }, "Nombre"),
+      /* @__PURE__ */ React__default.default.createElement("p", { style: { fontSize: "12px" } }, dynamicRate.name)
     ),
     /* @__PURE__ */ React__default.default.createElement(
       "div",
       {
-        className: clsx__default.default(
-          "bg-black",
-          "p-1",
-          "rounded-full",
-          "flex",
-          "items-center"
-        )
+        style: {
+          display: "flex",
+          gap: "4px",
+          padding: "6px 0px",
+          justifyContent: "center",
+          backgroundColor: "black",
+          color: "white",
+          fontSize: "13px",
+          borderRadius: "84px",
+          textAlign: "center",
+          alignItems: "center"
+        }
+      },
+      /* @__PURE__ */ React__default.default.createElement(IconMapPinFilled, { size: 22 }),
+      /* @__PURE__ */ React__default.default.createElement("p", { style: { fontSize: "14px" } }, dynamicRate.ubicationName)
+    ),
+    /* @__PURE__ */ React__default.default.createElement(
+      "div",
+      {
+        style: {
+          backgroundColor: "black",
+          borderRadius: "2rem",
+          padding: "2px",
+          color: "white",
+          textAlign: "center"
+        }
+      },
+      /* @__PURE__ */ React__default.default.createElement("h2", { style: { fontWeight: "bold", fontSize: "13px" } }, "Tarifa inicial"),
+      /* @__PURE__ */ React__default.default.createElement("p", { style: { fontSize: "12px" } }, "$", dynamicRate.initialRate, " MXN km")
+    ),
+    /* @__PURE__ */ React__default.default.createElement(
+      "div",
+      {
+        style: {
+          backgroundColor: "black",
+          borderRadius: "2rem",
+          padding: "2px",
+          color: "white",
+          textAlign: "center",
+          display: "flex",
+          flexDirection: "column",
+          gap: "1px"
+        }
+      },
+      /* @__PURE__ */ React__default.default.createElement("h2", { style: { fontWeight: "bold", fontSize: "13px" } }, "Tarifa din\xE1mica"),
+      /* @__PURE__ */ React__default.default.createElement("p", { style: { fontSize: "12px" } }, "$", dynamicRate.pricePerKilometer, " MXN ", /* @__PURE__ */ React__default.default.createElement("span", null, "->"), " ", dynamicRate.kilometers, " km"),
+      /* @__PURE__ */ React__default.default.createElement("p", { style: { fontSize: "12px" } }, "$50 MXN - 9PM a 5AM")
+    ),
+    /* @__PURE__ */ React__default.default.createElement(
+      "div",
+      {
+        style: {
+          display: "flex",
+          gap: "1px",
+          justifyContent: "space-between",
+          height: "40px",
+          width: "100%"
+        }
       },
       /* @__PURE__ */ React__default.default.createElement(
         "div",
         {
-          className: clsx__default.default("w-[30px]", "h-[30px]", "rounded-full"),
-          style: { backgroundColor: dynamicRate.color }
+          style: {
+            backgroundColor: "black",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "60px",
+            borderRadius: "50px"
+          }
         }
-      )
-    ),
-    /* @__PURE__ */ React__default.default.createElement(
-      "button",
-      {
-        className: clsx__default.default(
-          "bg-black",
-          "w-[40px]",
-          "text-white",
-          "flex",
-          "items-center",
-          "justify-center",
-          "rounded-full"
+      ),
+      /* @__PURE__ */ React__default.default.createElement(
+        "div",
+        {
+          style: {
+            backgroundColor: "black",
+            display: "flex",
+            alignItems: "center",
+            borderRadius: "50px",
+            padding: "4px"
+          }
+        },
+        /* @__PURE__ */ React__default.default.createElement(
+          "div",
+          {
+            style: {
+              backgroundColor: dynamicRate.color,
+              width: "30px",
+              height: "30px",
+              borderRadius: "50%"
+            }
+          }
         )
-      },
-      /* @__PURE__ */ React__default.default.createElement(IconEdit, { size: 24 })
-    ),
-    /* @__PURE__ */ React__default.default.createElement(
-      "button",
-      {
-        className: clsx__default.default(
-          "bg-gray-900/60",
-          "w-[40px]",
-          "rounded-full",
-          "flex",
-          "items-center",
-          "justify-center",
-          "text-white"
-        ),
-        onClick: onClose
-      },
-      /* @__PURE__ */ React__default.default.createElement(IconX, null)
+      ),
+      /* @__PURE__ */ React__default.default.createElement(
+        "button",
+        {
+          style: {
+            backgroundColor: "black",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "40px",
+            borderRadius: "50px",
+            color: "white"
+          }
+        },
+        /* @__PURE__ */ React__default.default.createElement(IconEdit, { size: 24 })
+      ),
+      /* @__PURE__ */ React__default.default.createElement(
+        "button",
+        {
+          style: {
+            backgroundColor: "gray",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "40px",
+            borderRadius: "50px",
+            color: "white"
+          },
+          onClick: onClose
+        },
+        /* @__PURE__ */ React__default.default.createElement(IconX, null)
+      )
     )
-  ));
+  );
 };
 var GeofenceModal_default = GeofenceModal;
 var libraries = ["drawing", "places"];
@@ -262,6 +281,10 @@ function GeofenceMap({
   const [selectedGeofence, setSelectedGeofence] = React.useState(null);
   const [newPaths, setNewPaths] = React.useState([]);
   const polygonRef = React.useRef(null);
+  const [zoomLevel, setZoomLevel] = React.useState(zoom || 14);
+  const handleZoomChanged = (map) => {
+    setZoomLevel(map.getZoom());
+  };
   const { isLoaded } = api.useLoadScript({
     googleMapsApiKey: "AIzaSyDZ2gn0lNxRo4x6fsg6ne9oNoMT9mDMDAo",
     libraries
@@ -323,7 +346,10 @@ function GeofenceMap({
     api.GoogleMap,
     {
       center: center || { lat: 21.4905, lng: -104.88508 },
-      zoom: zoom || 14,
+      zoom: zoomLevel,
+      onLoad: (map) => {
+        map.addListener("zoom_changed", () => handleZoomChanged(map));
+      },
       mapContainerStyle: { height, width },
       options: {
         fullscreenControl: false,
@@ -362,7 +388,7 @@ function GeofenceMap({
           strokeWeight: 2
         }
       }
-    ), /* @__PURE__ */ React__default.default.createElement(
+    ), zoomLevel > 13 ? /* @__PURE__ */ React__default.default.createElement(
       api.OverlayView,
       {
         position: getPolygonCenter(rate.polygons),
@@ -387,6 +413,29 @@ function GeofenceMap({
         },
         /* @__PURE__ */ React__default.default.createElement("span", null, rate.name)
       ))
+    ) : index === 0 && /* @__PURE__ */ React__default.default.createElement(
+      api.OverlayView,
+      {
+        position: getPolygonCenter(rate.polygons),
+        mapPaneName: api.OverlayView.OVERLAY_MOUSE_TARGET
+      },
+      /* @__PURE__ */ React__default.default.createElement(
+        "div",
+        {
+          style: {
+            backgroundColor: "orange",
+            color: "white",
+            padding: "5px 10px",
+            borderRadius: "50px",
+            fontSize: "14px",
+            fontWeight: "bold",
+            textAlign: "center",
+            whiteSpace: "nowrap",
+            display: "inline-block"
+          }
+        },
+        `${dynamicRates.length}`
+      )
     ), selectedGeofence && /* @__PURE__ */ React__default.default.createElement(
       api.OverlayView,
       {

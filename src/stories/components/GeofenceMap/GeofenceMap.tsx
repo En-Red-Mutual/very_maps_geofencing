@@ -29,6 +29,11 @@ export default function GeofenceMap({
   const [newPaths, setNewPaths] = useState<google.maps.LatLngLiteral[]>([]);
 
   const polygonRef = useRef<google.maps.Polygon | null>(null);
+  const [zoomLevel, setZoomLevel] = useState(zoom || 14);
+
+  const handleZoomChanged = (map: google.maps.Map) => {
+    setZoomLevel(map.getZoom()!);
+  };
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyDZ2gn0lNxRo4x6fsg6ne9oNoMT9mDMDAo",
@@ -101,7 +106,10 @@ export default function GeofenceMap({
     <div>
       <GoogleMap
         center={center || { lat: 21.4905, lng: -104.88508 }}
-        zoom={zoom || 14}
+        zoom={zoomLevel}
+        onLoad={(map) => {
+          map.addListener("zoom_changed", () => handleZoomChanged(map));
+        }}
         mapContainerStyle={{ height: height, width: width }}
         options={{
           fullscreenControl: false,
@@ -141,30 +149,55 @@ export default function GeofenceMap({
                   strokeWeight: 2,
                 }}
               />
-              <OverlayView
-                position={getPolygonCenter(rate.polygons!)}
-                mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
-              >
-                <>
-                  <div
-                    onClick={() => setSelectedGeofence(rate)}
-                    className="truncate"
-                    style={{
-                      backgroundColor: rate.color,
-                      color: "white",
-                      padding: "5px 10px",
-                      borderRadius: "5px",
-                      fontSize: "14px",
-                      fontWeight: "bold",
-                      textAlign: "center",
-                      whiteSpace: "nowrap",
-                      display: "inline-block",
-                    }}
+              {zoomLevel > 13 ? (
+                <OverlayView
+                  position={getPolygonCenter(rate.polygons!)}
+                  mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+                >
+                  <>
+                    <div
+                      onClick={() => setSelectedGeofence(rate)}
+                      className="truncate"
+                      style={{
+                        backgroundColor: rate.color,
+                        color: "white",
+                        padding: "5px 10px",
+                        borderRadius: "5px",
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        whiteSpace: "nowrap",
+                        display: "inline-block",
+                      }}
+                    >
+                      <span>{rate.name}</span>
+                    </div>
+                  </>
+                </OverlayView>
+              ) : (
+                index === 0 && (
+                  <OverlayView
+                    position={getPolygonCenter(rate.polygons!)}
+                    mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
                   >
-                    <span>{rate.name}</span>
-                  </div>
-                </>
-              </OverlayView>
+                    <div
+                      style={{
+                        backgroundColor: "orange",
+                        color: "white",
+                        padding: "5px 10px",
+                        borderRadius: "50px",
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        whiteSpace: "nowrap",
+                        display: "inline-block",
+                      }}
+                    >
+                      {`${dynamicRates.length}`}
+                    </div>
+                  </OverlayView>
+                )
+              )}
               {selectedGeofence && (
                 <OverlayView
                   position={getModalCenter(selectedGeofence.polygons!)}

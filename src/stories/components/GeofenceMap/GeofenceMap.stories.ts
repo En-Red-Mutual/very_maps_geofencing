@@ -122,9 +122,11 @@ export const MultiPolygon = {
             ],
             isactivate:false
         }],
+
         center:{ lat: 21.4905, lng: -104.88508 },
         mode:"view",
         height: "100vh",
-        width: "150vh"
+        width: "150vh",
+        zoom: 10
     }
 };
