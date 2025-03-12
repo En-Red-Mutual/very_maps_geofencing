@@ -45,4 +45,15 @@ declare const GeofenceModal: ({ dynamicRate, onClose }: GeofenceModalProps) => R
 
 declare function GeofenceMap({ dynamicRates, mode, singlePolygon, center, onPolygonUpdate, onPolygonComplete, createdPolygon, height, width, zoom, }: MapProps): React.JSX.Element;
 
-export { type DynamicRateProps, GeofenceMap, GeofenceModal, type GeofenceModalProps, type MapProps };
+type ColorPickerProps = {
+    valueColor: string;
+    colors?: {
+        name: string;
+        color: string;
+    }[];
+    onChangeColor: (color: string) => void;
+};
+
+declare const ColorPicker: ({ valueColor, onChangeColor, colors, }: ColorPickerProps) => React.JSX.Element;
+
+export { ColorPicker, type ColorPickerProps, type DynamicRateProps, GeofenceMap, GeofenceModal, type GeofenceModalProps, type MapProps };

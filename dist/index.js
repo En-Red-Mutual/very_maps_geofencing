@@ -522,6 +522,129 @@ function GeofenceMap({
     )
   ));
 }
+var ColorPicker = ({
+  valueColor,
+  onChangeColor,
+  colors = [
+    { name: "Red", color: "red" },
+    { name: "Blue", color: "blue" },
+    { name: "Green", color: "green" },
+    { name: "Yellow", color: "yellow" },
+    { name: "Orange", color: "orange" },
+    { name: "Purple", color: "purple" },
+    { name: "Pink", color: "pink" }
+  ]
+}) => {
+  const [color, setColor] = React.useState(valueColor || "orange");
+  const [openModal, setOpenModal] = React.useState(false);
+  const convertEnglishToSpanishAnyColor = (color2) => {
+    console.log(color2);
+    const colorMap = {
+      red: "Rojo",
+      blue: "Azul",
+      green: "Verde",
+      yellow: "Amarillo",
+      orange: "Naranja",
+      purple: "P\xFArpura",
+      pink: "Rosa"
+    };
+    return colorMap[color2] || color2;
+  };
+  const handleHideModalClickOutside = (e) => {
+    if (e.target.id === "modal") {
+      setOpenModal(false);
+    }
+  };
+  const handleChangeColor = (color2) => {
+    setColor(color2);
+    onChangeColor ? onChangeColor(color2) : console.log("No function onChangeColor");
+  };
+  return /* @__PURE__ */ React.createElement(
+    "div",
+    {
+      id: "modal",
+      onClick: handleHideModalClickOutside,
+      style: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "start",
+        width: "25%",
+        gap: "10px"
+      }
+    },
+    /* @__PURE__ */ React.createElement(
+      "div",
+      {
+        style: {
+          backgroundColor: "lightgray",
+          width: "35px",
+          height: "35px",
+          borderRadius: "50%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center"
+        }
+      },
+      /* @__PURE__ */ React.createElement(
+        "div",
+        {
+          onClick: () => setOpenModal(!openModal),
+          style: {
+            backgroundColor: color,
+            width: "25px",
+            height: "25px",
+            borderRadius: "50%",
+            margin: "0 auto",
+            cursor: "pointer"
+          }
+        }
+      )
+    ),
+    /* @__PURE__ */ React.createElement(
+      "span",
+      {
+        style: {
+          fontWeight: "bold"
+        }
+      },
+      convertEnglishToSpanishAnyColor(color)
+    ),
+    openModal && /* @__PURE__ */ React.createElement(
+      "div",
+      {
+        style: {
+          position: "absolute",
+          backgroundColor: "black",
+          display: "flex",
+          flexDirection: "column",
+          zIndex: 1,
+          gap: "5px",
+          padding: "5px",
+          borderRadius: "5px"
+        }
+      },
+      colors.map((color2) => /* @__PURE__ */ React.createElement(
+        "div",
+        {
+          style: {
+            backgroundColor: color2.color,
+            width: "20px",
+            height: "20px",
+            borderRadius: "50%",
+            margin: "0 auto",
+            cursor: "pointer"
+          },
+          onClick: () => {
+            handleChangeColor(color2.color);
+            setOpenModal(false);
+          }
+        }
+      ))
+    )
+  );
+};
+var ColorPicker_default = ColorPicker;
 /*! Bundled license information:
 
 @tabler/icons-react/dist/esm/defaultAttributes.mjs:
@@ -573,6 +696,6 @@ function GeofenceMap({
    *)
 */
 
-export { GeofenceMap, GeofenceModal_default as GeofenceModal };
+export { ColorPicker_default as ColorPicker, GeofenceMap, GeofenceModal_default as GeofenceModal };
 //# sourceMappingURL=index.js.map
 //# sourceMappingURL=index.js.map
