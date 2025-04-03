@@ -14,7 +14,7 @@ type DynamicRateProps = {
     priceOnDemand: number;
     isDemand: boolean;
     color: string;
-    priority: 'Principal' | 'Secundario' | 'Terciario';
+    priority: 'principal' | 'secundario' | 'terciario' | 'ninguno';
     polygons?: google.maps.LatLngLiteral[];
     isActivate?: boolean;
 };
@@ -56,4 +56,17 @@ type ColorPickerProps = {
 
 declare const ColorPicker: ({ valueColor, onChangeColor, colors, }: ColorPickerProps) => React.JSX.Element;
 
-export { ColorPicker, type ColorPickerProps, type DynamicRateProps, GeofenceMap, GeofenceModal, type GeofenceModalProps, type MapProps };
+interface PlaceDetails {
+    name: string;
+    lat: number;
+    lng: number;
+}
+interface InputSearchProps {
+    value?: string;
+    onSelectLocation?: (place: PlaceDetails) => void;
+    CSS: [];
+}
+
+declare const InputSearch: React.FC<InputSearchProps>;
+
+export { ColorPicker, type ColorPickerProps, type DynamicRateProps, GeofenceMap, GeofenceModal, type GeofenceModalProps, InputSearch, type InputSearchProps, type MapProps, type PlaceDetails };

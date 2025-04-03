@@ -12,7 +12,7 @@ export type DynamicRateProps = {
     priceOnDemand: number;
     isDemand:boolean;
     color:string;
-    priority: 'Principal' | 'Secundario' | 'Terciario';
+    priority: 'principal' | 'secundario' | 'terciario' | 'ninguno';
     polygons?: google.maps.LatLngLiteral[];
     isActivate?: boolean;
 }

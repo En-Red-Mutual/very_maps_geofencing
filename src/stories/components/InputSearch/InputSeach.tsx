@@ -1,33 +1,52 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { LoadScript, Autocomplete } from "@react-google-maps/api";
+import { InputSearchProps, PlaceDetails } from "./type";
 
 const libraries = ["places"] as ["places"];
-interface PlaceDetails {
-  name: string;
-  lat: number;
-  lng: number;
-}
 
-const InputSearch = () => {
-  const [placeDetails, setPlaceDetails] = useState<PlaceDetails | null>(null);
+const InputSearch: React.FC<InputSearchProps> = ({
+  value = "",
+  onSelectLocation,
+  CSS = [],
+}) => {
+  const [inputValue, setInputValue] = useState<string>(value);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const customCSS = [];
+  if (CSS.length > 0) customCSS.push(CSS.join(" "));
+
+  // Mantener sincronizado el input con la prop externa "value"
+  useEffect(() => {
+    setInputValue(value);
+  }, [value]);
 
   const handlePlaceChanged = () => {
     const autocomplete = autocompleteRef.current;
-    if (autocomplete !== null) {
-      const place = autocomplete.getPlace();
-      if (place.geometry && place.geometry.location) {
-        const location = place.geometry.location;
-        const lat = location.lat();
-        const lng = location.lng();
-        const name = place.formatted_address || "Unknown place";
-        setPlaceDetails({
-          name,
-          lat,
-          lng,
-        });
-        console.log("Lugar seleccionado:", name, "Coordenadas:", lat, lng);
+    if (!autocomplete) return;
+
+    const place = autocomplete.getPlace();
+
+    if (place.geometry && place.geometry.location) {
+      const location = place.geometry.location;
+      const lat = location.lat();
+      const lng = location.lng();
+      const name = place.name || "Lugar desconocido";
+
+      const details: PlaceDetails = { name, lat, lng };
+
+      // Actualiza el valor del input
+      setInputValue(name);
+
+      // Envía al componente padre
+      if (onSelectLocation) {
+        onSelectLocation(details);
       }
+
+      console.log("📍 Lugar seleccionado:", details);
+    } else {
+      console.warn(
+        "⚠️ No se pudo obtener la ubicación del lugar seleccionado."
+      );
     }
   };
 
@@ -42,7 +61,11 @@ const InputSearch = () => {
           onPlaceChanged={handlePlaceChanged}
         >
           <input
+            ref={inputRef}
+            className={customCSS.join(" ")}
             type="text"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
             placeholder="Buscar lugar"
             style={{
               width: "100%",
@@ -54,20 +77,6 @@ const InputSearch = () => {
           />
         </Autocomplete>
       </LoadScript>
-
-      {placeDetails && (
-        <div style={{ marginTop: "20px" }}>
-          <p>
-            <strong>Nombre:</strong> {placeDetails.name}
-          </p>
-          <p>
-            <strong>Latitud:</strong> {placeDetails.lat}
-          </p>
-          <p>
-            <strong>Longitud:</strong> {placeDetails.lng}
-          </p>
-        </div>
-      )}
     </div>
   );
 };

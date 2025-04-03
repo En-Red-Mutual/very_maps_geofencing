@@ -18,7 +18,7 @@ const GeofenceModal = ({ dynamicRate, onClose }: GeofenceModalProps) => {
           color: "white",
           borderRadius: "84px",
           textAlign: "center",
-          padding: "2px",
+          padding: "1px",
         }}
       >
         <h2 style={{ fontWeight: "bold", fontSize: "13px" }}>Nombre</h2>
@@ -28,7 +28,7 @@ const GeofenceModal = ({ dynamicRate, onClose }: GeofenceModalProps) => {
         style={{
           display: "flex",
           gap: "4px",
-          padding: "6px 0px",
+          padding: "3px 0px",
           justifyContent: "center",
           backgroundColor: "black",
           color: "white",
@@ -45,7 +45,7 @@ const GeofenceModal = ({ dynamicRate, onClose }: GeofenceModalProps) => {
         style={{
           backgroundColor: "black",
           borderRadius: "2rem",
-          padding: "2px",
+          padding: "1px",
           color: "white",
           textAlign: "center",
         }}
@@ -57,7 +57,7 @@ const GeofenceModal = ({ dynamicRate, onClose }: GeofenceModalProps) => {
         style={{
           backgroundColor: "black",
           borderRadius: "2rem",
-          padding: "2px",
+          padding: "1px",
           color: "white",
           textAlign: "center",
           display: "flex",

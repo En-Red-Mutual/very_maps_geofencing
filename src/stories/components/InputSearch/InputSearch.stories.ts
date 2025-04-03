@@ -9,4 +9,8 @@ const meta = {
 
 export default meta;
 
-export const Default ={}
+export const Default ={
+    args:{
+        value:'Agua marina 44'
+    }
+}

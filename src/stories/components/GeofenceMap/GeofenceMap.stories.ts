@@ -77,6 +77,7 @@ export const MultiPolygon = {
                 id:'1',
                 name:'CD DEL VALLE 1',
                 ubicationName: "Ciudad del valle",
+                ubicationCoordinates:{"lat": 21.4905, "lng": -104.88508},
                 color:"red",
                 initialRate: 48,
                 isDynamic: true,
@@ -86,7 +87,7 @@ export const MultiPolygon = {
                 onDemand: true,
                 startHour: "9:00 PM",
                 endHour: "5:00 AM",
-                priority: 'Principal',
+                priority: 'principal',
                 polygons:[
                     { lat: 21.49819581004538, lng: -104.88596400671796 },
                     { lat: 21.496912570601754, lng: -104.88756887641208 },
@@ -104,6 +105,7 @@ export const MultiPolygon = {
             id:'2',
             name:'CD DEL VALLE',
             ubicationName: "Ciudad del valle",
+            ubicationCoordinates:{"lat": 21.4905, "lng": -104.88508},
             color:"blue",
             initialRate: 48,
             isDynamic: true,
@@ -113,7 +115,7 @@ export const MultiPolygon = {
             onDemand: true,
             startHour: "9:00 PM",
             endHour: "5:00 AM",
-            priority: 'Principal',
+            priority: 'secundario',
             polygons:[
                 { lat:21.497125763867142, lng:-104.88508233152875 },
                 { lat:21.49449429324603, lng:-104.88248537998959 },
@@ -121,12 +123,31 @@ export const MultiPolygon = {
                 { lat:21.49489149940861, lng:-104.88565152638665 }
             ],
             isactivate:false
-        }],
+        },
+    {
+            id:'3',
+            name:'Palacio Bellas Artes',
+            ubicationName: "Zona palacio de bellas artes",
+            ubicationCoordinates:{"lat": 19.435805459166566, "lng": -99.14377761795036},
+            color:"green",
+            initialRate: 48,
+            isDynamic: true,
+            pricePerKilometer: 10,
+            kilometer: 60,
+            price: 10,
+            onDemand: true,
+            startHour: "9:00 PM",
+            endHour: "5:00 AM",
+            priority: 'terciario',
+            polygons:[{"lat": 19.43736147890695, "lng": -99.1467198857018}, {"lat": 19.443512714386923, "lng": -99.1397675999352}, {"lat": 19.44278429077355, "lng": -99.13333029829948}, {"lat": 19.43392154166975, "lng": -99.13440318190544}, {"lat": 19.430400589272033, "lng": -99.14148421370474}, {"lat": 19.434245303575143, "lng": -99.15174098097768}],
+            isactivate:true
+        
+    }],
 
         center:{ lat: 21.4905, lng: -104.88508 },
         mode:"view",
         height: "100vh",
         width: "150vh",
-        zoom: 10
+        zoom: 15
     }
 };

@@ -1,11 +1,11 @@
 'use strict';
 
-var React = require('react');
+var React2 = require('react');
 var api = require('@react-google-maps/api');
 
 function _interopDefault (e) { return e && e.__esModule ? e : { default: e }; }
 
-var React__default = /*#__PURE__*/_interopDefault(React);
+var React2__default = /*#__PURE__*/_interopDefault(React2);
 
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __esm = (fn, res) => function __init() {
@@ -44,8 +44,8 @@ var init_createReactComponent = __esm({
   "node_modules/@tabler/icons-react/dist/esm/createReactComponent.mjs"() {
     init_defaultAttributes();
     createReactComponent = (type, iconName, iconNamePascal, iconNode) => {
-      const Component = React.forwardRef(
-        ({ color = "currentColor", size = 24, stroke = 2, title, className, children, ...rest }, ref) => React.createElement(
+      const Component = React2.forwardRef(
+        ({ color = "currentColor", size = 24, stroke = 2, title, className, children, ...rest }, ref) => React2.createElement(
           "svg",
           {
             ref,
@@ -62,8 +62,8 @@ var init_createReactComponent = __esm({
             ...rest
           },
           [
-            title && React.createElement("title", { key: "svg-title" }, title),
-            ...iconNode.map(([tag, attrs]) => React.createElement(tag, attrs)),
+            title && React2.createElement("title", { key: "svg-title" }, title),
+            ...iconNode.map(([tag, attrs]) => React2.createElement(tag, attrs)),
             ...Array.isArray(children) ? children : [children]
           ]
         )
@@ -80,6 +80,33 @@ var init_IconEdit = __esm({
   "node_modules/@tabler/icons-react/dist/esm/icons/IconEdit.mjs"() {
     init_createReactComponent();
     IconEdit = createReactComponent("outline", "edit", "IconEdit", [["path", { "d": "M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1", "key": "svg-0" }], ["path", { "d": "M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z", "key": "svg-1" }], ["path", { "d": "M16 5l3 3", "key": "svg-2" }]]);
+  }
+});
+
+// node_modules/@tabler/icons-react/dist/esm/icons/IconStackBack.mjs
+var IconStackBack;
+var init_IconStackBack = __esm({
+  "node_modules/@tabler/icons-react/dist/esm/icons/IconStackBack.mjs"() {
+    init_createReactComponent();
+    IconStackBack = createReactComponent("outline", "stack-back", "IconStackBack", [["path", { "d": "M4 8l8 4l8 -4l-8 -4z", "key": "svg-0" }], ["path", { "d": "M12 16l-4 -2l-4 2l8 4l8 -4l-4 -2l-4 2z", "fill": "currentColor", "key": "svg-1" }], ["path", { "d": "M8 10l-4 2l4 2m8 0l4 -2l-4 -2", "key": "svg-2" }]]);
+  }
+});
+
+// node_modules/@tabler/icons-react/dist/esm/icons/IconStackFront.mjs
+var IconStackFront;
+var init_IconStackFront = __esm({
+  "node_modules/@tabler/icons-react/dist/esm/icons/IconStackFront.mjs"() {
+    init_createReactComponent();
+    IconStackFront = createReactComponent("outline", "stack-front", "IconStackFront", [["path", { "d": "M12 4l-8 4l8 4l8 -4l-8 -4", "fill": "currentColor", "key": "svg-0" }], ["path", { "d": "M8 14l-4 2l8 4l8 -4l-4 -2", "key": "svg-1" }], ["path", { "d": "M8 10l-4 2l8 4l8 -4l-4 -2", "key": "svg-2" }]]);
+  }
+});
+
+// node_modules/@tabler/icons-react/dist/esm/icons/IconStackMiddle.mjs
+var IconStackMiddle;
+var init_IconStackMiddle = __esm({
+  "node_modules/@tabler/icons-react/dist/esm/icons/IconStackMiddle.mjs"() {
+    init_createReactComponent();
+    IconStackMiddle = createReactComponent("outline", "stack-middle", "IconStackMiddle", [["path", { "d": "M16 10l4 -2l-8 -4l-8 4l4 2", "key": "svg-0" }], ["path", { "d": "M12 12l-4 -2l-4 2l8 4l8 -4l-4 -2l-4 2z", "fill": "currentColor", "key": "svg-1" }], ["path", { "d": "M8 14l-4 2l8 4l8 -4l-4 -2", "key": "svg-2" }]]);
   }
 });
 
@@ -103,12 +130,15 @@ var init_IconMapPinFilled = __esm({
 
 // node_modules/@tabler/icons-react/dist/esm/tabler-icons-react.mjs
 init_IconEdit();
+init_IconStackBack();
+init_IconStackFront();
+init_IconStackMiddle();
 init_IconX();
 init_IconMapPinFilled();
 
 // src/stories/components/GeofenceModal/GeofenceModal.tsx
 var GeofenceModal = ({ dynamicRate, onClose }) => {
-  return /* @__PURE__ */ React__default.default.createElement(
+  return /* @__PURE__ */ React2__default.default.createElement(
     "article",
     {
       style: {
@@ -118,7 +148,7 @@ var GeofenceModal = ({ dynamicRate, onClose }) => {
         gap: "4px"
       }
     },
-    /* @__PURE__ */ React__default.default.createElement(
+    /* @__PURE__ */ React2__default.default.createElement(
       "div",
       {
         style: {
@@ -126,19 +156,19 @@ var GeofenceModal = ({ dynamicRate, onClose }) => {
           color: "white",
           borderRadius: "84px",
           textAlign: "center",
-          padding: "2px"
+          padding: "1px"
         }
       },
-      /* @__PURE__ */ React__default.default.createElement("h2", { style: { fontWeight: "bold", fontSize: "13px" } }, "Nombre"),
-      /* @__PURE__ */ React__default.default.createElement("p", { style: { fontSize: "12px" } }, dynamicRate.name)
+      /* @__PURE__ */ React2__default.default.createElement("h2", { style: { fontWeight: "bold", fontSize: "13px" } }, "Nombre"),
+      /* @__PURE__ */ React2__default.default.createElement("p", { style: { fontSize: "12px" } }, dynamicRate.name)
     ),
-    /* @__PURE__ */ React__default.default.createElement(
+    /* @__PURE__ */ React2__default.default.createElement(
       "div",
       {
         style: {
           display: "flex",
           gap: "4px",
-          padding: "6px 0px",
+          padding: "3px 0px",
           justifyContent: "center",
           backgroundColor: "black",
           color: "white",
@@ -148,30 +178,30 @@ var GeofenceModal = ({ dynamicRate, onClose }) => {
           alignItems: "center"
         }
       },
-      /* @__PURE__ */ React__default.default.createElement(IconMapPinFilled, { size: 22 }),
-      /* @__PURE__ */ React__default.default.createElement("p", { style: { fontSize: "14px" } }, dynamicRate.ubicationName)
+      /* @__PURE__ */ React2__default.default.createElement(IconMapPinFilled, { size: 22 }),
+      /* @__PURE__ */ React2__default.default.createElement("p", { style: { fontSize: "14px" } }, dynamicRate.ubicationName)
     ),
-    /* @__PURE__ */ React__default.default.createElement(
+    /* @__PURE__ */ React2__default.default.createElement(
       "div",
       {
         style: {
           backgroundColor: "black",
           borderRadius: "2rem",
-          padding: "2px",
+          padding: "1px",
           color: "white",
           textAlign: "center"
         }
       },
-      /* @__PURE__ */ React__default.default.createElement("h2", { style: { fontWeight: "bold", fontSize: "13px" } }, "Tarifa inicial"),
-      /* @__PURE__ */ React__default.default.createElement("p", { style: { fontSize: "12px" } }, "$", dynamicRate.initialRate, " MXN km")
+      /* @__PURE__ */ React2__default.default.createElement("h2", { style: { fontWeight: "bold", fontSize: "13px" } }, "Tarifa inicial"),
+      /* @__PURE__ */ React2__default.default.createElement("p", { style: { fontSize: "12px" } }, "$", dynamicRate.initialRate, " MXN km")
     ),
-    /* @__PURE__ */ React__default.default.createElement(
+    /* @__PURE__ */ React2__default.default.createElement(
       "div",
       {
         style: {
           backgroundColor: "black",
           borderRadius: "2rem",
-          padding: "2px",
+          padding: "1px",
           color: "white",
           textAlign: "center",
           display: "flex",
@@ -179,11 +209,11 @@ var GeofenceModal = ({ dynamicRate, onClose }) => {
           gap: "1px"
         }
       },
-      /* @__PURE__ */ React__default.default.createElement("h2", { style: { fontWeight: "bold", fontSize: "13px" } }, "Tarifa din\xE1mica"),
-      /* @__PURE__ */ React__default.default.createElement("p", { style: { fontSize: "12px" } }, "$", dynamicRate.pricePerKilometer, " MXN ", /* @__PURE__ */ React__default.default.createElement("span", null, "->"), " ", dynamicRate.kilometers, " km"),
-      /* @__PURE__ */ React__default.default.createElement("p", { style: { fontSize: "12px" } }, "$50 MXN - 9PM a 5AM")
+      /* @__PURE__ */ React2__default.default.createElement("h2", { style: { fontWeight: "bold", fontSize: "13px" } }, "Tarifa din\xE1mica"),
+      /* @__PURE__ */ React2__default.default.createElement("p", { style: { fontSize: "12px" } }, "$", dynamicRate.pricePerKilometer, " MXN ", /* @__PURE__ */ React2__default.default.createElement("span", null, "->"), " ", dynamicRate.kilometers, " km"),
+      /* @__PURE__ */ React2__default.default.createElement("p", { style: { fontSize: "12px" } }, "$50 MXN - 9PM a 5AM")
     ),
-    /* @__PURE__ */ React__default.default.createElement(
+    /* @__PURE__ */ React2__default.default.createElement(
       "div",
       {
         style: {
@@ -194,7 +224,7 @@ var GeofenceModal = ({ dynamicRate, onClose }) => {
           width: "100%"
         }
       },
-      /* @__PURE__ */ React__default.default.createElement(
+      /* @__PURE__ */ React2__default.default.createElement(
         "div",
         {
           style: {
@@ -207,7 +237,7 @@ var GeofenceModal = ({ dynamicRate, onClose }) => {
           }
         }
       ),
-      /* @__PURE__ */ React__default.default.createElement(
+      /* @__PURE__ */ React2__default.default.createElement(
         "div",
         {
           style: {
@@ -218,7 +248,7 @@ var GeofenceModal = ({ dynamicRate, onClose }) => {
             padding: "4px"
           }
         },
-        /* @__PURE__ */ React__default.default.createElement(
+        /* @__PURE__ */ React2__default.default.createElement(
           "div",
           {
             style: {
@@ -230,7 +260,7 @@ var GeofenceModal = ({ dynamicRate, onClose }) => {
           }
         )
       ),
-      /* @__PURE__ */ React__default.default.createElement(
+      /* @__PURE__ */ React2__default.default.createElement(
         "button",
         {
           style: {
@@ -243,9 +273,9 @@ var GeofenceModal = ({ dynamicRate, onClose }) => {
             color: "white"
           }
         },
-        /* @__PURE__ */ React__default.default.createElement(IconEdit, { size: 24 })
+        /* @__PURE__ */ React2__default.default.createElement(IconEdit, { size: 24 })
       ),
-      /* @__PURE__ */ React__default.default.createElement(
+      /* @__PURE__ */ React2__default.default.createElement(
         "button",
         {
           style: {
@@ -259,7 +289,7 @@ var GeofenceModal = ({ dynamicRate, onClose }) => {
           },
           onClick: onClose
         },
-        /* @__PURE__ */ React__default.default.createElement(IconX, null)
+        /* @__PURE__ */ React2__default.default.createElement(IconX, null)
       )
     )
   );
@@ -278,10 +308,10 @@ function GeofenceMap({
   width,
   zoom
 }) {
-  const [selectedGeofence, setSelectedGeofence] = React.useState(null);
-  const [newPaths, setNewPaths] = React.useState([]);
-  const polygonRef = React.useRef(null);
-  const [zoomLevel, setZoomLevel] = React.useState(zoom || 14);
+  const [selectedGeofence, setSelectedGeofence] = React2.useState(null);
+  const [newPaths, setNewPaths] = React2.useState([]);
+  const polygonRef = React2.useRef(null);
+  const [zoomLevel, setZoomLevel] = React2.useState(zoom || 14);
   const handleZoomChanged = (map) => {
     setZoomLevel(map.getZoom());
   };
@@ -289,7 +319,7 @@ function GeofenceMap({
     googleMapsApiKey: "AIzaSyDZ2gn0lNxRo4x6fsg6ne9oNoMT9mDMDAo",
     libraries
   });
-  if (!isLoaded) return /* @__PURE__ */ React__default.default.createElement("div", null, "Loading Map...");
+  if (!isLoaded) return /* @__PURE__ */ React2__default.default.createElement("div", null, "Loading Map...");
   const getPolygonPaths = (polygon) => {
     const paths = polygon.getPath().getArray().map((point) => ({ lat: point.lat(), lng: point.lng() }));
     setNewPaths(paths);
@@ -341,8 +371,28 @@ function GeofenceMap({
       lng: lng / paths.length + 4e-3
     };
   };
+  function groupGeofencesByUbication(rates, threshold = 0.05) {
+    const groups = [];
+    rates.forEach((rate) => {
+      if (!rate.ubicationCoordinates) return;
+      const { lat, lng } = rate.ubicationCoordinates;
+      let added = false;
+      for (const group of groups) {
+        const groupCoord = group[0].ubicationCoordinates;
+        if (!groupCoord) continue;
+        const dist = Math.hypot(lat - groupCoord.lat, lng - groupCoord.lng);
+        if (dist < threshold) {
+          group.push(rate);
+          added = true;
+          break;
+        }
+      }
+      if (!added) groups.push([rate]);
+    });
+    return groups;
+  }
   console.log("newPaths", newPaths);
-  return /* @__PURE__ */ React__default.default.createElement("div", null, /* @__PURE__ */ React__default.default.createElement(
+  return /* @__PURE__ */ React2__default.default.createElement("div", null, /* @__PURE__ */ React2__default.default.createElement(
     api.GoogleMap,
     {
       center: center || { lat: 21.4905, lng: -104.88508 },
@@ -362,7 +412,7 @@ function GeofenceMap({
         }
       }
     },
-    mode === "view" && singlePolygon && /* @__PURE__ */ React__default.default.createElement(
+    mode === "view" && singlePolygon && /* @__PURE__ */ React2__default.default.createElement(
       api.Polygon,
       {
         path: singlePolygon.polygons,
@@ -375,10 +425,9 @@ function GeofenceMap({
         }
       }
     ),
-    mode === "view" && dynamicRates && dynamicRates.map((rate, index) => /* @__PURE__ */ React__default.default.createElement(React__default.default.Fragment, null, /* @__PURE__ */ React__default.default.createElement(
+    mode === "view" && dynamicRates && dynamicRates.map((rate, index) => /* @__PURE__ */ React2__default.default.createElement(React2__default.default.Fragment, { key: index }, /* @__PURE__ */ React2__default.default.createElement(
       api.Polygon,
       {
-        key: index,
         path: rate.polygons,
         options: {
           fillColor: rate.color,
@@ -388,13 +437,13 @@ function GeofenceMap({
           strokeWeight: 2
         }
       }
-    ), zoomLevel > 13 ? /* @__PURE__ */ React__default.default.createElement(
+    ), zoomLevel > 13 && /* @__PURE__ */ React2__default.default.createElement(
       api.OverlayView,
       {
         position: getPolygonCenter(rate.polygons),
         mapPaneName: api.OverlayView.OVERLAY_MOUSE_TARGET
       },
-      /* @__PURE__ */ React__default.default.createElement(React__default.default.Fragment, null, /* @__PURE__ */ React__default.default.createElement(
+      /* @__PURE__ */ React2__default.default.createElement(
         "div",
         {
           onClick: () => setSelectedGeofence(rate),
@@ -411,15 +460,75 @@ function GeofenceMap({
             display: "inline-block"
           }
         },
-        /* @__PURE__ */ React__default.default.createElement("span", null, rate.name)
-      ))
-    ) : index === 0 && /* @__PURE__ */ React__default.default.createElement(
+        /* @__PURE__ */ React2__default.default.createElement(
+          "div",
+          {
+            style: {
+              display: "flex",
+              gap: "5px",
+              alignItems: "center",
+              justifyContent: "center"
+            }
+          },
+          /* @__PURE__ */ React2__default.default.createElement(
+            "div",
+            {
+              style: {
+                display: "flex",
+                gap: "1px",
+                fontWeight: "normal",
+                alignItems: "center",
+                justifyContent: "center"
+              }
+            },
+            rate.priority === "principal" ? /* @__PURE__ */ React2__default.default.createElement(React2__default.default.Fragment, null, /* @__PURE__ */ React2__default.default.createElement(
+              IconStackFront,
+              {
+                size: 25,
+                stroke: 1.5,
+                color: "white"
+              }
+            ), /* @__PURE__ */ React2__default.default.createElement("span", { className: "text-white" }, "1")) : rate.priority === "secundario" ? /* @__PURE__ */ React2__default.default.createElement(React2__default.default.Fragment, null, /* @__PURE__ */ React2__default.default.createElement(
+              IconStackMiddle,
+              {
+                size: 25,
+                stroke: 1.5,
+                color: "white"
+              }
+            ), /* @__PURE__ */ React2__default.default.createElement("span", { className: "text-white" }, "2")) : rate.priority === "terciario" ? /* @__PURE__ */ React2__default.default.createElement(React2__default.default.Fragment, null, /* @__PURE__ */ React2__default.default.createElement(
+              IconStackBack,
+              {
+                size: 25,
+                stroke: 1.5,
+                color: "white"
+              }
+            ), /* @__PURE__ */ React2__default.default.createElement("span", { className: "text-white" }, "3")) : null
+          ),
+          /* @__PURE__ */ React2__default.default.createElement("span", null, rate.name)
+        )
+      )
+    ), selectedGeofence && /* @__PURE__ */ React2__default.default.createElement(
       api.OverlayView,
       {
-        position: getPolygonCenter(rate.polygons),
+        position: getModalCenter(selectedGeofence.polygons),
         mapPaneName: api.OverlayView.OVERLAY_MOUSE_TARGET
       },
-      /* @__PURE__ */ React__default.default.createElement(
+      /* @__PURE__ */ React2__default.default.createElement(
+        GeofenceModal_default,
+        {
+          dynamicRate: selectedGeofence,
+          onClose: () => setSelectedGeofence(null)
+        }
+      )
+    ))),
+    mode === "view" && zoomLevel <= 13 && groupGeofencesByUbication(dynamicRates).map((group, idx) => /* @__PURE__ */ React2__default.default.createElement(
+      api.OverlayView,
+      {
+        key: `group-${idx}`,
+        position: group[0].ubicationCoordinates,
+        mapPaneName: api.OverlayView.OVERLAY_MOUSE_TARGET
+      },
+      /* @__PURE__ */ React2__default.default.createElement(
         "div",
         {
           style: {
@@ -434,23 +543,10 @@ function GeofenceMap({
             display: "inline-block"
           }
         },
-        `${dynamicRates.length}`
+        group.length
       )
-    ), selectedGeofence && /* @__PURE__ */ React__default.default.createElement(
-      api.OverlayView,
-      {
-        position: getModalCenter(selectedGeofence.polygons),
-        mapPaneName: api.OverlayView.OVERLAY_MOUSE_TARGET
-      },
-      /* @__PURE__ */ React__default.default.createElement(
-        GeofenceModal_default,
-        {
-          dynamicRate: selectedGeofence,
-          onClose: () => setSelectedGeofence(null)
-        }
-      )
-    ))),
-    mode === "new" && /* @__PURE__ */ React__default.default.createElement(
+    )),
+    mode === "new" && /* @__PURE__ */ React2__default.default.createElement(
       api.DrawingManager,
       {
         options: {
@@ -471,7 +567,7 @@ function GeofenceMap({
         onOverlayComplete: handleOverlayComplete
       }
     ),
-    mode === "preview" && createdPolygon && /* @__PURE__ */ React__default.default.createElement(
+    mode === "preview" && createdPolygon && /* @__PURE__ */ React2__default.default.createElement(
       api.Polygon,
       {
         path: createdPolygon,
@@ -484,7 +580,7 @@ function GeofenceMap({
         }
       }
     ),
-    mode === "edit" && singlePolygon && /* @__PURE__ */ React__default.default.createElement(
+    mode === "edit" && singlePolygon && /* @__PURE__ */ React2__default.default.createElement(
       api.Polygon,
       {
         path: singlePolygon.polygons,
@@ -496,7 +592,6 @@ function GeofenceMap({
           strokeWeight: 2,
           clickable: true,
           editable: true,
-          // Permitir edición
           zIndex: 1
         },
         onLoad: (polygon) => {
@@ -510,7 +605,6 @@ function GeofenceMap({
             }));
             setNewPaths(updatedPaths);
             onPolygonUpdate && onPolygonUpdate(updatedPaths);
-            console.log("Updated Polygon Paths (onMouseUp):", updatedPaths);
           }
         },
         onDragEnd: () => {
@@ -521,7 +615,6 @@ function GeofenceMap({
             }));
             setNewPaths(updatedPaths);
             onPolygonUpdate && onPolygonUpdate(updatedPaths);
-            console.log("Updated Polygon Paths (onDragEnd):", updatedPaths);
           }
         }
       }
@@ -541,8 +634,8 @@ var ColorPicker = ({
     { name: "Pink", color: "pink" }
   ]
 }) => {
-  const [color, setColor] = React__default.default.useState(valueColor || "orange");
-  const [openModal, setOpenModal] = React__default.default.useState(false);
+  const [color, setColor] = React2__default.default.useState(valueColor || "orange");
+  const [openModal, setOpenModal] = React2__default.default.useState(false);
   const convertEnglishToSpanishAnyColor = (color2) => {
     console.log(color2);
     const colorMap = {
@@ -565,7 +658,7 @@ var ColorPicker = ({
     setColor(color2);
     onChangeColor ? onChangeColor(color2) : console.log("No function onChangeColor");
   };
-  return /* @__PURE__ */ React__default.default.createElement(
+  return /* @__PURE__ */ React2__default.default.createElement(
     "div",
     {
       id: "modal",
@@ -579,7 +672,7 @@ var ColorPicker = ({
         gap: "10px"
       }
     },
-    /* @__PURE__ */ React__default.default.createElement(
+    /* @__PURE__ */ React2__default.default.createElement(
       "div",
       {
         style: {
@@ -592,7 +685,7 @@ var ColorPicker = ({
           justifyContent: "center"
         }
       },
-      /* @__PURE__ */ React__default.default.createElement(
+      /* @__PURE__ */ React2__default.default.createElement(
         "div",
         {
           onClick: () => setOpenModal(!openModal),
@@ -607,7 +700,7 @@ var ColorPicker = ({
         }
       )
     ),
-    /* @__PURE__ */ React__default.default.createElement(
+    /* @__PURE__ */ React2__default.default.createElement(
       "span",
       {
         style: {
@@ -616,7 +709,7 @@ var ColorPicker = ({
       },
       convertEnglishToSpanishAnyColor(color)
     ),
-    openModal && /* @__PURE__ */ React__default.default.createElement(
+    openModal && /* @__PURE__ */ React2__default.default.createElement(
       "div",
       {
         style: {
@@ -630,7 +723,7 @@ var ColorPicker = ({
           borderRadius: "5px"
         }
       },
-      colors.map((color2) => /* @__PURE__ */ React__default.default.createElement(
+      colors.map((color2) => /* @__PURE__ */ React2__default.default.createElement(
         "div",
         {
           style: {
@@ -651,6 +744,75 @@ var ColorPicker = ({
   );
 };
 var ColorPicker_default = ColorPicker;
+var libraries2 = ["places"];
+var InputSearch = ({
+  value = "",
+  onSelectLocation,
+  CSS = []
+}) => {
+  const [inputValue, setInputValue] = React2.useState(value);
+  const autocompleteRef = React2.useRef(null);
+  const inputRef = React2.useRef(null);
+  const customCSS = [];
+  if (CSS.length > 0) customCSS.push(CSS.join(" "));
+  React2.useEffect(() => {
+    setInputValue(value);
+  }, [value]);
+  const handlePlaceChanged = () => {
+    const autocomplete = autocompleteRef.current;
+    if (!autocomplete) return;
+    const place = autocomplete.getPlace();
+    if (place.geometry && place.geometry.location) {
+      const location = place.geometry.location;
+      const lat = location.lat();
+      const lng = location.lng();
+      const name = place.name || "Lugar desconocido";
+      const details = { name, lat, lng };
+      setInputValue(name);
+      if (onSelectLocation) {
+        onSelectLocation(details);
+      }
+      console.log("\u{1F4CD} Lugar seleccionado:", details);
+    } else {
+      console.warn(
+        "\u26A0\uFE0F No se pudo obtener la ubicaci\xF3n del lugar seleccionado."
+      );
+    }
+  };
+  return /* @__PURE__ */ React2__default.default.createElement("div", null, /* @__PURE__ */ React2__default.default.createElement(
+    api.LoadScript,
+    {
+      googleMapsApiKey: "AIzaSyDZ2gn0lNxRo4x6fsg6ne9oNoMT9mDMDAo",
+      libraries: libraries2
+    },
+    /* @__PURE__ */ React2__default.default.createElement(
+      api.Autocomplete,
+      {
+        onLoad: (autocomplete) => autocompleteRef.current = autocomplete,
+        onPlaceChanged: handlePlaceChanged
+      },
+      /* @__PURE__ */ React2__default.default.createElement(
+        "input",
+        {
+          ref: inputRef,
+          className: customCSS.join(" "),
+          type: "text",
+          value: inputValue,
+          onChange: (e) => setInputValue(e.target.value),
+          placeholder: "Buscar lugar",
+          style: {
+            width: "100%",
+            padding: "10px",
+            borderRadius: "4px",
+            border: "1px solid #ccc",
+            fontSize: "16px"
+          }
+        }
+      )
+    )
+  ));
+};
+var InputSeach_default = InputSearch;
 /*! Bundled license information:
 
 @tabler/icons-react/dist/esm/defaultAttributes.mjs:
@@ -670,6 +832,30 @@ var ColorPicker_default = ColorPicker;
    *)
 
 @tabler/icons-react/dist/esm/icons/IconEdit.mjs:
+  (**
+   * @license @tabler/icons-react v3.30.0 - MIT
+   *
+   * This source code is licensed under the MIT license.
+   * See the LICENSE file in the root directory of this source tree.
+   *)
+
+@tabler/icons-react/dist/esm/icons/IconStackBack.mjs:
+  (**
+   * @license @tabler/icons-react v3.30.0 - MIT
+   *
+   * This source code is licensed under the MIT license.
+   * See the LICENSE file in the root directory of this source tree.
+   *)
+
+@tabler/icons-react/dist/esm/icons/IconStackFront.mjs:
+  (**
+   * @license @tabler/icons-react v3.30.0 - MIT
+   *
+   * This source code is licensed under the MIT license.
+   * See the LICENSE file in the root directory of this source tree.
+   *)
+
+@tabler/icons-react/dist/esm/icons/IconStackMiddle.mjs:
   (**
    * @license @tabler/icons-react v3.30.0 - MIT
    *
@@ -705,5 +891,6 @@ var ColorPicker_default = ColorPicker;
 exports.ColorPicker = ColorPicker_default;
 exports.GeofenceMap = GeofenceMap;
 exports.GeofenceModal = GeofenceModal_default;
+exports.InputSearch = InputSeach_default;
 //# sourceMappingURL=index.cjs.map
 //# sourceMappingURL=index.cjs.map

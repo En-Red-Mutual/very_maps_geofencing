@@ -8,6 +8,11 @@ import {
 } from "@react-google-maps/api";
 import { DynamicRateProps, MapProps } from "./type";
 import GeofenceModal from "../GeofenceModal/GeofenceModal";
+import {
+  IconStackBack,
+  IconStackFront,
+  IconStackMiddle,
+} from "@tabler/icons-react";
 
 export const libraries = ["drawing", "places"] as ["drawing", "places"];
 
@@ -25,9 +30,7 @@ export default function GeofenceMap({
 }: MapProps) {
   const [selectedGeofence, setSelectedGeofence] =
     useState<DynamicRateProps | null>(null);
-
   const [newPaths, setNewPaths] = useState<google.maps.LatLngLiteral[]>([]);
-
   const polygonRef = useRef<google.maps.Polygon | null>(null);
   const [zoomLevel, setZoomLevel] = useState(zoom || 14);
 
@@ -37,7 +40,7 @@ export default function GeofenceMap({
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyDZ2gn0lNxRo4x6fsg6ne9oNoMT9mDMDAo",
-    libraries: libraries,
+    libraries,
   });
   if (!isLoaded) return <div>Loading Map...</div>;
 
@@ -46,7 +49,6 @@ export default function GeofenceMap({
       .getPath()
       .getArray()
       .map((point) => ({ lat: point.lat(), lng: point.lng() }));
-
     setNewPaths(paths);
     onPolygonComplete && onPolygonComplete(paths);
   };
@@ -56,12 +58,9 @@ export default function GeofenceMap({
   ) => {
     if (e.type === "polygon") {
       const polygon = e.overlay as google.maps.Polygon;
-
-      // Guarda la referencia del polígono
       polygonRef.current = polygon;
       getPolygonPaths(polygon);
 
-      // Escucha los cambios en el polígono editable
       google.maps.event.addListener(polygon.getPath(), "set_at", () =>
         getPolygonPaths(polygon)
       );
@@ -100,6 +99,37 @@ export default function GeofenceMap({
     };
   };
 
+  function groupGeofencesByUbication(
+    rates: DynamicRateProps[],
+    threshold = 0.05
+  ) {
+    const groups: DynamicRateProps[][] = [];
+
+    rates.forEach((rate) => {
+      // Si no tiene coordenadas de ubicación, lo ignoramos
+      if (!rate.ubicationCoordinates) return;
+
+      const { lat, lng } = rate.ubicationCoordinates;
+      let added = false;
+
+      for (const group of groups) {
+        const groupCoord = group[0].ubicationCoordinates;
+        if (!groupCoord) continue;
+
+        const dist = Math.hypot(lat - groupCoord.lat, lng - groupCoord.lng);
+        if (dist < threshold) {
+          group.push(rate);
+          added = true;
+          break;
+        }
+      }
+
+      if (!added) groups.push([rate]);
+    });
+
+    return groups;
+  }
+
   console.log("newPaths", newPaths);
 
   return (
@@ -134,12 +164,12 @@ export default function GeofenceMap({
             }}
           />
         )}
+
         {mode === "view" &&
           dynamicRates &&
-          dynamicRates!.map((rate, index) => (
-            <>
+          dynamicRates.map((rate, index) => (
+            <React.Fragment key={index}>
               <Polygon
-                key={index}
                 path={rate.polygons}
                 options={{
                   fillColor: rate.color,
@@ -149,55 +179,78 @@ export default function GeofenceMap({
                   strokeWeight: 2,
                 }}
               />
-              {zoomLevel > 13 ? (
+              {zoomLevel > 13 && (
                 <OverlayView
                   position={getPolygonCenter(rate.polygons!)}
                   mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
                 >
-                  <>
-                    <div
-                      onClick={() => setSelectedGeofence(rate)}
-                      className="truncate"
-                      style={{
-                        backgroundColor: rate.color,
-                        color: "white",
-                        padding: "5px 10px",
-                        borderRadius: "5px",
-                        fontSize: "14px",
-                        fontWeight: "bold",
-                        textAlign: "center",
-                        whiteSpace: "nowrap",
-                        display: "inline-block",
-                      }}
-                    >
-                      <span>{rate.name}</span>
-                    </div>
-                  </>
-                </OverlayView>
-              ) : (
-                index === 0 && (
-                  <OverlayView
-                    position={getPolygonCenter(rate.polygons!)}
-                    mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+                  <div
+                    onClick={() => setSelectedGeofence(rate)}
+                    className="truncate"
+                    style={{
+                      backgroundColor: rate.color,
+                      color: "white",
+                      padding: "5px 10px",
+                      borderRadius: "5px",
+                      fontSize: "14px",
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      whiteSpace: "nowrap",
+                      display: "inline-block",
+                    }}
                   >
                     <div
                       style={{
-                        backgroundColor: "orange",
-                        color: "white",
-                        padding: "5px 10px",
-                        borderRadius: "50px",
-                        fontSize: "14px",
-                        fontWeight: "bold",
-                        textAlign: "center",
-                        whiteSpace: "nowrap",
-                        display: "inline-block",
+                        display: "flex",
+                        gap: "5px",
+                        alignItems: "center",
+                        justifyContent: "center",
                       }}
                     >
-                      {`${dynamicRates.length}`}
+                      <div
+                        style={{
+                          display: "flex",
+                          gap: "1px",
+                          fontWeight: "normal",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        {rate.priority === "principal" ? (
+                          <>
+                            <IconStackFront
+                              size={25}
+                              stroke={1.5}
+                              color="white"
+                            />
+                            <span className="text-white">1</span>
+                          </>
+                        ) : rate.priority === "secundario" ? (
+                          <>
+                            <IconStackMiddle
+                              size={25}
+                              stroke={1.5}
+                              color="white"
+                            />
+                            <span className="text-white">2</span>
+                          </>
+                        ) : rate.priority === "terciario" ? (
+                          <>
+                            <IconStackBack
+                              size={25}
+                              stroke={1.5}
+                              color="white"
+                            />
+                            <span className="text-white">3</span>
+                          </>
+                        ) : null}
+                      </div>
+                      <span>{rate.name}</span>
                     </div>
-                  </OverlayView>
-                )
+                  </div>
+                </OverlayView>
               )}
+
               {selectedGeofence && (
                 <OverlayView
                   position={getModalCenter(selectedGeofence.polygons!)}
@@ -209,8 +262,36 @@ export default function GeofenceMap({
                   />
                 </OverlayView>
               )}
-            </>
+            </React.Fragment>
           ))}
+
+        {/* NUEVO: Mostrar grupos cuando hay poco zoom */}
+        {mode === "view" &&
+          zoomLevel <= 13 &&
+          groupGeofencesByUbication(dynamicRates!).map((group, idx) => (
+            <OverlayView
+              key={`group-${idx}`}
+              position={group[0].ubicationCoordinates}
+              mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+            >
+              <div
+                style={{
+                  backgroundColor: "orange",
+                  color: "white",
+                  padding: "5px 10px",
+                  borderRadius: "50px",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  textAlign: "center",
+                  whiteSpace: "nowrap",
+                  display: "inline-block",
+                }}
+              >
+                {group.length}
+              </div>
+            </OverlayView>
+          ))}
+
         {mode === "new" && (
           <DrawingManager
             options={{
@@ -231,6 +312,7 @@ export default function GeofenceMap({
             onOverlayComplete={handleOverlayComplete}
           />
         )}
+
         {mode === "preview" && createdPolygon && (
           <Polygon
             path={createdPolygon}
@@ -254,13 +336,12 @@ export default function GeofenceMap({
               strokeOpacity: 0.8,
               strokeWeight: 2,
               clickable: true,
-              editable: true, // Permitir edición
+              editable: true,
               zIndex: 1,
             }}
             onLoad={(polygon) => {
-              polygonRef.current = polygon; // Guardamos la referencia del polígono
+              polygonRef.current = polygon;
             }}
-            // Evento cuando se modifica el polígono (añadir, quitar o mover puntos)
             onMouseUp={() => {
               if (polygonRef.current) {
                 const updatedPaths = polygonRef.current
@@ -272,7 +353,6 @@ export default function GeofenceMap({
                   }));
                 setNewPaths(updatedPaths);
                 onPolygonUpdate && onPolygonUpdate(updatedPaths);
-                console.log("Updated Polygon Paths (onMouseUp):", updatedPaths);
               }
             }}
             onDragEnd={() => {
@@ -286,7 +366,6 @@ export default function GeofenceMap({
                   }));
                 setNewPaths(updatedPaths);
                 onPolygonUpdate && onPolygonUpdate(updatedPaths);
-                console.log("Updated Polygon Paths (onDragEnd):", updatedPaths);
               }
             }}
           />
