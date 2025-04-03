@@ -295,6 +295,7 @@ function GeofenceMap({
   mode,
   singlePolygon,
   center,
+  defaultCenter,
   onPolygonUpdate,
   onPolygonComplete,
   createdPolygon,
@@ -313,7 +314,14 @@ function GeofenceMap({
     googleMapsApiKey: "AIzaSyDZ2gn0lNxRo4x6fsg6ne9oNoMT9mDMDAo",
     libraries
   });
-  if (!isLoaded) return /* @__PURE__ */ React2.createElement("div", null, "Loading Map...");
+  console.log("isLoaded", isLoaded);
+  console.log("google", typeof google !== "undefined" ? google : "NO GOOGLE");
+  console.log("google.maps.drawing", google.maps.drawing);
+  console.log("center", center);
+  console.log("defaultCenter", defaultCenter);
+  if (!isLoaded || typeof google === "undefined") {
+    return /* @__PURE__ */ React2.createElement("div", null, "Loading...");
+  }
   const getPolygonPaths = (polygon) => {
     const paths = polygon.getPath().getArray().map((point) => ({ lat: point.lat(), lng: point.lng() }));
     setNewPaths(paths);
@@ -366,7 +374,7 @@ function GeofenceMap({
     };
   };
   const isValidLatLng = (coord) => coord && typeof coord.lat === "number" && typeof coord.lng === "number" && isFinite(coord.lat) && isFinite(coord.lng);
-  const mapCenter = isValidLatLng(center) ? center : { lat: 21.4905, lng: -104.88508 };
+  const mapCenter = isValidLatLng(center) ? center : { lat: 21.491739494411178, lng: -104.89237419696244 };
   function groupGeofencesByUbication(rates, threshold = 0.05) {
     const groups = [];
     rates.forEach((rate) => {

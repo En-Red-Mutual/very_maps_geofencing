@@ -21,6 +21,7 @@ export default function GeofenceMap({
   mode,
   singlePolygon,
   center,
+  defaultCenter,
   onPolygonUpdate,
   onPolygonComplete,
   createdPolygon,
@@ -42,7 +43,15 @@ export default function GeofenceMap({
     googleMapsApiKey: "AIzaSyDZ2gn0lNxRo4x6fsg6ne9oNoMT9mDMDAo",
     libraries,
   });
-  if (!isLoaded) return <div>Loading Map...</div>;
+  console.log("isLoaded", isLoaded);
+  console.log("google", typeof google !== "undefined" ? google : "NO GOOGLE");
+  console.log("google.maps.drawing", google.maps.drawing);
+  console.log("center", center);
+  console.log("defaultCenter", defaultCenter);
+
+  if (!isLoaded || typeof google === "undefined") {
+    return <div>Loading...</div>;
+  }
 
   const getPolygonPaths = (polygon: google.maps.Polygon) => {
     const paths = polygon
@@ -108,7 +117,7 @@ export default function GeofenceMap({
 
   const mapCenter = isValidLatLng(center)
     ? center
-    : { lat: 21.4905, lng: -104.88508 };
+    : { lat: 21.491739494411178, lng: -104.89237419696244 };
 
   function groupGeofencesByUbication(
     rates: DynamicRateProps[],

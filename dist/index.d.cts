@@ -30,6 +30,7 @@ type MapProps = {
     width?: string;
     zoom?: number;
     center?: google.maps.LatLngLiteral;
+    defaultCenter?: google.maps.LatLngLiteral;
     onPolygonComplete?: (polygons: google.maps.LatLngLiteral[]) => void;
     onPolygonUpdate?: (polygons: google.maps.LatLngLiteral[]) => void;
     createdPolygon?: google.maps.LatLngLiteral[];
@@ -43,7 +44,7 @@ type GeofenceModalProps = {
 
 declare const GeofenceModal: ({ dynamicRate, onClose }: GeofenceModalProps) => React.JSX.Element;
 
-declare function GeofenceMap({ dynamicRates, mode, singlePolygon, center, onPolygonUpdate, onPolygonComplete, createdPolygon, height, width, zoom, }: MapProps): React.JSX.Element;
+declare function GeofenceMap({ dynamicRates, mode, singlePolygon, center, defaultCenter, onPolygonUpdate, onPolygonComplete, createdPolygon, height, width, zoom, }: MapProps): React.JSX.Element;
 
 type ColorPickerProps = {
     valueColor: string;

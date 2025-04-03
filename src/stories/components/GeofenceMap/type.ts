@@ -29,8 +29,10 @@ export type MapProps  = {
     width?: string;
     zoom?: number;
     center?: google.maps.LatLngLiteral;
+    defaultCenter?: google.maps.LatLngLiteral;
     onPolygonComplete?: (polygons: google.maps.LatLngLiteral[]) => void;
     onPolygonUpdate?: (polygons: google.maps.LatLngLiteral[]) => void;
     createdPolygon?: google.maps.LatLngLiteral[];
+
     linkEdit?:string;
 }
