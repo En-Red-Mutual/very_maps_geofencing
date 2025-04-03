@@ -316,15 +316,11 @@ function GeofenceMap({
   const handleZoomChanged = (map) => {
     setZoomLevel(map.getZoom());
   };
+  console.log(defaultCenter);
   const { isLoaded } = api.useLoadScript({
     googleMapsApiKey: "AIzaSyDZ2gn0lNxRo4x6fsg6ne9oNoMT9mDMDAo",
     libraries
   });
-  console.log("isLoaded", isLoaded);
-  console.log("google", typeof google !== "undefined" ? google : "NO GOOGLE");
-  console.log("google.maps.drawing", google.maps.drawing);
-  console.log("center", center);
-  console.log("defaultCenter", defaultCenter);
   if (!isLoaded || typeof google === "undefined") {
     return /* @__PURE__ */ React2__default.default.createElement("div", null, "Loading...");
   }
@@ -416,10 +412,7 @@ function GeofenceMap({
         disableDefaultUI: true,
         zoomControl: true,
         disableDoubleClickZoom: true,
-        mapTypeControl: true,
-        mapTypeControlOptions: {
-          style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR
-        }
+        mapTypeControl: true
       }
     },
     mode === "view" && singlePolygon && /* @__PURE__ */ React2__default.default.createElement(

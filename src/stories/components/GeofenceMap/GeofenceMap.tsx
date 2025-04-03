@@ -38,16 +38,12 @@ export default function GeofenceMap({
   const handleZoomChanged = (map: google.maps.Map) => {
     setZoomLevel(map.getZoom()!);
   };
+  console.log(defaultCenter);
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyDZ2gn0lNxRo4x6fsg6ne9oNoMT9mDMDAo",
     libraries,
   });
-  console.log("isLoaded", isLoaded);
-  console.log("google", typeof google !== "undefined" ? google : "NO GOOGLE");
-  console.log("google.maps.drawing", google.maps.drawing);
-  console.log("center", center);
-  console.log("defaultCenter", defaultCenter);
 
   if (!isLoaded || typeof google === "undefined") {
     return <div>Loading...</div>;
@@ -167,9 +163,6 @@ export default function GeofenceMap({
           zoomControl: true,
           disableDoubleClickZoom: true,
           mapTypeControl: true,
-          mapTypeControlOptions: {
-            style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-          },
         }}
       >
         {mode === "view" && singlePolygon && (
