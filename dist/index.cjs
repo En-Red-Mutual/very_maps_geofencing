@@ -371,6 +371,8 @@ function GeofenceMap({
       lng: lng / paths.length + 4e-3
     };
   };
+  const isValidLatLng = (coord) => coord && typeof coord.lat === "number" && typeof coord.lng === "number" && isFinite(coord.lat) && isFinite(coord.lng);
+  const mapCenter = isValidLatLng(center) ? center : { lat: 21.4905, lng: -104.88508 };
   function groupGeofencesByUbication(rates, threshold = 0.05) {
     const groups = [];
     rates.forEach((rate) => {
@@ -395,7 +397,7 @@ function GeofenceMap({
   return /* @__PURE__ */ React2__default.default.createElement("div", null, /* @__PURE__ */ React2__default.default.createElement(
     api.GoogleMap,
     {
-      center: center || { lat: 21.4905, lng: -104.88508 },
+      center: mapCenter,
       zoom: zoomLevel,
       onLoad: (map) => {
         map.addListener("zoom_changed", () => handleZoomChanged(map));
@@ -546,7 +548,7 @@ function GeofenceMap({
         group.length
       )
     )),
-    mode === "new" && /* @__PURE__ */ React2__default.default.createElement(
+    mode === "new" && isLoaded && typeof google.maps?.drawing?.OverlayType !== "undefined" && /* @__PURE__ */ React2__default.default.createElement(
       api.DrawingManager,
       {
         options: {

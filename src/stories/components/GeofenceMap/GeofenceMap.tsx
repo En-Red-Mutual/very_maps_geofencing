@@ -99,6 +99,17 @@ export default function GeofenceMap({
     };
   };
 
+  const isValidLatLng = (coord?: { lat: number; lng: number }) =>
+    coord &&
+    typeof coord.lat === "number" &&
+    typeof coord.lng === "number" &&
+    isFinite(coord.lat) &&
+    isFinite(coord.lng);
+
+  const mapCenter = isValidLatLng(center)
+    ? center
+    : { lat: 21.4905, lng: -104.88508 };
+
   function groupGeofencesByUbication(
     rates: DynamicRateProps[],
     threshold = 0.05
@@ -135,7 +146,7 @@ export default function GeofenceMap({
   return (
     <div>
       <GoogleMap
-        center={center || { lat: 21.4905, lng: -104.88508 }}
+        center={mapCenter}
         zoom={zoomLevel}
         onLoad={(map) => {
           map.addListener("zoom_changed", () => handleZoomChanged(map));
@@ -292,26 +303,28 @@ export default function GeofenceMap({
             </OverlayView>
           ))}
 
-        {mode === "new" && (
-          <DrawingManager
-            options={{
-              drawingControl: true,
-              drawingControlOptions: {
-                drawingModes: [google.maps.drawing.OverlayType.POLYGON],
-              },
-              polygonOptions: {
-                fillColor: "orange",
-                fillOpacity: 0.35,
-                strokeWeight: 2,
-                strokeColor: "orange",
-                clickable: true,
-                editable: true,
-                zIndex: 1,
-              },
-            }}
-            onOverlayComplete={handleOverlayComplete}
-          />
-        )}
+        {mode === "new" &&
+          isLoaded &&
+          typeof google.maps?.drawing?.OverlayType !== "undefined" && (
+            <DrawingManager
+              options={{
+                drawingControl: true,
+                drawingControlOptions: {
+                  drawingModes: [google.maps.drawing.OverlayType.POLYGON],
+                },
+                polygonOptions: {
+                  fillColor: "orange",
+                  fillOpacity: 0.35,
+                  strokeWeight: 2,
+                  strokeColor: "orange",
+                  clickable: true,
+                  editable: true,
+                  zIndex: 1,
+                },
+              }}
+              onOverlayComplete={handleOverlayComplete}
+            />
+          )}
 
         {mode === "preview" && createdPolygon && (
           <Polygon
