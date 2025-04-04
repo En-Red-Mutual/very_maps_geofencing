@@ -295,7 +295,6 @@ var GeofenceModal = ({ dynamicRate, onClose }) => {
   );
 };
 var GeofenceModal_default = GeofenceModal;
-var libraries = ["drawing", "places"];
 function GeofenceMap({
   dynamicRates,
   mode,
@@ -307,7 +306,8 @@ function GeofenceMap({
   createdPolygon,
   height,
   width,
-  zoom
+  zoom,
+  isLoaded
 }) {
   const [selectedGeofence, setSelectedGeofence] = React2.useState(null);
   const [newPaths, setNewPaths] = React2.useState([]);
@@ -317,10 +317,6 @@ function GeofenceMap({
     setZoomLevel(map.getZoom());
   };
   console.log(defaultCenter);
-  const { isLoaded } = api.useLoadScript({
-    googleMapsApiKey: "AIzaSyDZ2gn0lNxRo4x6fsg6ne9oNoMT9mDMDAo",
-    libraries
-  });
   if (!isLoaded || typeof google === "undefined") {
     return /* @__PURE__ */ React2__default.default.createElement("div", null, "Loading...");
   }
@@ -747,11 +743,11 @@ var ColorPicker = ({
   );
 };
 var ColorPicker_default = ColorPicker;
-var libraries2 = ["places"];
 var InputSearch = ({
   value = "",
   onSelectLocation,
-  CSS = []
+  CSS = [],
+  isLoaded
 }) => {
   const [inputValue, setInputValue] = React2.useState(value);
   const autocompleteRef = React2.useRef(null);
@@ -782,36 +778,32 @@ var InputSearch = ({
       );
     }
   };
+  if (!isLoaded || typeof google === "undefined") {
+    return /* @__PURE__ */ React2__default.default.createElement("div", null, "Cargando buscador de ubicaciones...");
+  }
   return /* @__PURE__ */ React2__default.default.createElement("div", null, /* @__PURE__ */ React2__default.default.createElement(
-    api.LoadScript,
+    api.Autocomplete,
     {
-      googleMapsApiKey: "AIzaSyDZ2gn0lNxRo4x6fsg6ne9oNoMT9mDMDAo",
-      libraries: libraries2
+      onLoad: (autocomplete) => autocompleteRef.current = autocomplete,
+      onPlaceChanged: handlePlaceChanged
     },
     /* @__PURE__ */ React2__default.default.createElement(
-      api.Autocomplete,
+      "input",
       {
-        onLoad: (autocomplete) => autocompleteRef.current = autocomplete,
-        onPlaceChanged: handlePlaceChanged
-      },
-      /* @__PURE__ */ React2__default.default.createElement(
-        "input",
-        {
-          ref: inputRef,
-          className: customCSS.join(" "),
-          type: "text",
-          value: inputValue,
-          onChange: (e) => setInputValue(e.target.value),
-          placeholder: "Buscar lugar",
-          style: {
-            width: "100%",
-            padding: "10px",
-            borderRadius: "4px",
-            border: "1px solid #ccc",
-            fontSize: "16px"
-          }
+        ref: inputRef,
+        className: customCSS.join(" "),
+        type: "text",
+        value: inputValue,
+        onChange: (e) => setInputValue(e.target.value),
+        placeholder: "Buscar lugar",
+        style: {
+          width: "100%",
+          padding: "10px",
+          borderRadius: "4px",
+          border: "1px solid #ccc",
+          fontSize: "16px"
         }
-      )
+      }
     )
   ));
 };

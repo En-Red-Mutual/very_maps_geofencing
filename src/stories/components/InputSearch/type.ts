@@ -8,4 +8,5 @@ export interface InputSearchProps {
   value?: string;
   onSelectLocation?: (place: PlaceDetails) => void;
   CSS:[]
+    isLoaded: boolean;
 }

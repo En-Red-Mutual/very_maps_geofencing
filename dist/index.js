@@ -1,5 +1,5 @@
 import React2, { forwardRef, createElement, useState, useRef, useEffect } from 'react';
-import { useLoadScript, GoogleMap, Polygon, OverlayView, DrawingManager, LoadScript, Autocomplete } from '@react-google-maps/api';
+import { GoogleMap, Polygon, OverlayView, DrawingManager, Autocomplete } from '@react-google-maps/api';
 
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __esm = (fn, res) => function __init() {
@@ -289,7 +289,6 @@ var GeofenceModal = ({ dynamicRate, onClose }) => {
   );
 };
 var GeofenceModal_default = GeofenceModal;
-var libraries = ["drawing", "places"];
 function GeofenceMap({
   dynamicRates,
   mode,
@@ -301,7 +300,8 @@ function GeofenceMap({
   createdPolygon,
   height,
   width,
-  zoom
+  zoom,
+  isLoaded
 }) {
   const [selectedGeofence, setSelectedGeofence] = useState(null);
   const [newPaths, setNewPaths] = useState([]);
@@ -311,10 +311,6 @@ function GeofenceMap({
     setZoomLevel(map.getZoom());
   };
   console.log(defaultCenter);
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyDZ2gn0lNxRo4x6fsg6ne9oNoMT9mDMDAo",
-    libraries
-  });
   if (!isLoaded || typeof google === "undefined") {
     return /* @__PURE__ */ React2.createElement("div", null, "Loading...");
   }
@@ -741,11 +737,11 @@ var ColorPicker = ({
   );
 };
 var ColorPicker_default = ColorPicker;
-var libraries2 = ["places"];
 var InputSearch = ({
   value = "",
   onSelectLocation,
-  CSS = []
+  CSS = [],
+  isLoaded
 }) => {
   const [inputValue, setInputValue] = useState(value);
   const autocompleteRef = useRef(null);
@@ -776,36 +772,32 @@ var InputSearch = ({
       );
     }
   };
+  if (!isLoaded || typeof google === "undefined") {
+    return /* @__PURE__ */ React2.createElement("div", null, "Cargando buscador de ubicaciones...");
+  }
   return /* @__PURE__ */ React2.createElement("div", null, /* @__PURE__ */ React2.createElement(
-    LoadScript,
+    Autocomplete,
     {
-      googleMapsApiKey: "AIzaSyDZ2gn0lNxRo4x6fsg6ne9oNoMT9mDMDAo",
-      libraries: libraries2
+      onLoad: (autocomplete) => autocompleteRef.current = autocomplete,
+      onPlaceChanged: handlePlaceChanged
     },
     /* @__PURE__ */ React2.createElement(
-      Autocomplete,
+      "input",
       {
-        onLoad: (autocomplete) => autocompleteRef.current = autocomplete,
-        onPlaceChanged: handlePlaceChanged
-      },
-      /* @__PURE__ */ React2.createElement(
-        "input",
-        {
-          ref: inputRef,
-          className: customCSS.join(" "),
-          type: "text",
-          value: inputValue,
-          onChange: (e) => setInputValue(e.target.value),
-          placeholder: "Buscar lugar",
-          style: {
-            width: "100%",
-            padding: "10px",
-            borderRadius: "4px",
-            border: "1px solid #ccc",
-            fontSize: "16px"
-          }
+        ref: inputRef,
+        className: customCSS.join(" "),
+        type: "text",
+        value: inputValue,
+        onChange: (e) => setInputValue(e.target.value),
+        placeholder: "Buscar lugar",
+        style: {
+          width: "100%",
+          padding: "10px",
+          borderRadius: "4px",
+          border: "1px solid #ccc",
+          fontSize: "16px"
         }
-      )
+      }
     )
   ));
 };

@@ -33,6 +33,6 @@ export type MapProps  = {
     onPolygonComplete?: (polygons: google.maps.LatLngLiteral[]) => void;
     onPolygonUpdate?: (polygons: google.maps.LatLngLiteral[]) => void;
     createdPolygon?: google.maps.LatLngLiteral[];
-
+    isLoaded?: boolean;
     linkEdit?:string;
 }
