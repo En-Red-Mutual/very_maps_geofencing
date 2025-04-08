@@ -1,4 +1,4 @@
-import React from 'react';
+import React$1 from 'react';
 
 type DynamicRateProps = {
     id: number | string;
@@ -40,12 +40,13 @@ type MapProps = {
 
 type GeofenceModalProps = {
     dynamicRate: DynamicRateProps;
+    extraContent?: React.ReactNode;
     onClose: () => void;
 };
 
-declare const GeofenceModal: ({ dynamicRate, onClose }: GeofenceModalProps) => React.JSX.Element;
+declare const GeofenceModal: ({ dynamicRate, onClose, extraContent, }: GeofenceModalProps) => React$1.JSX.Element;
 
-declare function GeofenceMap({ dynamicRates, mode, singlePolygon, center, defaultCenter, onPolygonUpdate, onPolygonComplete, createdPolygon, height, width, zoom, isLoaded, }: MapProps): React.JSX.Element;
+declare function GeofenceMap({ dynamicRates, mode, singlePolygon, center, defaultCenter, onPolygonUpdate, onPolygonComplete, createdPolygon, height, width, zoom, }: MapProps): React$1.JSX.Element;
 
 type ColorPickerProps = {
     valueColor: string;
@@ -56,7 +57,7 @@ type ColorPickerProps = {
     onChangeColor: (color: string) => void;
 };
 
-declare const ColorPicker: ({ valueColor, onChangeColor, colors, }: ColorPickerProps) => React.JSX.Element;
+declare const ColorPicker: ({ valueColor, onChangeColor, colors, }: ColorPickerProps) => React$1.JSX.Element;
 
 interface PlaceDetails {
     name: string;
@@ -70,6 +71,6 @@ interface InputSearchProps {
     isLoaded: boolean;
 }
 
-declare const InputSearch: React.FC<InputSearchProps>;
+declare const InputSearch: React$1.FC<InputSearchProps>;
 
 export { ColorPicker, type ColorPickerProps, type DynamicRateProps, GeofenceMap, GeofenceModal, type GeofenceModalProps, InputSearch, type InputSearchProps, type MapProps, type PlaceDetails };

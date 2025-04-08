@@ -1,12 +1,11 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Autocomplete } from "@react-google-maps/api";
+import { Autocomplete, useLoadScript } from "@react-google-maps/api";
 import { InputSearchProps, PlaceDetails } from "./type";
 
 const InputSearch: React.FC<InputSearchProps> = ({
   value = "",
   onSelectLocation,
   CSS = [],
-  isLoaded,
 }) => {
   const [inputValue, setInputValue] = useState<string>(value);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
@@ -24,28 +23,70 @@ const InputSearch: React.FC<InputSearchProps> = ({
     if (!autocomplete) return;
 
     const place = autocomplete.getPlace();
+    const location = place.geometry?.location;
 
-    if (place.geometry && place.geometry.location) {
-      const location = place.geometry.location;
-      const lat = location.lat();
-      const lng = location.lng();
-      const name = place.name || "Lugar desconocido";
-
-      const details: PlaceDetails = { name, lat, lng };
-
-      setInputValue(name); // actualizar campo visible
-
-      if (onSelectLocation) {
-        onSelectLocation(details); // enviar al componente padre
-      }
-
-      console.log("📍 Lugar seleccionado:", details);
-    } else {
-      console.warn(
-        "⚠️ No se pudo obtener la ubicación del lugar seleccionado."
-      );
+    if (!location) {
+      console.warn("⚠️ No se pudo obtener la ubicación.");
+      return;
     }
+
+    const lat = location.lat();
+    const lng = location.lng();
+
+    const addressComponents = place.address_components || [];
+    const placeTypes = place.types || [];
+
+    // Tipos que indican que es una dirección o colonia
+    const nonCityTypes = [
+      "route",
+      "street_address",
+      "premise",
+      "sublocality",
+      "sublocality_level_1",
+      "neighborhood",
+    ];
+
+    // ⚠️ Si contiene alguno de estos tipos, NO es ciudad
+    const isSpecificAddress = placeTypes.some((type) =>
+      nonCityTypes.includes(type)
+    );
+
+    // ✅ Solo si NO es dirección y SÍ tiene city/municipio, marcamos como ciudad
+    const isCity =
+      !isSpecificAddress &&
+      (placeTypes.includes("locality") ||
+        placeTypes.includes("administrative_area_level_2"));
+
+    // Si es ciudad, extrae solo el nombre de la ciudad/municipio
+    let name = place.name || "Lugar desconocido";
+    if (isCity) {
+      const cityComponent = addressComponents.find(
+        (component) =>
+          component.types.includes("locality") ||
+          component.types.includes("administrative_area_level_2")
+      );
+      if (cityComponent?.long_name) {
+        name = cityComponent.long_name;
+      }
+    }
+
+    const details: PlaceDetails & { isCity: boolean } = {
+      name,
+      lat,
+      lng,
+      isCity,
+    };
+
+    setInputValue(name);
+    if (onSelectLocation) onSelectLocation(details);
+
+    console.log("✅ Lugar seleccionado:", details);
   };
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: "AIzaSyD2DLRwY3LVqCnm0nhhnS4h0H0DBA2tGeg",
+    libraries: ["drawing", "places"],
+  });
 
   if (!isLoaded || typeof google === "undefined") {
     return <div>Cargando buscador de ubicaciones...</div>;

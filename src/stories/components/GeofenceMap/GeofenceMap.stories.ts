@@ -104,7 +104,7 @@ export const MultiPolygon = {
             {
             id:'2',
             name:'CD DEL VALLE',
-            ubicationName: "Ciudad del valle",
+            ubicationName: "Palacio de bellas artes indigenas y no indigenas",
             ubicationCoordinates:{"lat": 21.4905, "lng": -104.88508},
             color:"blue",
             initialRate: 48,

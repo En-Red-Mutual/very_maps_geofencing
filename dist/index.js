@@ -1,5 +1,5 @@
 import React2, { forwardRef, createElement, useState, useRef, useEffect } from 'react';
-import { GoogleMap, Polygon, OverlayView, DrawingManager, Autocomplete } from '@react-google-maps/api';
+import { useLoadScript, GoogleMap, Polygon, OverlayView, DrawingManager, Autocomplete } from '@react-google-maps/api';
 
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __esm = (fn, res) => function __init() {
@@ -68,12 +68,12 @@ var init_createReactComponent = __esm({
   }
 });
 
-// node_modules/@tabler/icons-react/dist/esm/icons/IconEdit.mjs
-var IconEdit;
-var init_IconEdit = __esm({
-  "node_modules/@tabler/icons-react/dist/esm/icons/IconEdit.mjs"() {
+// node_modules/@tabler/icons-react/dist/esm/icons/IconPencil.mjs
+var IconPencil;
+var init_IconPencil = __esm({
+  "node_modules/@tabler/icons-react/dist/esm/icons/IconPencil.mjs"() {
     init_createReactComponent();
-    IconEdit = createReactComponent("outline", "edit", "IconEdit", [["path", { "d": "M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1", "key": "svg-0" }], ["path", { "d": "M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z", "key": "svg-1" }], ["path", { "d": "M16 5l3 3", "key": "svg-2" }]]);
+    IconPencil = createReactComponent("outline", "pencil", "IconPencil", [["path", { "d": "M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4", "key": "svg-0" }], ["path", { "d": "M13.5 6.5l4 4", "key": "svg-1" }]]);
   }
 });
 
@@ -123,7 +123,7 @@ var init_IconMapPinFilled = __esm({
 });
 
 // node_modules/@tabler/icons-react/dist/esm/tabler-icons-react.mjs
-init_IconEdit();
+init_IconPencil();
 init_IconStackBack();
 init_IconStackFront();
 init_IconStackMiddle();
@@ -131,162 +131,31 @@ init_IconX();
 init_IconMapPinFilled();
 
 // src/stories/components/GeofenceModal/GeofenceModal.tsx
-var GeofenceModal = ({ dynamicRate, onClose }) => {
-  return /* @__PURE__ */ React2.createElement(
-    "article",
+var GeofenceModal = ({
+  dynamicRate,
+  onClose,
+  extraContent
+}) => {
+  const formatHour = (time) => {
+    const [hour, , period] = time.split(/[:\s]/);
+    return `${hour} ${period}`;
+  };
+  return /* @__PURE__ */ React2.createElement("article", { className: "flex flex-col gap-2 w-[230px] text-sm" }, /* @__PURE__ */ React2.createElement("div", { className: "bg-black text-white rounded-3xl py-2 flex flex-col gap-2 px-4 items-center justify-center" }, /* @__PURE__ */ React2.createElement("h2", { className: "font-bold" }, "Nombre"), /* @__PURE__ */ React2.createElement("p", { className: "truncate" }, dynamicRate.name)), /* @__PURE__ */ React2.createElement("div", { className: " bg-black text-white rounded-3xl py-2 flex gap-2 items-center justify-center" }, /* @__PURE__ */ React2.createElement(IconMapPinFilled, { size: 22 }), /* @__PURE__ */ React2.createElement("p", { className: " w-[140px] truncate" }, dynamicRate.ubicationName)), /* @__PURE__ */ React2.createElement("div", { className: "bg-black text-white rounded-3xl py-2 flex flex-col gap-2 items-center justify-center" }, /* @__PURE__ */ React2.createElement("h2", { className: "font-bold" }, "Tarifa inicial"), /* @__PURE__ */ React2.createElement("p", null, "$", dynamicRate.initialRate, " MXN km")), /* @__PURE__ */ React2.createElement("div", { className: "bg-black text-white rounded-3xl py-2 flex flex-col gap-2 items-center justify-center" }, /* @__PURE__ */ React2.createElement("h2", null, "Tarifa din\xE1mica"), /* @__PURE__ */ React2.createElement("p", null, "$", dynamicRate.pricePerKilometer, " MXN ", /* @__PURE__ */ React2.createElement("span", null, "->"), " ", dynamicRate.kilometers, " km"), /* @__PURE__ */ React2.createElement("p", null, "$", dynamicRate.priceOnDemand, " MXN - ", formatHour(dynamicRate.startHour), " ", "a ", formatHour(dynamicRate.endHour))), /* @__PURE__ */ React2.createElement("div", { className: "flex gap-2 items-center justify-around" }, /* @__PURE__ */ React2.createElement("div", { className: "bg-black w-14 h-8 rounded-2xl" }, extraContent), /* @__PURE__ */ React2.createElement("div", { className: "bg-black rounded-full w-8 h-8 flex items-center justify-center" }, /* @__PURE__ */ React2.createElement(
+    "div",
     {
+      className: "w-6 h-6 !p-1 rounded-full",
       style: {
-        width: "200px",
-        display: "flex",
-        flexDirection: "column",
-        gap: "4px"
+        backgroundColor: dynamicRate.color
       }
+    }
+  )), /* @__PURE__ */ React2.createElement("button", { className: "bg-black rounded-full w-8 h-8 flex items-center justify-center text-white" }, /* @__PURE__ */ React2.createElement(IconPencil, { size: 24 })), /* @__PURE__ */ React2.createElement(
+    "button",
+    {
+      className: "bg-black/20 w-8 h-8 rounded-full flex items-center justify-center text-white",
+      onClick: onClose
     },
-    /* @__PURE__ */ React2.createElement(
-      "div",
-      {
-        style: {
-          backgroundColor: "black",
-          color: "white",
-          borderRadius: "84px",
-          textAlign: "center",
-          padding: "1px"
-        }
-      },
-      /* @__PURE__ */ React2.createElement("h2", { style: { fontWeight: "bold", fontSize: "13px" } }, "Nombre"),
-      /* @__PURE__ */ React2.createElement("p", { style: { fontSize: "12px" } }, dynamicRate.name)
-    ),
-    /* @__PURE__ */ React2.createElement(
-      "div",
-      {
-        style: {
-          display: "flex",
-          gap: "4px",
-          padding: "3px 0px",
-          justifyContent: "center",
-          backgroundColor: "black",
-          color: "white",
-          fontSize: "13px",
-          borderRadius: "84px",
-          textAlign: "center",
-          alignItems: "center"
-        }
-      },
-      /* @__PURE__ */ React2.createElement(IconMapPinFilled, { size: 22 }),
-      /* @__PURE__ */ React2.createElement("p", { style: { fontSize: "14px" } }, dynamicRate.ubicationName)
-    ),
-    /* @__PURE__ */ React2.createElement(
-      "div",
-      {
-        style: {
-          backgroundColor: "black",
-          borderRadius: "2rem",
-          padding: "1px",
-          color: "white",
-          textAlign: "center"
-        }
-      },
-      /* @__PURE__ */ React2.createElement("h2", { style: { fontWeight: "bold", fontSize: "13px" } }, "Tarifa inicial"),
-      /* @__PURE__ */ React2.createElement("p", { style: { fontSize: "12px" } }, "$", dynamicRate.initialRate, " MXN km")
-    ),
-    /* @__PURE__ */ React2.createElement(
-      "div",
-      {
-        style: {
-          backgroundColor: "black",
-          borderRadius: "2rem",
-          padding: "1px",
-          color: "white",
-          textAlign: "center",
-          display: "flex",
-          flexDirection: "column",
-          gap: "1px"
-        }
-      },
-      /* @__PURE__ */ React2.createElement("h2", { style: { fontWeight: "bold", fontSize: "13px" } }, "Tarifa din\xE1mica"),
-      /* @__PURE__ */ React2.createElement("p", { style: { fontSize: "12px" } }, "$", dynamicRate.pricePerKilometer, " MXN ", /* @__PURE__ */ React2.createElement("span", null, "->"), " ", dynamicRate.kilometers, " km"),
-      /* @__PURE__ */ React2.createElement("p", { style: { fontSize: "12px" } }, "$50 MXN - 9PM a 5AM")
-    ),
-    /* @__PURE__ */ React2.createElement(
-      "div",
-      {
-        style: {
-          display: "flex",
-          gap: "1px",
-          justifyContent: "space-between",
-          height: "40px",
-          width: "100%"
-        }
-      },
-      /* @__PURE__ */ React2.createElement(
-        "div",
-        {
-          style: {
-            backgroundColor: "black",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "60px",
-            borderRadius: "50px"
-          }
-        }
-      ),
-      /* @__PURE__ */ React2.createElement(
-        "div",
-        {
-          style: {
-            backgroundColor: "black",
-            display: "flex",
-            alignItems: "center",
-            borderRadius: "50px",
-            padding: "4px"
-          }
-        },
-        /* @__PURE__ */ React2.createElement(
-          "div",
-          {
-            style: {
-              backgroundColor: dynamicRate.color,
-              width: "30px",
-              height: "30px",
-              borderRadius: "50%"
-            }
-          }
-        )
-      ),
-      /* @__PURE__ */ React2.createElement(
-        "button",
-        {
-          style: {
-            backgroundColor: "black",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "40px",
-            borderRadius: "50px",
-            color: "white"
-          }
-        },
-        /* @__PURE__ */ React2.createElement(IconEdit, { size: 24 })
-      ),
-      /* @__PURE__ */ React2.createElement(
-        "button",
-        {
-          style: {
-            backgroundColor: "gray",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "40px",
-            borderRadius: "50px",
-            color: "white"
-          },
-          onClick: onClose
-        },
-        /* @__PURE__ */ React2.createElement(IconX, null)
-      )
-    )
-  );
+    /* @__PURE__ */ React2.createElement(IconX, null)
+  )));
 };
 var GeofenceModal_default = GeofenceModal;
 function GeofenceMap({
@@ -300,8 +169,7 @@ function GeofenceMap({
   createdPolygon,
   height,
   width,
-  zoom,
-  isLoaded
+  zoom
 }) {
   const [selectedGeofence, setSelectedGeofence] = useState(null);
   const [newPaths, setNewPaths] = useState([]);
@@ -311,6 +179,10 @@ function GeofenceMap({
     setZoomLevel(map.getZoom());
   };
   console.log(defaultCenter);
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: "AIzaSyD2DLRwY3LVqCnm0nhhnS4h0H0DBA2tGeg",
+    libraries: ["drawing", "places"]
+  });
   if (!isLoaded || typeof google === "undefined") {
     return /* @__PURE__ */ React2.createElement("div", null, "Loading...");
   }
@@ -589,6 +461,42 @@ function GeofenceMap({
         },
         onLoad: (polygon) => {
           polygonRef.current = polygon;
+          const mvcPath = new google.maps.MVCArray(
+            singlePolygon.polygons.map(
+              (p) => new google.maps.LatLng(p.lat, p.lng)
+            )
+          );
+          polygon.setPath(mvcPath);
+          const updatePath = () => {
+            const updatedPaths = mvcPath.getArray().map((point) => ({
+              lat: point.lat(),
+              lng: point.lng()
+            }));
+            setNewPaths(updatedPaths);
+            onPolygonUpdate && onPolygonUpdate(updatedPaths);
+          };
+          google.maps.event.addListener(mvcPath, "set_at", updatePath);
+          google.maps.event.addListener(mvcPath, "insert_at", updatePath);
+          google.maps.event.addListener(mvcPath, "remove_at", updatePath);
+          updatePath();
+          google.maps.event.addListener(polygon, "rightclick", (e) => {
+            const clickedLatLng = e.latLng;
+            let closestIndex = -1;
+            let minDistance = Infinity;
+            mvcPath.forEach((point, index) => {
+              const dist = google.maps.geometry.spherical.computeDistanceBetween(
+                point,
+                clickedLatLng
+              );
+              if (dist < minDistance) {
+                minDistance = dist;
+                closestIndex = index;
+              }
+            });
+            if (closestIndex !== -1 && minDistance < 25) {
+              mvcPath.removeAt(closestIndex);
+            }
+          });
         },
         onMouseUp: () => {
           if (polygonRef.current) {
@@ -740,8 +648,7 @@ var ColorPicker_default = ColorPicker;
 var InputSearch = ({
   value = "",
   onSelectLocation,
-  CSS = [],
-  isLoaded
+  CSS = []
 }) => {
   const [inputValue, setInputValue] = useState(value);
   const autocompleteRef = useRef(null);
@@ -755,23 +662,50 @@ var InputSearch = ({
     const autocomplete = autocompleteRef.current;
     if (!autocomplete) return;
     const place = autocomplete.getPlace();
-    if (place.geometry && place.geometry.location) {
-      const location = place.geometry.location;
-      const lat = location.lat();
-      const lng = location.lng();
-      const name = place.name || "Lugar desconocido";
-      const details = { name, lat, lng };
-      setInputValue(name);
-      if (onSelectLocation) {
-        onSelectLocation(details);
-      }
-      console.log("\u{1F4CD} Lugar seleccionado:", details);
-    } else {
-      console.warn(
-        "\u26A0\uFE0F No se pudo obtener la ubicaci\xF3n del lugar seleccionado."
-      );
+    const location = place.geometry?.location;
+    if (!location) {
+      console.warn("\u26A0\uFE0F No se pudo obtener la ubicaci\xF3n.");
+      return;
     }
+    const lat = location.lat();
+    const lng = location.lng();
+    const addressComponents = place.address_components || [];
+    const placeTypes = place.types || [];
+    const nonCityTypes = [
+      "route",
+      "street_address",
+      "premise",
+      "sublocality",
+      "sublocality_level_1",
+      "neighborhood"
+    ];
+    const isSpecificAddress = placeTypes.some(
+      (type) => nonCityTypes.includes(type)
+    );
+    const isCity = !isSpecificAddress && (placeTypes.includes("locality") || placeTypes.includes("administrative_area_level_2"));
+    let name = place.name || "Lugar desconocido";
+    if (isCity) {
+      const cityComponent = addressComponents.find(
+        (component) => component.types.includes("locality") || component.types.includes("administrative_area_level_2")
+      );
+      if (cityComponent?.long_name) {
+        name = cityComponent.long_name;
+      }
+    }
+    const details = {
+      name,
+      lat,
+      lng,
+      isCity
+    };
+    setInputValue(name);
+    if (onSelectLocation) onSelectLocation(details);
+    console.log("\u2705 Lugar seleccionado:", details);
   };
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: "AIzaSyD2DLRwY3LVqCnm0nhhnS4h0H0DBA2tGeg",
+    libraries: ["drawing", "places"]
+  });
   if (!isLoaded || typeof google === "undefined") {
     return /* @__PURE__ */ React2.createElement("div", null, "Cargando buscador de ubicaciones...");
   }
@@ -820,7 +754,7 @@ var InputSeach_default = InputSearch;
    * See the LICENSE file in the root directory of this source tree.
    *)
 
-@tabler/icons-react/dist/esm/icons/IconEdit.mjs:
+@tabler/icons-react/dist/esm/icons/IconPencil.mjs:
   (**
    * @license @tabler/icons-react v3.30.0 - MIT
    *

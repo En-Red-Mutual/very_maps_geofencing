@@ -4,6 +4,7 @@ import {
   Polygon,
   DrawingManager,
   OverlayView,
+  useLoadScript,
 } from "@react-google-maps/api";
 import { DynamicRateProps, MapProps } from "./type";
 import GeofenceModal from "../GeofenceModal/GeofenceModal";
@@ -25,7 +26,6 @@ export default function GeofenceMap({
   height,
   width,
   zoom,
-  isLoaded,
 }: MapProps) {
   const [selectedGeofence, setSelectedGeofence] =
     useState<DynamicRateProps | null>(null);
@@ -37,6 +37,11 @@ export default function GeofenceMap({
     setZoomLevel(map.getZoom()!);
   };
   console.log(defaultCenter);
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: "AIzaSyD2DLRwY3LVqCnm0nhhnS4h0H0DBA2tGeg",
+    libraries: ["drawing", "places"],
+  });
 
   if (!isLoaded || typeof google === "undefined") {
     return <div>Loading...</div>;
@@ -345,10 +350,58 @@ export default function GeofenceMap({
               strokeWeight: 2,
               clickable: true,
               editable: true,
+
               zIndex: 1,
             }}
             onLoad={(polygon) => {
               polygonRef.current = polygon;
+
+              const mvcPath = new google.maps.MVCArray(
+                singlePolygon.polygons.map(
+                  (p) => new google.maps.LatLng(p.lat, p.lng)
+                )
+              );
+
+              polygon.setPath(mvcPath);
+
+              const updatePath = () => {
+                const updatedPaths = mvcPath.getArray().map((point) => ({
+                  lat: point.lat(),
+                  lng: point.lng(),
+                }));
+                setNewPaths(updatedPaths);
+                onPolygonUpdate && onPolygonUpdate(updatedPaths);
+              };
+
+              google.maps.event.addListener(mvcPath, "set_at", updatePath);
+              google.maps.event.addListener(mvcPath, "insert_at", updatePath);
+              google.maps.event.addListener(mvcPath, "remove_at", updatePath);
+
+              updatePath();
+
+              // 🎯 Escuchar clic derecho y eliminar punto más cercano
+              google.maps.event.addListener(polygon, "rightclick", (e: any) => {
+                const clickedLatLng = e.latLng;
+                let closestIndex = -1;
+                let minDistance = Infinity;
+
+                mvcPath.forEach((point, index) => {
+                  const dist =
+                    google.maps.geometry.spherical.computeDistanceBetween(
+                      point,
+                      clickedLatLng
+                    );
+                  if (dist < minDistance) {
+                    minDistance = dist;
+                    closestIndex = index;
+                  }
+                });
+
+                // Si está muy cerca de un punto, lo eliminamos
+                if (closestIndex !== -1 && minDistance < 25) {
+                  mvcPath.removeAt(closestIndex);
+                }
+              });
             }}
             onMouseUp={() => {
               if (polygonRef.current) {
