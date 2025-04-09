@@ -10,6 +10,9 @@ import { DynamicRateProps, MapProps } from "./stories/components/GeofenceMap/typ
 import { ColorPickerProps } from "./stories/components/ColorPicker/type";
 import { InputSearchProps } from "./stories/components/InputSearch/type";
 import { PlaceDetails } from "./stories/components/InputSearch/type";
+import "./stories/components/ColorPicker/style.css";
+import "./stories/components/GeofenceModal/styles.css";
+
 
 
 export {
