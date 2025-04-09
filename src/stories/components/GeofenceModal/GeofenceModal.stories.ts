@@ -14,7 +14,7 @@ export const Default = {
         dynamicRate:{
             "id": "1",
             "name": "Ciudad de Wallavi",
-            "ubicationName": "Guadalajara",
+            "ubicationName": "Palacio de bellas artes indigenas",
             "ubicationCoordinates":[{}],
             "initialRate": 48,
             "isDynamic": true,

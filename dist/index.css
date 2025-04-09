@@ -1,0 +1,136 @@
+/* src/stories/components/GeofenceModal/styles.css */
+.geofence-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 230px;
+  font-size: 0.875rem;
+}
+.geofence-section {
+  background-color: black;
+  color: white;
+  border-radius: 1.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+.geofence-section-row {
+  background-color: black;
+  color: white;
+  border-radius: 1.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+.geofence-ubication {
+  width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.geofence-footer {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-around;
+}
+.geofence-extra-content {
+  background-color: black;
+  width: 3.5rem;
+  height: 2rem;
+  border-radius: 1rem;
+}
+.geofence-color-circle {
+  background-color: black;
+  border-radius: 9999px;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.geofence-color-box {
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0.25rem !important;
+  border-radius: 9999px;
+}
+.geofence-button-edit {
+  background-color: black;
+  border-radius: 9999px;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+.geofence-button-close {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 9999px;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+/* src/stories/components/ColorPicker/style.css */
+.color-picker-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 25%;
+  gap: 10px;
+  position: relative;
+}
+.color-picker-wrapper {
+  background-color: lightgray;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.color-picker-circle {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  margin: 0 auto;
+  cursor: pointer;
+}
+.color-picker-label {
+  font-weight: bold;
+}
+.color-picker-modal {
+  position: absolute;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+  gap: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  top: 45px;
+  left: 0;
+}
+.color-picker-option {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin: 0 auto;
+  cursor: pointer;
+}
+/*# sourceMappingURL=index.css.map */

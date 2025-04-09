@@ -1,5 +1,6 @@
 import React from "react";
 import { ColorPickerProps } from "./type";
+import "./style.css";
 
 const ColorPicker = ({
   valueColor,
@@ -18,7 +19,6 @@ const ColorPicker = ({
   const [openModal, setOpenModal] = React.useState<boolean>(false);
 
   const convertEnglishToSpanishAnyColor = (color: string): string => {
-    console.log(color);
     const colorMap: { [key: string]: string } = {
       red: "Rojo",
       blue: "Azul",
@@ -30,6 +30,7 @@ const ColorPicker = ({
     };
     return colorMap[color] || color;
   };
+
   const handleHideModalClickOutside = (e: any) => {
     if (e.target.id === "modal") {
       setOpenModal(false);
@@ -46,71 +47,28 @@ const ColorPicker = ({
   return (
     <div
       id="modal"
+      className="color-picker-container"
       onClick={handleHideModalClickOutside}
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "start",
-        width: "25%",
-        gap: "10px",
-      }}
     >
-      <div
-        style={{
-          backgroundColor: "lightgray",
-          width: "35px",
-          height: "35px",
-          borderRadius: "50%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
+      <div className="color-picker-wrapper">
         <div
+          className="color-picker-circle"
           onClick={() => setOpenModal(!openModal)}
-          style={{
-            backgroundColor: color,
-            width: "25px",
-            height: "25px",
-            borderRadius: "50%",
-            margin: "0 auto",
-            cursor: "pointer",
-          }}
+          style={{ backgroundColor: color }}
         />
       </div>
-      <span
-        style={{
-          fontWeight: "bold",
-        }}
-      >
+      <span className="color-picker-label">
         {convertEnglishToSpanishAnyColor(color)}
       </span>
       {openModal && (
-        <div
-          style={{
-            position: "absolute",
-            backgroundColor: "black",
-            display: "flex",
-            flexDirection: "column",
-            zIndex: 1,
-            gap: "5px",
-            padding: "5px",
-            borderRadius: "5px",
-          }}
-        >
-          {colors.map((color) => (
+        <div className="color-picker-modal">
+          {colors.map((c) => (
             <div
-              style={{
-                backgroundColor: color.color,
-                width: "20px",
-                height: "20px",
-                borderRadius: "50%",
-                margin: "0 auto",
-                cursor: "pointer",
-              }}
+              key={c.color}
+              className="color-picker-option"
+              style={{ backgroundColor: c.color }}
               onClick={() => {
-                handleChangeColor(color.color);
+                handleChangeColor(c.color);
                 setOpenModal(false);
               }}
             />

@@ -278,6 +278,7 @@ export default function GeofenceMap({
 
         {/* NUEVO: Mostrar grupos cuando hay poco zoom */}
         {mode === "view" &&
+          !singlePolygon &&
           zoomLevel <= 13 &&
           groupGeofencesByUbication(dynamicRates!).map((group, idx) => (
             <OverlayView

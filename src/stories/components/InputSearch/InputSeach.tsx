@@ -23,6 +23,7 @@ const InputSearch: React.FC<InputSearchProps> = ({
     if (!autocomplete) return;
 
     const place = autocomplete.getPlace();
+    console.log("place", place);
     const location = place.geometry?.location;
 
     if (!location) {
@@ -55,7 +56,9 @@ const InputSearch: React.FC<InputSearchProps> = ({
     const isCity =
       !isSpecificAddress &&
       (placeTypes.includes("locality") ||
-        placeTypes.includes("administrative_area_level_2"));
+        placeTypes.includes("administrative_area_level_2") ||
+        placeTypes.includes("administrative_area_level_1") ||
+        placeTypes.includes("country"));
 
     // Si es ciudad, extrae solo el nombre de la ciudad/municipio
     let name = place.name || "Lugar desconocido";

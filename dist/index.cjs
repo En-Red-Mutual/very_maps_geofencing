@@ -146,22 +146,13 @@ var GeofenceModal = ({
     const [hour, , period] = time.split(/[:\s]/);
     return `${hour} ${period}`;
   };
-  return /* @__PURE__ */ React2__default.default.createElement("article", { className: "flex flex-col gap-2 w-[230px] text-sm" }, /* @__PURE__ */ React2__default.default.createElement("div", { className: "bg-black text-white rounded-3xl py-2 flex flex-col gap-2 px-4 items-center justify-center" }, /* @__PURE__ */ React2__default.default.createElement("h2", { className: "font-bold" }, "Nombre"), /* @__PURE__ */ React2__default.default.createElement("p", { className: "truncate" }, dynamicRate.name)), /* @__PURE__ */ React2__default.default.createElement("div", { className: " bg-black text-white rounded-3xl py-2 flex gap-2 items-center justify-center" }, /* @__PURE__ */ React2__default.default.createElement(IconMapPinFilled, { size: 22 }), /* @__PURE__ */ React2__default.default.createElement("p", { className: " w-[140px] truncate" }, dynamicRate.ubicationName)), /* @__PURE__ */ React2__default.default.createElement("div", { className: "bg-black text-white rounded-3xl py-2 flex flex-col gap-2 items-center justify-center" }, /* @__PURE__ */ React2__default.default.createElement("h2", { className: "font-bold" }, "Tarifa inicial"), /* @__PURE__ */ React2__default.default.createElement("p", null, "$", dynamicRate.initialRate, " MXN km")), /* @__PURE__ */ React2__default.default.createElement("div", { className: "bg-black text-white rounded-3xl py-2 flex flex-col gap-2 items-center justify-center" }, /* @__PURE__ */ React2__default.default.createElement("h2", null, "Tarifa din\xE1mica"), /* @__PURE__ */ React2__default.default.createElement("p", null, "$", dynamicRate.pricePerKilometer, " MXN ", /* @__PURE__ */ React2__default.default.createElement("span", null, "->"), " ", dynamicRate.kilometers, " km"), /* @__PURE__ */ React2__default.default.createElement("p", null, "$", dynamicRate.priceOnDemand, " MXN - ", formatHour(dynamicRate.startHour), " ", "a ", formatHour(dynamicRate.endHour))), /* @__PURE__ */ React2__default.default.createElement("div", { className: "flex gap-2 items-center justify-around" }, /* @__PURE__ */ React2__default.default.createElement("div", { className: "bg-black w-14 h-8 rounded-2xl" }, extraContent), /* @__PURE__ */ React2__default.default.createElement("div", { className: "bg-black rounded-full w-8 h-8 flex items-center justify-center" }, /* @__PURE__ */ React2__default.default.createElement(
+  return /* @__PURE__ */ React2__default.default.createElement("article", { className: "geofence-modal" }, /* @__PURE__ */ React2__default.default.createElement("div", { className: "geofence-section" }, /* @__PURE__ */ React2__default.default.createElement("h2", { className: "font-bold" }, "Nombre"), /* @__PURE__ */ React2__default.default.createElement("p", { className: "truncate" }, dynamicRate.name)), /* @__PURE__ */ React2__default.default.createElement("div", { className: "geofence-section-row" }, /* @__PURE__ */ React2__default.default.createElement(IconMapPinFilled, { size: 22 }), /* @__PURE__ */ React2__default.default.createElement("p", { className: "geofence-ubication" }, dynamicRate.ubicationName)), /* @__PURE__ */ React2__default.default.createElement("div", { className: "geofence-section" }, /* @__PURE__ */ React2__default.default.createElement("h2", { className: "font-bold" }, "Tarifa inicial"), /* @__PURE__ */ React2__default.default.createElement("p", null, "$", dynamicRate.initialRate, " MXN km")), /* @__PURE__ */ React2__default.default.createElement("div", { className: "geofence-section" }, /* @__PURE__ */ React2__default.default.createElement("h2", null, "Tarifa din\xE1mica"), /* @__PURE__ */ React2__default.default.createElement("p", null, "$", dynamicRate.pricePerKilometer, " MXN ", /* @__PURE__ */ React2__default.default.createElement("span", null, "->"), " ", dynamicRate.kilometers, " km"), /* @__PURE__ */ React2__default.default.createElement("p", null, "$", dynamicRate.priceOnDemand, " MXN - ", formatHour(dynamicRate.startHour), " ", "a ", formatHour(dynamicRate.endHour))), /* @__PURE__ */ React2__default.default.createElement("div", { className: "geofence-footer" }, /* @__PURE__ */ React2__default.default.createElement("div", { className: "geofence-extra-content" }, extraContent), /* @__PURE__ */ React2__default.default.createElement("div", { className: "geofence-color-circle" }, /* @__PURE__ */ React2__default.default.createElement(
     "div",
     {
-      className: "w-6 h-6 !p-1 rounded-full",
-      style: {
-        backgroundColor: dynamicRate.color
-      }
+      className: "geofence-color-box",
+      style: { backgroundColor: dynamicRate.color }
     }
-  )), /* @__PURE__ */ React2__default.default.createElement("button", { className: "bg-black rounded-full w-8 h-8 flex items-center justify-center text-white" }, /* @__PURE__ */ React2__default.default.createElement(IconPencil, { size: 24 })), /* @__PURE__ */ React2__default.default.createElement(
-    "button",
-    {
-      className: "bg-black/20 w-8 h-8 rounded-full flex items-center justify-center text-white",
-      onClick: onClose
-    },
-    /* @__PURE__ */ React2__default.default.createElement(IconX, null)
-  )));
+  )), /* @__PURE__ */ React2__default.default.createElement("button", { className: "geofence-button-edit" }, /* @__PURE__ */ React2__default.default.createElement(IconPencil, { size: 24 })), /* @__PURE__ */ React2__default.default.createElement("button", { className: "geofence-button-close", onClick: onClose }, /* @__PURE__ */ React2__default.default.createElement(IconX, null))));
 };
 var GeofenceModal_default = GeofenceModal;
 function GeofenceMap({
@@ -392,7 +383,7 @@ function GeofenceMap({
         }
       )
     ))),
-    mode === "view" && zoomLevel <= 13 && groupGeofencesByUbication(dynamicRates).map((group, idx) => /* @__PURE__ */ React2__default.default.createElement(
+    mode === "view" && !singlePolygon && zoomLevel <= 13 && groupGeofencesByUbication(dynamicRates).map((group, idx) => /* @__PURE__ */ React2__default.default.createElement(
       api.OverlayView,
       {
         key: `group-${idx}`,
@@ -544,7 +535,6 @@ var ColorPicker = ({
   const [color, setColor] = React2__default.default.useState(valueColor || "orange");
   const [openModal, setOpenModal] = React2__default.default.useState(false);
   const convertEnglishToSpanishAnyColor = (color2) => {
-    console.log(color2);
     const colorMap = {
       red: "Rojo",
       blue: "Azul",
@@ -569,85 +559,30 @@ var ColorPicker = ({
     "div",
     {
       id: "modal",
-      onClick: handleHideModalClickOutside,
-      style: {
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "start",
-        width: "25%",
-        gap: "10px"
-      }
+      className: "color-picker-container",
+      onClick: handleHideModalClickOutside
     },
-    /* @__PURE__ */ React2__default.default.createElement(
+    /* @__PURE__ */ React2__default.default.createElement("div", { className: "color-picker-wrapper" }, /* @__PURE__ */ React2__default.default.createElement(
       "div",
       {
-        style: {
-          backgroundColor: "lightgray",
-          width: "35px",
-          height: "35px",
-          borderRadius: "50%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center"
-        }
-      },
-      /* @__PURE__ */ React2__default.default.createElement(
-        "div",
-        {
-          onClick: () => setOpenModal(!openModal),
-          style: {
-            backgroundColor: color,
-            width: "25px",
-            height: "25px",
-            borderRadius: "50%",
-            margin: "0 auto",
-            cursor: "pointer"
-          }
-        }
-      )
-    ),
-    /* @__PURE__ */ React2__default.default.createElement(
-      "span",
-      {
-        style: {
-          fontWeight: "bold"
-        }
-      },
-      convertEnglishToSpanishAnyColor(color)
-    ),
-    openModal && /* @__PURE__ */ React2__default.default.createElement(
+        className: "color-picker-circle",
+        onClick: () => setOpenModal(!openModal),
+        style: { backgroundColor: color }
+      }
+    )),
+    /* @__PURE__ */ React2__default.default.createElement("span", { className: "color-picker-label" }, convertEnglishToSpanishAnyColor(color)),
+    openModal && /* @__PURE__ */ React2__default.default.createElement("div", { className: "color-picker-modal" }, colors.map((c) => /* @__PURE__ */ React2__default.default.createElement(
       "div",
       {
-        style: {
-          position: "absolute",
-          backgroundColor: "black",
-          display: "flex",
-          flexDirection: "column",
-          zIndex: 1,
-          gap: "5px",
-          padding: "5px",
-          borderRadius: "5px"
+        key: c.color,
+        className: "color-picker-option",
+        style: { backgroundColor: c.color },
+        onClick: () => {
+          handleChangeColor(c.color);
+          setOpenModal(false);
         }
-      },
-      colors.map((color2) => /* @__PURE__ */ React2__default.default.createElement(
-        "div",
-        {
-          style: {
-            backgroundColor: color2.color,
-            width: "20px",
-            height: "20px",
-            borderRadius: "50%",
-            margin: "0 auto",
-            cursor: "pointer"
-          },
-          onClick: () => {
-            handleChangeColor(color2.color);
-            setOpenModal(false);
-          }
-        }
-      ))
-    )
+      }
+    )))
   );
 };
 var ColorPicker_default = ColorPicker;
@@ -668,6 +603,7 @@ var InputSearch = ({
     const autocomplete = autocompleteRef.current;
     if (!autocomplete) return;
     const place = autocomplete.getPlace();
+    console.log("place", place);
     const location = place.geometry?.location;
     if (!location) {
       console.warn("\u26A0\uFE0F No se pudo obtener la ubicaci\xF3n.");
@@ -688,7 +624,7 @@ var InputSearch = ({
     const isSpecificAddress = placeTypes.some(
       (type) => nonCityTypes.includes(type)
     );
-    const isCity = !isSpecificAddress && (placeTypes.includes("locality") || placeTypes.includes("administrative_area_level_2"));
+    const isCity = !isSpecificAddress && (placeTypes.includes("locality") || placeTypes.includes("administrative_area_level_2") || placeTypes.includes("administrative_area_level_1") || placeTypes.includes("country"));
     let name = place.name || "Lugar desconocido";
     if (isCity) {
       const cityComponent = addressComponents.find(

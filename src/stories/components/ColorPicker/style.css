@@ -1,0 +1,54 @@
+.color-picker-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    width: 25%;
+    gap: 10px;
+    position: relative;
+    /* necesario para el modal */
+}
+
+.color-picker-wrapper {
+    background-color: lightgray;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.color-picker-circle {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+.color-picker-label {
+    font-weight: bold;
+}
+
+.color-picker-modal {
+    position: absolute;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+    gap: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    top: 45px;
+    /* se ajusta según necesidad */
+    left: 0;
+}
+
+.color-picker-option {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin: 0 auto;
+    cursor: pointer;
+}
