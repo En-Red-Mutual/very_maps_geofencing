@@ -16,7 +16,7 @@ const GeofenceModal = ({
   return (
     <article className="geofence-modal">
       <div className="geofence-section">
-        <h2 className="font-bold">Nombre</h2>
+        <span className="font-bold">Nombre</span>
         <p className="truncate">{dynamicRate.name}</p>
       </div>
       <div className="geofence-section-row">
@@ -24,11 +24,11 @@ const GeofenceModal = ({
         <p className="geofence-ubication">{dynamicRate.ubicationName}</p>
       </div>
       <div className="geofence-section">
-        <h2 className="font-bold">Tarifa inicial</h2>
+        <span className="font-bold">Tarifa inicial</span>
         <p>${dynamicRate.initialRate} MXN km</p>
       </div>
       <div className="geofence-section">
-        <h2>Tarifa dinámica</h2>
+        <span>Tarifa dinámica</span>
         <p>
           ${dynamicRate.pricePerKilometer} MXN <span>{"->"}</span>{" "}
           {dynamicRate.kilometers} km
