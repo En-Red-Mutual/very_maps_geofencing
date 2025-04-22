@@ -4,7 +4,6 @@ import {
   Polygon,
   DrawingManager,
   OverlayView,
-  useLoadScript,
 } from "@react-google-maps/api";
 import { DynamicRateProps, MapProps } from "./type";
 import GeofenceModal from "../GeofenceModal/GeofenceModal";
@@ -26,6 +25,7 @@ export default function GeofenceMap({
   height,
   width,
   zoom,
+  isLoaded,
 }: MapProps) {
   const [selectedGeofence, setSelectedGeofence] =
     useState<DynamicRateProps | null>(null);
@@ -37,12 +37,6 @@ export default function GeofenceMap({
     setZoomLevel(map.getZoom()!);
   };
   console.log(defaultCenter);
-
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyD2DLRwY3LVqCnm0nhhnS4h0H0DBA2tGeg",
-    libraries: ["drawing", "places"],
-  });
-
   if (!isLoaded || typeof google === "undefined") {
     return <div>Loading...</div>;
   }

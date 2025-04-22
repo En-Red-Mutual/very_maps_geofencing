@@ -1,11 +1,12 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Autocomplete, useLoadScript } from "@react-google-maps/api";
+import { Autocomplete } from "@react-google-maps/api";
 import { InputSearchProps, PlaceDetails } from "./type";
 
 const InputSearch: React.FC<InputSearchProps> = ({
   value = "",
   onSelectLocation,
   CSS = [],
+  isLoaded,
 }) => {
   const [inputValue, setInputValue] = useState<string>(value);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
@@ -85,11 +86,6 @@ const InputSearch: React.FC<InputSearchProps> = ({
 
     console.log("✅ Lugar seleccionado:", details);
   };
-
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyD2DLRwY3LVqCnm0nhhnS4h0H0DBA2tGeg",
-    libraries: ["drawing", "places"],
-  });
 
   if (!isLoaded || typeof google === "undefined") {
     return <div>Cargando buscador de ubicaciones...</div>;

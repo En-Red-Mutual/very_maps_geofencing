@@ -4,9 +4,9 @@ export interface PlaceDetails {
   lng: number;
 }
 
-export interface InputSearchProps {
+export type InputSearchProps = {
   value?: string;
   onSelectLocation?: (place: PlaceDetails) => void;
-  CSS:[]
-    isLoaded: boolean;
+  CSS:[];
+  isLoaded: boolean;
 }

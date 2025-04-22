@@ -46,7 +46,7 @@ type GeofenceModalProps = {
 
 declare const GeofenceModal: ({ dynamicRate, onClose, extraContent, }: GeofenceModalProps) => React$1.JSX.Element;
 
-declare function GeofenceMap({ dynamicRates, mode, singlePolygon, center, defaultCenter, onPolygonUpdate, onPolygonComplete, createdPolygon, height, width, zoom, }: MapProps): React$1.JSX.Element;
+declare function GeofenceMap({ dynamicRates, mode, singlePolygon, center, defaultCenter, onPolygonUpdate, onPolygonComplete, createdPolygon, height, width, zoom, isLoaded, }: MapProps): React$1.JSX.Element;
 
 type ColorPickerProps = {
     valueColor: string;
@@ -64,12 +64,12 @@ interface PlaceDetails {
     lat: number;
     lng: number;
 }
-interface InputSearchProps {
+type InputSearchProps = {
     value?: string;
     onSelectLocation?: (place: PlaceDetails) => void;
     CSS: [];
     isLoaded: boolean;
-}
+};
 
 declare const InputSearch: React$1.FC<InputSearchProps>;
 

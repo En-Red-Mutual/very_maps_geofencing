@@ -166,7 +166,8 @@ function GeofenceMap({
   createdPolygon,
   height,
   width,
-  zoom
+  zoom,
+  isLoaded
 }) {
   const [selectedGeofence, setSelectedGeofence] = React2.useState(null);
   const [newPaths, setNewPaths] = React2.useState([]);
@@ -176,10 +177,6 @@ function GeofenceMap({
     setZoomLevel(map.getZoom());
   };
   console.log(defaultCenter);
-  const { isLoaded } = api.useLoadScript({
-    googleMapsApiKey: "AIzaSyD2DLRwY3LVqCnm0nhhnS4h0H0DBA2tGeg",
-    libraries: ["drawing", "places"]
-  });
   if (!isLoaded || typeof google === "undefined") {
     return /* @__PURE__ */ React2__default.default.createElement("div", null, "Loading...");
   }
@@ -589,7 +586,8 @@ var ColorPicker_default = ColorPicker;
 var InputSearch = ({
   value = "",
   onSelectLocation,
-  CSS = []
+  CSS = [],
+  isLoaded
 }) => {
   const [inputValue, setInputValue] = React2.useState(value);
   const autocompleteRef = React2.useRef(null);
@@ -644,10 +642,6 @@ var InputSearch = ({
     if (onSelectLocation) onSelectLocation(details);
     console.log("\u2705 Lugar seleccionado:", details);
   };
-  const { isLoaded } = api.useLoadScript({
-    googleMapsApiKey: "AIzaSyD2DLRwY3LVqCnm0nhhnS4h0H0DBA2tGeg",
-    libraries: ["drawing", "places"]
-  });
   if (!isLoaded || typeof google === "undefined") {
     return /* @__PURE__ */ React2__default.default.createElement("div", null, "Cargando buscador de ubicaciones...");
   }
