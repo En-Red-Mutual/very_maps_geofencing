@@ -1,10 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import {
-  GoogleMap,
-  Polygon,
-  DrawingManager,
-  OverlayView,
-} from "@react-google-maps/api";
+  Map,
+  useMap,
+  useMapsLibrary,
+  MapCameraChangedEvent,
+} from "@vis.gl/react-google-maps";
 import { DynamicRateProps, MapProps } from "./type";
 import GeofenceModal from "../GeofenceModal/GeofenceModal";
 import {
@@ -13,12 +14,210 @@ import {
   IconStackMiddle,
 } from "@tabler/icons-react";
 
+/* ─── MapOverlay ─────────────────────────────────────────────────────────── */
+
+interface MapOverlayProps {
+  position: google.maps.LatLngLiteral;
+  children: React.ReactNode;
+}
+
+const MapOverlay: React.FC<MapOverlayProps> = ({ position, children }) => {
+  const map = useMap();
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const overlayRef = useRef<google.maps.OverlayView | null>(null);
+
+  if (!containerRef.current) {
+    containerRef.current = document.createElement("div");
+    containerRef.current.style.position = "absolute";
+  }
+
+  useEffect(() => {
+    if (!map || !containerRef.current) return;
+    const container = containerRef.current;
+
+    const overlay = new google.maps.OverlayView();
+    overlay.onAdd = function () {
+      (this.getPanes()!.overlayMouseTarget as HTMLElement).appendChild(
+        container,
+      );
+    };
+    overlay.draw = function () {
+      const proj = this.getProjection();
+      if (!proj) return;
+      const pt = proj.fromLatLngToDivPixel(
+        new google.maps.LatLng(position.lat, position.lng),
+      );
+      if (pt) {
+        container.style.left = `${pt.x}px`;
+        container.style.top = `${pt.y}px`;
+      }
+    };
+    overlay.onRemove = function () {
+      container.parentNode?.removeChild(container);
+    };
+    overlay.setMap(map);
+    overlayRef.current = overlay;
+
+    return () => {
+      overlay.setMap(null);
+    };
+  }, [map]);
+
+  useEffect(() => {
+    overlayRef.current?.draw();
+  }, [position.lat, position.lng]);
+
+  return createPortal(children, containerRef.current);
+};
+
+/* ─── ViewPolygon ────────────────────────────────────────────────────────── */
+
+interface ViewPolygonProps {
+  paths: google.maps.LatLngLiteral[];
+  options: google.maps.PolygonOptions;
+}
+
+const ViewPolygon: React.FC<ViewPolygonProps> = ({ paths, options }) => {
+  const map = useMap();
+  useEffect(() => {
+    if (!map) return;
+    const polygon = new google.maps.Polygon({ ...options, paths, map });
+    return () => polygon.setMap(null);
+  }, [map]);
+  return null;
+};
+
+/* ─── EditPolygon ────────────────────────────────────────────────────────── */
+
+interface EditPolygonProps {
+  paths: google.maps.LatLngLiteral[];
+  color: string;
+  onPolygonUpdate?: (paths: google.maps.LatLngLiteral[]) => void;
+}
+
+const EditPolygon: React.FC<EditPolygonProps> = ({
+  paths,
+  color,
+  onPolygonUpdate,
+}) => {
+  const map = useMap();
+  useEffect(() => {
+    if (!map) return;
+
+    const mvcPath = new google.maps.MVCArray(
+      paths.map((p) => new google.maps.LatLng(p.lat, p.lng)),
+    );
+
+    const polygon = new google.maps.Polygon({
+      fillColor: color,
+      fillOpacity: 0.35,
+      strokeColor: color,
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      clickable: true,
+      editable: true,
+      zIndex: 1,
+      map,
+    });
+    polygon.setPath(mvcPath);
+
+    const updatePath = () => {
+      const updatedPaths = mvcPath.getArray().map((point) => ({
+        lat: point.lat(),
+        lng: point.lng(),
+      }));
+      onPolygonUpdate?.(updatedPaths);
+    };
+
+    google.maps.event.addListener(mvcPath, "set_at", updatePath);
+    google.maps.event.addListener(mvcPath, "insert_at", updatePath);
+    google.maps.event.addListener(mvcPath, "remove_at", updatePath);
+
+    google.maps.event.addListener(polygon, "rightclick", (e: any) => {
+      const clickedLatLng = e.latLng;
+      let closestIndex = -1;
+      let minDistance = Infinity;
+      mvcPath.forEach((point, index) => {
+        const dist = google.maps.geometry.spherical.computeDistanceBetween(
+          point,
+          clickedLatLng,
+        );
+        if (dist < minDistance) {
+          minDistance = dist;
+          closestIndex = index;
+        }
+      });
+      if (closestIndex !== -1 && minDistance < 25) {
+        mvcPath.removeAt(closestIndex);
+      }
+    });
+
+    updatePath();
+
+    return () => {
+      polygon.setMap(null);
+      google.maps.event.clearInstanceListeners(polygon);
+      google.maps.event.clearInstanceListeners(mvcPath);
+    };
+  }, [map]);
+
+  return null;
+};
+
+/* ─── DrawingManagerComp ─────────────────────────────────────────────────── */
+
+interface DrawingManagerProps {
+  onOverlayComplete: (e: google.maps.drawing.OverlayCompleteEvent) => void;
+}
+
+const DrawingManagerComp: React.FC<DrawingManagerProps> = ({
+  onOverlayComplete,
+}) => {
+  const map = useMap();
+  const drawing = useMapsLibrary("drawing");
+
+  useEffect(() => {
+    if (!map || !drawing) return;
+
+    const dm = new drawing.DrawingManager({
+      drawingControl: true,
+      drawingControlOptions: {
+        drawingModes: [google.maps.drawing.OverlayType.POLYGON],
+      },
+      polygonOptions: {
+        fillColor: "orange",
+        fillOpacity: 0.35,
+        strokeWeight: 2,
+        strokeColor: "orange",
+        clickable: true,
+        editable: true,
+        zIndex: 1,
+      },
+    });
+    dm.setMap(map);
+
+    const listener = google.maps.event.addListener(
+      dm,
+      "overlaycomplete",
+      onOverlayComplete,
+    );
+
+    return () => {
+      google.maps.event.removeListener(listener);
+      dm.setMap(null);
+    };
+  }, [map, drawing]);
+
+  return null;
+};
+
+/* ─── GeofenceMap ────────────────────────────────────────────────────────── */
+
 export default function GeofenceMap({
   dynamicRates,
   mode,
   singlePolygon,
   center,
-  defaultCenter,
   onPolygonUpdate,
   onPolygonComplete,
   createdPolygon,
@@ -29,43 +228,63 @@ export default function GeofenceMap({
 }: MapProps) {
   const [selectedGeofence, setSelectedGeofence] =
     useState<DynamicRateProps | null>(null);
-  const [newPaths, setNewPaths] = useState<google.maps.LatLngLiteral[]>([]);
-  const polygonRef = useRef<google.maps.Polygon | null>(null);
   const [zoomLevel, setZoomLevel] = useState(zoom || 14);
+  const [cameraCenter, setCameraCenter] = useState<google.maps.LatLngLiteral>(
+    () => {
+      const isValid =
+        center &&
+        typeof center.lat === "number" &&
+        typeof center.lng === "number" &&
+        isFinite(center.lat) &&
+        isFinite(center.lng);
+      return isValid
+        ? center!
+        : { lat: 21.491739494411178, lng: -104.89237419696244 };
+    },
+  );
 
-  const handleZoomChanged = (map: google.maps.Map) => {
-    setZoomLevel(map.getZoom()!);
-  };
-  console.log(defaultCenter);
+  useEffect(() => {
+    if (
+      center &&
+      typeof center.lat === "number" &&
+      typeof center.lng === "number" &&
+      isFinite(center.lat) &&
+      isFinite(center.lng)
+    ) {
+      setCameraCenter(center);
+    }
+  }, [center?.lat, center?.lng]);
+
+  useEffect(() => {
+    if (zoom !== undefined) setZoomLevel(zoom);
+  }, [zoom]);
+
   if (!isLoaded || typeof google === "undefined") {
     return <div>Loading...</div>;
   }
 
-  const getPolygonPaths = (polygon: google.maps.Polygon) => {
-    const paths = polygon
-      .getPath()
-      .getArray()
-      .map((point) => ({ lat: point.lat(), lng: point.lng() }));
-    setNewPaths(paths);
-    onPolygonComplete && onPolygonComplete(paths);
-  };
-
   const handleOverlayComplete = (
-    e: google.maps.drawing.OverlayCompleteEvent
+    e: google.maps.drawing.OverlayCompleteEvent,
   ) => {
     if (e.type === "polygon") {
       const polygon = e.overlay as google.maps.Polygon;
-      polygonRef.current = polygon;
-      getPolygonPaths(polygon);
+      const getPaths = () =>
+        polygon
+          .getPath()
+          .getArray()
+          .map((point) => ({ lat: point.lat(), lng: point.lng() }));
+
+      const paths = getPaths();
+      onPolygonComplete?.(paths);
 
       google.maps.event.addListener(polygon.getPath(), "set_at", () =>
-        getPolygonPaths(polygon)
+        onPolygonComplete?.(getPaths()),
       );
       google.maps.event.addListener(polygon.getPath(), "insert_at", () =>
-        getPolygonPaths(polygon)
+        onPolygonComplete?.(getPaths()),
       );
       google.maps.event.addListener(polygon.getPath(), "remove_at", () =>
-        getPolygonPaths(polygon)
+        onPolygonComplete?.(getPaths()),
       );
     }
   };
@@ -77,10 +296,7 @@ export default function GeofenceMap({
       lat += point.lat;
       lng += point.lng;
     });
-    return {
-      lat: lat / paths.length,
-      lng: lng / paths.length - 0.002,
-    };
+    return { lat: lat / paths.length, lng: lng / paths.length - 0.002 };
   };
 
   const getModalCenter = (paths: google.maps.LatLngLiteral[]) => {
@@ -96,25 +312,14 @@ export default function GeofenceMap({
     };
   };
 
-  const isValidLatLng = (coord?: { lat: number; lng: number }) =>
-    coord &&
-    typeof coord.lat === "number" &&
-    typeof coord.lng === "number" &&
-    isFinite(coord.lat) &&
-    isFinite(coord.lng);
-
-  const mapCenter = isValidLatLng(center)
-    ? center
-    : { lat: 21.491739494411178, lng: -104.89237419696244 };
-
   function groupGeofencesByUbication(
     rates: DynamicRateProps[],
-    threshold = 0.05
+    threshold = 0.05,
   ) {
+    if (!rates || rates.length === 0) return [];
     const groups: DynamicRateProps[][] = [];
 
     rates.forEach((rate) => {
-      // Si no tiene coordenadas de ubicación, lo ignoramos
       if (!rate.ubicationCoordinates) return;
 
       const { lat, lng } = rate.ubicationCoordinates;
@@ -123,7 +328,6 @@ export default function GeofenceMap({
       for (const group of groups) {
         const groupCoord = group[0].ubicationCoordinates;
         if (!groupCoord) continue;
-
         const dist = Math.hypot(lat - groupCoord.lat, lng - groupCoord.lng);
         if (dist < threshold) {
           group.push(rate);
@@ -138,28 +342,27 @@ export default function GeofenceMap({
     return groups;
   }
 
-  console.log("newPaths", newPaths);
-
   return (
-    <div>
-      <GoogleMap
-        center={mapCenter}
+    <div style={{ height, width }}>
+      <Map
+        center={cameraCenter}
         zoom={zoomLevel}
-        onLoad={(map) => {
-          map.addListener("zoom_changed", () => handleZoomChanged(map));
+        onCenterChanged={(e: MapCameraChangedEvent) => {
+          setCameraCenter(e.detail.center);
         }}
-        mapContainerStyle={{ height: height, width: width }}
-        options={{
-          fullscreenControl: false,
-          disableDefaultUI: true,
-          zoomControl: true,
-          disableDoubleClickZoom: true,
-          mapTypeControl: true,
+        onZoomChanged={(e: MapCameraChangedEvent) => {
+          setZoomLevel(e.detail.zoom);
         }}
+        style={{ height: "100%", width: "100%" }}
+        fullscreenControl={false}
+        disableDefaultUI={true}
+        zoomControl={true}
+        disableDoubleClickZoom={true}
+        mapTypeControl={true}
       >
         {mode === "view" && singlePolygon && (
-          <Polygon
-            path={singlePolygon.polygons}
+          <ViewPolygon
+            paths={singlePolygon.polygons}
             options={{
               fillColor: singlePolygon.color,
               fillOpacity: 0.35,
@@ -174,21 +377,20 @@ export default function GeofenceMap({
           dynamicRates &&
           dynamicRates.map((rate, index) => (
             <React.Fragment key={index}>
-              <Polygon
-                path={rate.polygons}
-                options={{
-                  fillColor: rate.color,
-                  fillOpacity: 0.35,
-                  strokeColor: rate.color,
-                  strokeOpacity: 0.8,
-                  strokeWeight: 2,
-                }}
-              />
-              {zoomLevel > 13 && (
-                <OverlayView
-                  position={getPolygonCenter(rate.polygons!)}
-                  mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
-                >
+              {rate.polygons && rate.polygons.length > 0 && (
+                <ViewPolygon
+                  paths={rate.polygons}
+                  options={{
+                    fillColor: rate.color,
+                    fillOpacity: 0.35,
+                    strokeColor: rate.color,
+                    strokeOpacity: 0.8,
+                    strokeWeight: 2,
+                  }}
+                />
+              )}
+              {zoomLevel > 13 && rate.polygons && rate.polygons.length > 0 && (
+                <MapOverlay position={getPolygonCenter(rate.polygons)}>
                   <div
                     onClick={() => setSelectedGeofence(rate)}
                     className="truncate"
@@ -202,6 +404,7 @@ export default function GeofenceMap({
                       textAlign: "center",
                       whiteSpace: "nowrap",
                       display: "inline-block",
+                      cursor: "pointer",
                     }}
                   >
                     <div
@@ -253,32 +456,31 @@ export default function GeofenceMap({
                       <span>{rate.name}</span>
                     </div>
                   </div>
-                </OverlayView>
+                </MapOverlay>
               )}
 
-              {selectedGeofence && (
-                <OverlayView
-                  position={getModalCenter(selectedGeofence.polygons!)}
-                  mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
-                >
-                  <GeofenceModal
-                    dynamicRate={selectedGeofence}
-                    onClose={() => setSelectedGeofence(null)}
-                  />
-                </OverlayView>
-              )}
+              {selectedGeofence &&
+                selectedGeofence.polygons &&
+                selectedGeofence.polygons.length > 0 && (
+                  <MapOverlay
+                    position={getModalCenter(selectedGeofence.polygons)}
+                  >
+                    <GeofenceModal
+                      dynamicRate={selectedGeofence}
+                      onClose={() => setSelectedGeofence(null)}
+                    />
+                  </MapOverlay>
+                )}
             </React.Fragment>
           ))}
 
-        {/* NUEVO: Mostrar grupos cuando hay poco zoom */}
         {mode === "view" &&
           !singlePolygon &&
           zoomLevel <= 13 &&
-          groupGeofencesByUbication(dynamicRates!).map((group, idx) => (
-            <OverlayView
+          groupGeofencesByUbication(dynamicRates ?? []).map((group, idx) => (
+            <MapOverlay
               key={`group-${idx}`}
               position={group[0].ubicationCoordinates}
-              mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
             >
               <div
                 style={{
@@ -295,35 +497,16 @@ export default function GeofenceMap({
               >
                 {group.length}
               </div>
-            </OverlayView>
+            </MapOverlay>
           ))}
 
-        {mode === "new" &&
-          isLoaded &&
-          typeof google.maps?.drawing?.OverlayType !== "undefined" && (
-            <DrawingManager
-              options={{
-                drawingControl: true,
-                drawingControlOptions: {
-                  drawingModes: [google.maps.drawing.OverlayType.POLYGON],
-                },
-                polygonOptions: {
-                  fillColor: "orange",
-                  fillOpacity: 0.35,
-                  strokeWeight: 2,
-                  strokeColor: "orange",
-                  clickable: true,
-                  editable: true,
-                  zIndex: 1,
-                },
-              }}
-              onOverlayComplete={handleOverlayComplete}
-            />
-          )}
+        {mode === "new" && (
+          <DrawingManagerComp onOverlayComplete={handleOverlayComplete} />
+        )}
 
-        {mode === "preview" && createdPolygon && (
-          <Polygon
-            path={createdPolygon}
+        {mode === "preview" && createdPolygon && createdPolygon.length > 0 && (
+          <ViewPolygon
+            paths={createdPolygon}
             options={{
               fillColor: "orange",
               fillOpacity: 0.35,
@@ -334,99 +517,16 @@ export default function GeofenceMap({
           />
         )}
 
-        {mode === "edit" && singlePolygon && (
-          <Polygon
-            path={singlePolygon.polygons}
-            options={{
-              fillColor: singlePolygon.color,
-              fillOpacity: 0.35,
-              strokeColor: singlePolygon.color,
-              strokeOpacity: 0.8,
-              strokeWeight: 2,
-              clickable: true,
-              editable: true,
-
-              zIndex: 1,
-            }}
-            onLoad={(polygon) => {
-              polygonRef.current = polygon;
-
-              const mvcPath = new google.maps.MVCArray(
-                singlePolygon.polygons.map(
-                  (p) => new google.maps.LatLng(p.lat, p.lng)
-                )
-              );
-
-              polygon.setPath(mvcPath);
-
-              const updatePath = () => {
-                const updatedPaths = mvcPath.getArray().map((point) => ({
-                  lat: point.lat(),
-                  lng: point.lng(),
-                }));
-                setNewPaths(updatedPaths);
-                onPolygonUpdate && onPolygonUpdate(updatedPaths);
-              };
-
-              google.maps.event.addListener(mvcPath, "set_at", updatePath);
-              google.maps.event.addListener(mvcPath, "insert_at", updatePath);
-              google.maps.event.addListener(mvcPath, "remove_at", updatePath);
-
-              updatePath();
-
-              // 🎯 Escuchar clic derecho y eliminar punto más cercano
-              google.maps.event.addListener(polygon, "rightclick", (e: any) => {
-                const clickedLatLng = e.latLng;
-                let closestIndex = -1;
-                let minDistance = Infinity;
-
-                mvcPath.forEach((point, index) => {
-                  const dist =
-                    google.maps.geometry.spherical.computeDistanceBetween(
-                      point,
-                      clickedLatLng
-                    );
-                  if (dist < minDistance) {
-                    minDistance = dist;
-                    closestIndex = index;
-                  }
-                });
-
-                // Si está muy cerca de un punto, lo eliminamos
-                if (closestIndex !== -1 && minDistance < 25) {
-                  mvcPath.removeAt(closestIndex);
-                }
-              });
-            }}
-            onMouseUp={() => {
-              if (polygonRef.current) {
-                const updatedPaths = polygonRef.current
-                  .getPath()
-                  .getArray()
-                  .map((point) => ({
-                    lat: point.lat(),
-                    lng: point.lng(),
-                  }));
-                setNewPaths(updatedPaths);
-                onPolygonUpdate && onPolygonUpdate(updatedPaths);
-              }
-            }}
-            onDragEnd={() => {
-              if (polygonRef.current) {
-                const updatedPaths = polygonRef.current
-                  .getPath()
-                  .getArray()
-                  .map((point) => ({
-                    lat: point.lat(),
-                    lng: point.lng(),
-                  }));
-                setNewPaths(updatedPaths);
-                onPolygonUpdate && onPolygonUpdate(updatedPaths);
-              }
-            }}
-          />
-        )}
-      </GoogleMap>
+        {mode === "edit" &&
+          singlePolygon &&
+          singlePolygon.polygons.length > 0 && (
+            <EditPolygon
+              paths={singlePolygon.polygons}
+              color={singlePolygon.color}
+              onPolygonUpdate={onPolygonUpdate}
+            />
+          )}
+      </Map>
     </div>
   );
 }

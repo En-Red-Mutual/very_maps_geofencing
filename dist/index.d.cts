@@ -46,7 +46,7 @@ type GeofenceModalProps = {
 
 declare const GeofenceModal: ({ dynamicRate, onClose, extraContent, }: GeofenceModalProps) => React$1.JSX.Element;
 
-declare function GeofenceMap({ dynamicRates, mode, singlePolygon, center, defaultCenter, onPolygonUpdate, onPolygonComplete, createdPolygon, height, width, zoom, isLoaded, }: MapProps): React$1.JSX.Element;
+declare function GeofenceMap({ dynamicRates, mode, singlePolygon, center, onPolygonUpdate, onPolygonComplete, createdPolygon, height, width, zoom, isLoaded, }: MapProps): React$1.JSX.Element;
 
 type ColorPickerProps = {
     valueColor: string;
