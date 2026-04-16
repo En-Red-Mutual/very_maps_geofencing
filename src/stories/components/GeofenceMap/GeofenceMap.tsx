@@ -5,6 +5,7 @@ import {
   useMap,
   useMapsLibrary,
   MapCameraChangedEvent,
+  MapMouseEvent,
 } from "@vis.gl/react-google-maps";
 import { DynamicRateProps, MapProps } from "./type";
 import GeofenceModal from "../GeofenceModal/GeofenceModal";
@@ -221,6 +222,9 @@ export default function GeofenceMap({
   onPolygonUpdate,
   onPolygonComplete,
   createdPolygon,
+  drawingPoints,
+  onMapClick,
+  onEditGeofence,
   height,
   width,
   zoom,
@@ -268,24 +272,12 @@ export default function GeofenceMap({
   ) => {
     if (e.type === "polygon") {
       const polygon = e.overlay as google.maps.Polygon;
-      const getPaths = () =>
-        polygon
-          .getPath()
-          .getArray()
-          .map((point) => ({ lat: point.lat(), lng: point.lng() }));
-
-      const paths = getPaths();
+      const paths = polygon
+        .getPath()
+        .getArray()
+        .map((point) => ({ lat: point.lat(), lng: point.lng() }));
+      polygon.setMap(null);
       onPolygonComplete?.(paths);
-
-      google.maps.event.addListener(polygon.getPath(), "set_at", () =>
-        onPolygonComplete?.(getPaths()),
-      );
-      google.maps.event.addListener(polygon.getPath(), "insert_at", () =>
-        onPolygonComplete?.(getPaths()),
-      );
-      google.maps.event.addListener(polygon.getPath(), "remove_at", () =>
-        onPolygonComplete?.(getPaths()),
-      );
     }
   };
 
@@ -352,6 +344,11 @@ export default function GeofenceMap({
         }}
         onZoomChanged={(e: MapCameraChangedEvent) => {
           setZoomLevel(e.detail.zoom);
+        }}
+        onClick={(e: MapMouseEvent) => {
+          if (mode === "new" && onMapClick && e.detail.latLng) {
+            onMapClick(e.detail.latLng);
+          }
         }}
         style={{ height: "100%", width: "100%" }}
         fullscreenControl={false}
@@ -468,6 +465,14 @@ export default function GeofenceMap({
                     <GeofenceModal
                       dynamicRate={selectedGeofence}
                       onClose={() => setSelectedGeofence(null)}
+                      onEdit={
+                        onEditGeofence
+                          ? () => {
+                              onEditGeofence(selectedGeofence!);
+                              setSelectedGeofence(null);
+                            }
+                          : undefined
+                      }
                     />
                   </MapOverlay>
                 )}
@@ -500,9 +505,41 @@ export default function GeofenceMap({
             </MapOverlay>
           ))}
 
-        {mode === "new" && (
+        {mode === "new" && !onMapClick && (
           <DrawingManagerComp onOverlayComplete={handleOverlayComplete} />
         )}
+
+        {mode === "new" && drawingPoints && drawingPoints.length >= 2 && (
+          <ViewPolygon
+            paths={drawingPoints}
+            options={{
+              fillColor: "orange",
+              fillOpacity: 0.15,
+              strokeColor: "orange",
+              strokeOpacity: 0.9,
+              strokeWeight: 2,
+              zIndex: 2,
+            }}
+          />
+        )}
+
+        {mode === "new" &&
+          onMapClick &&
+          drawingPoints?.map((pt, i) => (
+            <MapOverlay key={`dp-${i}`} position={pt}>
+              <div
+                style={{
+                  width: 10,
+                  height: 10,
+                  background: "orange",
+                  border: "2px solid white",
+                  borderRadius: "50%",
+                  transform: "translate(-50%, -50%)",
+                  boxShadow: "0 1px 3px rgba(0,0,0,0.4)",
+                }}
+              />
+            </MapOverlay>
+          ))}
 
         {mode === "preview" && createdPolygon && createdPolygon.length > 0 && (
           <ViewPolygon

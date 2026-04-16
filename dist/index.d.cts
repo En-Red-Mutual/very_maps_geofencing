@@ -14,7 +14,7 @@ type DynamicRateProps = {
     priceOnDemand: number;
     isDemand: boolean;
     color: string;
-    priority: 'principal' | 'secundario' | 'terciario' | 'ninguno';
+    priority: "principal" | "secundario" | "terciario" | "ninguno";
     polygons?: google.maps.LatLngLiteral[];
     isActivate?: boolean;
 };
@@ -25,7 +25,7 @@ type PolygonSingle = {
 type MapProps = {
     dynamicRates?: DynamicRateProps[];
     singlePolygon?: PolygonSingle;
-    mode?: 'view' | 'edit' | 'new' | 'preview';
+    mode?: "view" | "edit" | "new" | "preview";
     height?: string;
     width?: string;
     zoom?: number;
@@ -34,6 +34,9 @@ type MapProps = {
     onPolygonComplete?: (polygons: google.maps.LatLngLiteral[]) => void;
     onPolygonUpdate?: (polygons: google.maps.LatLngLiteral[]) => void;
     createdPolygon?: google.maps.LatLngLiteral[];
+    drawingPoints?: google.maps.LatLngLiteral[];
+    onMapClick?: (point: google.maps.LatLngLiteral) => void;
+    onEditGeofence?: (rate: DynamicRateProps) => void;
     isLoaded?: boolean;
     linkEdit?: string;
 };
@@ -42,11 +45,12 @@ type GeofenceModalProps = {
     dynamicRate: DynamicRateProps;
     extraContent?: React.ReactNode;
     onClose: () => void;
+    onEdit?: () => void;
 };
 
-declare const GeofenceModal: ({ dynamicRate, onClose, extraContent, }: GeofenceModalProps) => React$1.JSX.Element;
+declare const GeofenceModal: ({ dynamicRate, onClose, extraContent, onEdit, }: GeofenceModalProps) => React$1.JSX.Element;
 
-declare function GeofenceMap({ dynamicRates, mode, singlePolygon, center, onPolygonUpdate, onPolygonComplete, createdPolygon, height, width, zoom, isLoaded, }: MapProps): React$1.JSX.Element;
+declare function GeofenceMap({ dynamicRates, mode, singlePolygon, center, onPolygonUpdate, onPolygonComplete, createdPolygon, drawingPoints, onMapClick, onEditGeofence, height, width, zoom, isLoaded, }: MapProps): React$1.JSX.Element;
 
 type ColorPickerProps = {
     valueColor: string;

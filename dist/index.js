@@ -135,19 +135,35 @@ init_IconMapPinFilled();
 var GeofenceModal = ({
   dynamicRate,
   onClose,
-  extraContent
+  extraContent,
+  onEdit
 }) => {
   const formatHour = (time) => {
+    if (!time) return "--";
     const [hour, , period] = time.split(/[:\s]/);
     return `${hour} ${period}`;
   };
-  return /* @__PURE__ */ React2.createElement("article", { className: "geofence-modal" }, /* @__PURE__ */ React2.createElement("div", { className: "geofence-section" }, /* @__PURE__ */ React2.createElement("span", { className: "font-bold" }, "Nombre"), /* @__PURE__ */ React2.createElement("p", { className: "truncate" }, dynamicRate.name)), /* @__PURE__ */ React2.createElement("div", { className: "geofence-section-row" }, /* @__PURE__ */ React2.createElement(IconMapPinFilled, { size: 22 }), /* @__PURE__ */ React2.createElement("p", { className: "geofence-ubication" }, dynamicRate.ubicationName)), /* @__PURE__ */ React2.createElement("div", { className: "geofence-section" }, /* @__PURE__ */ React2.createElement("span", { className: "font-bold" }, "Tarifa inicial"), /* @__PURE__ */ React2.createElement("p", null, "$", dynamicRate.initialRate, " MXN km")), /* @__PURE__ */ React2.createElement("div", { className: "geofence-section" }, /* @__PURE__ */ React2.createElement("span", null, "Tarifa din\xE1mica"), /* @__PURE__ */ React2.createElement("p", null, "$", dynamicRate.pricePerKilometer, " MXN ", /* @__PURE__ */ React2.createElement("span", null, "->"), " ", dynamicRate.kilometers, " km"), /* @__PURE__ */ React2.createElement("p", null, "$", dynamicRate.priceOnDemand, " MXN - ", formatHour(dynamicRate.startHour), " ", "a ", formatHour(dynamicRate.endHour))), /* @__PURE__ */ React2.createElement("div", { className: "geofence-footer" }, /* @__PURE__ */ React2.createElement("div", { className: "geofence-extra-content" }, extraContent), /* @__PURE__ */ React2.createElement("div", { className: "geofence-color-circle" }, /* @__PURE__ */ React2.createElement(
+  return /* @__PURE__ */ React2.createElement("article", { className: "geofence-modal" }, /* @__PURE__ */ React2.createElement("div", { className: "geofence-section" }, /* @__PURE__ */ React2.createElement("div", { className: "geofence-name-row" }, /* @__PURE__ */ React2.createElement("span", { className: "font-bold truncate" }, dynamicRate.name), dynamicRate.isActivate !== void 0 && /* @__PURE__ */ React2.createElement(
+    "span",
+    {
+      className: dynamicRate.isActivate ? "geofence-badge-active" : "geofence-badge-inactive"
+    },
+    dynamicRate.isActivate ? "Activa" : "Inactiva"
+  ))), /* @__PURE__ */ React2.createElement("div", { className: "geofence-section-row" }, /* @__PURE__ */ React2.createElement(IconMapPinFilled, { size: 18 }), /* @__PURE__ */ React2.createElement("p", { className: "geofence-ubication" }, dynamicRate.ubicationName)), /* @__PURE__ */ React2.createElement("div", { className: "geofence-section" }, /* @__PURE__ */ React2.createElement("span", { className: "font-bold" }, "Tarifa base"), /* @__PURE__ */ React2.createElement("p", null, "$", dynamicRate.initialRate, " MXN \u2014", " ", /* @__PURE__ */ React2.createElement("span", { className: "geofence-muted" }, "primeros ", dynamicRate.kilometers, " km"))), dynamicRate.isDynamic && /* @__PURE__ */ React2.createElement("div", { className: "geofence-section" }, /* @__PURE__ */ React2.createElement("span", null, "Por km adicional"), /* @__PURE__ */ React2.createElement("p", null, "$", dynamicRate.pricePerKilometer, " MXN / km"), dynamicRate.isDemand && /* @__PURE__ */ React2.createElement("p", { className: "geofence-muted" }, "+$", dynamicRate.priceOnDemand, " MXN \xB7", " ", formatHour(dynamicRate.startHour), " a", " ", formatHour(dynamicRate.endHour))), /* @__PURE__ */ React2.createElement("div", { className: "geofence-footer" }, extraContent && /* @__PURE__ */ React2.createElement("div", { className: "geofence-extra-content" }, extraContent), /* @__PURE__ */ React2.createElement("div", { className: "geofence-color-circle" }, /* @__PURE__ */ React2.createElement(
     "div",
     {
       className: "geofence-color-box",
       style: { backgroundColor: dynamicRate.color }
     }
-  )), /* @__PURE__ */ React2.createElement("button", { className: "geofence-button-edit" }, /* @__PURE__ */ React2.createElement(IconPencil, { size: 24 })), /* @__PURE__ */ React2.createElement("button", { className: "geofence-button-close", onClick: onClose }, /* @__PURE__ */ React2.createElement(IconX, null))));
+  )), onEdit && /* @__PURE__ */ React2.createElement(
+    "button",
+    {
+      className: "geofence-button-edit",
+      onClick: onEdit,
+      title: "Ir a editar"
+    },
+    /* @__PURE__ */ React2.createElement(IconPencil, { size: 16 })
+  ), /* @__PURE__ */ React2.createElement("button", { className: "geofence-button-close", onClick: onClose }, /* @__PURE__ */ React2.createElement(IconX, { size: 18 }))));
 };
 var GeofenceModal_default = GeofenceModal;
 var MapOverlay = ({ position, children }) => {
@@ -304,6 +320,9 @@ function GeofenceMap({
   onPolygonUpdate,
   onPolygonComplete,
   createdPolygon,
+  drawingPoints,
+  onMapClick,
+  onEditGeofence,
   height,
   width,
   zoom,
@@ -331,24 +350,9 @@ function GeofenceMap({
   const handleOverlayComplete = (e) => {
     if (e.type === "polygon") {
       const polygon = e.overlay;
-      const getPaths = () => polygon.getPath().getArray().map((point) => ({ lat: point.lat(), lng: point.lng() }));
-      const paths = getPaths();
+      const paths = polygon.getPath().getArray().map((point) => ({ lat: point.lat(), lng: point.lng() }));
+      polygon.setMap(null);
       onPolygonComplete?.(paths);
-      google.maps.event.addListener(
-        polygon.getPath(),
-        "set_at",
-        () => onPolygonComplete?.(getPaths())
-      );
-      google.maps.event.addListener(
-        polygon.getPath(),
-        "insert_at",
-        () => onPolygonComplete?.(getPaths())
-      );
-      google.maps.event.addListener(
-        polygon.getPath(),
-        "remove_at",
-        () => onPolygonComplete?.(getPaths())
-      );
     }
   };
   const getPolygonCenter = (paths) => {
@@ -403,6 +407,11 @@ function GeofenceMap({
       },
       onZoomChanged: (e) => {
         setZoomLevel(e.detail.zoom);
+      },
+      onClick: (e) => {
+        if (mode === "new" && onMapClick && e.detail.latLng) {
+          onMapClick(e.detail.latLng);
+        }
       },
       style: { height: "100%", width: "100%" },
       fullscreenControl: false,
@@ -509,7 +518,11 @@ function GeofenceMap({
         GeofenceModal_default,
         {
           dynamicRate: selectedGeofence,
-          onClose: () => setSelectedGeofence(null)
+          onClose: () => setSelectedGeofence(null),
+          onEdit: onEditGeofence ? () => {
+            onEditGeofence(selectedGeofence);
+            setSelectedGeofence(null);
+          } : void 0
         }
       )
     ))),
@@ -537,7 +550,35 @@ function GeofenceMap({
         group.length
       )
     )),
-    mode === "new" && /* @__PURE__ */ React2.createElement(DrawingManagerComp, { onOverlayComplete: handleOverlayComplete }),
+    mode === "new" && !onMapClick && /* @__PURE__ */ React2.createElement(DrawingManagerComp, { onOverlayComplete: handleOverlayComplete }),
+    mode === "new" && drawingPoints && drawingPoints.length >= 2 && /* @__PURE__ */ React2.createElement(
+      ViewPolygon,
+      {
+        paths: drawingPoints,
+        options: {
+          fillColor: "orange",
+          fillOpacity: 0.15,
+          strokeColor: "orange",
+          strokeOpacity: 0.9,
+          strokeWeight: 2,
+          zIndex: 2
+        }
+      }
+    ),
+    mode === "new" && onMapClick && drawingPoints?.map((pt, i) => /* @__PURE__ */ React2.createElement(MapOverlay, { key: `dp-${i}`, position: pt }, /* @__PURE__ */ React2.createElement(
+      "div",
+      {
+        style: {
+          width: 10,
+          height: 10,
+          background: "orange",
+          border: "2px solid white",
+          borderRadius: "50%",
+          transform: "translate(-50%, -50%)",
+          boxShadow: "0 1px 3px rgba(0,0,0,0.4)"
+        }
+      }
+    ))),
     mode === "preview" && createdPolygon && createdPolygon.length > 0 && /* @__PURE__ */ React2.createElement(
       ViewPolygon,
       {
